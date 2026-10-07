@@ -52,17 +52,31 @@ window.FG = {
   "activities": [
     {
       "code": "S01-VID01",
-      "ready": false,
+      "ready": true,
       "title": "Why You Are Not Behind",
       "type": "Video",
-      "duration": "",
-      "why": "Names the fear directly and shows four Indian learners with no technical background using AI at work. No definitions, no jargon.",
-      "learn": [],
-      "perform": [],
+      "duration": "about 2.5 min",
+      "why": "AI can add a detail that was never in the source and say it with confidence. This video shows that happening, so learners stop trusting an answer just because it sounds sure.",
+      "learn": [
+        "AI can add facts that were not in the original source",
+        "Sounding confident is not proof that something is true",
+        "AI can help with wording, but facts still need checking"
+      ],
+      "perform": [
+        "Spot a detail the AI added that is not in the source",
+        "Check important facts against the source before using an answer",
+        "Correct or remove a detail that cannot be checked"
+      ],
       "output": "",
-      "pass": "",
-      "prep": [],
-      "watch": []
+      "pass": "The video pauses twice with a question. Learners answer correctly to keep watching.",
+      "prep": [
+        "Headphones or speakers for each device",
+        "A device that can play video; it is about 49 MB, so load it on good internet"
+      ],
+      "watch": [
+        "Learners who keep a detail because it sounds believable",
+        "Learners who think checking means only spelling or tone"
+      ]
     },
     {
       "code": "S01-VID02",
@@ -659,31 +673,17 @@ window.FG = {
     },
     {
       "code": "S03-VID01",
-      "ready": true,
-      "title": "Check Before You Use",
+      "ready": false,
+      "title": "It Will Lie to You Confidently",
       "type": "Video",
-      "duration": "about 2.5 min",
-      "why": "AI can add a detail that was never in the source and say it with confidence. This video shows that happening, so learners stop trusting an answer just because it sounds sure.",
-      "learn": [
-        "AI can add facts that were not in the original source",
-        "Sounding confident is not proof that something is true",
-        "AI can help with wording, but facts still need checking"
-      ],
-      "perform": [
-        "Spot a detail the AI added that is not in the source",
-        "Check important facts against the source before using an answer",
-        "Correct or remove a detail that cannot be checked"
-      ],
+      "duration": "",
+      "why": "Fabrication shown on real outputs. Invented sources, invented figures, confident detail with no basis.",
+      "learn": [],
+      "perform": [],
       "output": "",
-      "pass": "The video pauses twice with a question. Learners answer correctly to keep watching.",
-      "prep": [
-        "Headphones or speakers for each device",
-        "A device that can play video; it is about 49 MB, so load it on good internet"
-      ],
-      "watch": [
-        "Learners who keep a detail because it sounds believable",
-        "Learners who think checking means only spelling or tone"
-      ]
+      "pass": "",
+      "prep": [],
+      "watch": []
     },
     {
       "code": "S03-VID02",
