@@ -15,11 +15,11 @@ const SEGMENTS = [
   ['S01-READ01', 'What This Tool Actually Is', 'read', true],
   ['S01-CARD01', 'Ten Starter Prompts', 'card', true],
   ['S01-LAB01',  'Set Up and Send Ten Prompts', 'lab', true],
-  ['S01-LAB02',  'Watch It Get It Wrong', 'lab'],
+  ['S01-LAB02',  'Watch It Get It Wrong', 'lab', true],
   ['S01-BOT01',  'Practice Bot', 'bot', true],
   ['S01-COMM01', 'Peer Exchange', 'comm'],
-  ['S01-EVAL01', 'Section Check', 'eval'],
-  ['S01-RES01',  'Resources', 'res'],
+  ['S01-EVAL01', 'Section Check', 'eval', true],
+  ['S01-RES01',  'Resources', 'res', true],
   ['S01-FAC01',  'Facilitator Kit', 'fac'],
 
   ['S02-VID01',  'The Four Things Every Request Needs', 'video'],
@@ -48,7 +48,7 @@ const SEGMENTS = [
   ['S03-FAC01',  'Facilitator Kit', 'fac', true],
 
   ['S04-CHAL01', 'Checkpoint 1: Use It and Check It', 'chal', true],
-  ['S04-FORM01', 'Portfolio Submission', 'form'],
+  ['S04-FORM01', 'Portfolio Submission', 'form', true],
 ].map(([code, title, type, ready]) => ({ code, title, type, ready: !!ready }));
 
 const TYPES = {

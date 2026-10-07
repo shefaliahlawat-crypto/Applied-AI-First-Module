@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Resources: First Contact | Swift AI Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5h.01"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></symbol>
+  <symbol id="i-note" viewBox="0 0 24 24"><path d="M5 4h10l4 4v12H5z"/><path d="M15 4v4h4M8 12h8M8 16h5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-level" viewBox="0 0 24 24"><path d="M5 20v-5M12 20V10M19 20V4"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v11M6 10l6 6 6-6M5 20h14"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-sound-on" viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></symbol>
+  <symbol id="i-sound-off" viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="m22 9-6 6M16 9l6 6"/></symbol>
+</svg>
+<a class="skip" href="#sections">Skip to the resources</a>
+
+<div class="app">
+  <header class="saa-header">
+    <div class="brand"><img src="assets/logo-mark.png" alt=""><span class="brand-name">SWIFT AI ACADEMY</span><span class="brand-asset">Resources · First Contact</span></div>
+    <div class="head-actions">
+      <button class="pill-btn" id="toolkit-open" type="button" aria-haspopup="dialog"><svg class="ic"><use href="#i-note"/></svg><span>My AI toolkit</span><b id="toolkit-n">0</b></button>
+      <button class="icon-btn" id="sound-toggle" type="button" aria-pressed="false" aria-label="Sound off. Turn sound on"><svg class="ic off"><use href="#i-sound-off"/></svg><svg class="ic on"><use href="#i-sound-on"/></svg></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="card hero" aria-labelledby="hero-title">
+      <div class="hero-text">
+        <div class="eyebrow">Resources · Optional</div>
+        <h1 id="hero-title">Resources: First Contact</h1>
+        <p class="sub"><span id="total-n">18</span> free resources for when you want to go further. You don't need all of them. Answer three quick questions and we'll pick two or three for you.</p>
+      </div>
+      <div class="router" id="router">
+        <div class="q"><span class="q-label" id="q-goal">What do you want to get better at?</span>
+          <div class="chips" role="radiogroup" aria-labelledby="q-goal" data-q="goal">
+            <button class="chip" type="button" role="radio" aria-checked="false" data-v="s1">Writing prompts</button>
+            <button class="chip" type="button" role="radio" aria-checked="false" data-v="s2">Checking AI answers</button>
+            <button class="chip" type="button" role="radio" aria-checked="false" data-v="s3">Keeping my data safe</button>
+            <button class="chip" type="button" role="radio" aria-checked="false" data-v="s4">Understanding how AI works</button>
+          </div></div>
+        <div class="q"><span class="q-label" id="q-time">How much time do you have?</span>
+          <div class="chips" role="radiogroup" aria-labelledby="q-time" data-q="time">
+            <button class="chip" type="button" role="radio" aria-checked="false" data-v="15">15 minutes</button>
+            <button class="chip" type="button" role="radio" aria-checked="false" data-v="60">About an hour</button>
+            <button class="chip" type="button" role="radio" aria-checked="false" data-v="999">A few hours</button>
+          </div></div>
+        <div class="q"><span class="q-label" id="q-lane">Which course are you on?</span>
+          <div class="chips" role="radiogroup" aria-labelledby="q-lane" data-q="lane">
+            <button class="chip" type="button" role="radio" aria-checked="false" data-v="iti">ITI (trade)</button>
+            <button class="chip" type="button" role="radio" aria-checked="false" data-v="he">Higher education</button>
+          </div></div>
+        <div class="router-go">
+          <button class="btn btn-primary" id="show-picks" type="button">Show my picks <svg class="ic"><use href="#i-arrow"/></svg></button>
+          <span class="router-status" id="router-status" aria-live="polite"></span>
+        </div>
+        <div class="picks" id="picks" hidden aria-live="polite"></div>
+      </div>
+    </section>
+
+    <nav class="toolbar" id="toolbar" aria-label="Resource sections and filters">
+      <ol class="tabs" id="tabs"></ol>
+      <div class="toolbar-row">
+        <div class="chips filters" role="radiogroup" aria-label="Show" id="filters">
+          <button class="chip" type="button" role="radio" aria-checked="true" data-f="all">All</button>
+          <button class="chip" type="button" role="radio" aria-checked="false" data-f="quick">15 min or less</button>
+          <button class="chip" type="button" role="radio" aria-checked="false" data-f="iti">Good for ITI</button>
+          <button class="chip" type="button" role="radio" aria-checked="false" data-f="he">Good for higher education</button>
+        </div>
+        <div class="prog" id="prog"><span class="prog-bar"><i id="prog-fill"></i></span><span class="prog-txt"><b id="prog-n">0</b> / <span id="prog-t">18</span> explored</span></div>
+      </div>
+    </nav>
+
+    <div class="callout task howto"><svg class="ic"><use href="#i-info"/></svg><div><b>Your task.</b> Open the cards that fit your goal and read the takeaways. On each card you open, note one thing you'll try. Your notes collect in <b>My AI toolkit</b>.</div></div>
+
+    <div id="sections"></div>
+    <noscript><p class="callout warn">This page needs JavaScript to show the resource list.</p></noscript>
+  </main>
+
+  <footer class="page-foot">Resource list · Swift AI Academy</footer>
+</div>
+
+<div class="drawer" id="toolkit" hidden role="dialog" aria-modal="true" aria-labelledby="toolkit-title">
+  <div class="drawer-panel">
+    <div class="drawer-head">
+      <div><div class="eyebrow">Your notes</div><h2 id="toolkit-title">My AI toolkit</h2></div>
+      <button class="icon-btn" id="toolkit-close" type="button" aria-label="Close toolkit"><svg class="ic"><use href="#i-x"/></svg></button>
+    </div>
+    <p class="sub">One line for each resource you opened. Notes stay on this device only. On a shared device, download them and then clear.</p>
+    <ol class="toolkit-list" id="toolkit-list"></ol>
+    <p class="empty" id="toolkit-empty">No notes yet. Open a card and write one thing you'll try.</p>
+    <div class="drawer-actions">
+      <button class="btn btn-blue" id="toolkit-download" type="button"><svg class="ic"><use href="#i-down"/></svg>Download notes</button>
+      <button class="btn btn-ghost" id="toolkit-clear" type="button">Clear notes</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script src="../../shared/course.js"></script>
+</body>
+</html>

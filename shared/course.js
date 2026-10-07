@@ -56,7 +56,7 @@
       return;
     }
     var h = null;
-    ['.saa-header', 'header.top', '.top > .narr', 'header.masthead', '.app > header', 'body > header'].some(function (s) { h = doc.querySelector(s); return h; });
+    ['.saa-header', 'header.top', 'header.bar', '.top > .narr', 'header.masthead', '.app > header', 'body > header'].some(function (s) { h = doc.querySelector(s); return h; });
     var b = doc.querySelector('.course-close-hd');
     if (h && h.offsetParent !== null) {
       if (!b) {
