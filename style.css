@@ -172,3 +172,19 @@ a.tile.done{border-color:var(--ok-line)}
 a.tile.done .tile-icon{background:var(--ok-tint);border-color:var(--ok-line);color:var(--ok)}
 .tile-state{font-style:normal;margin-left:8px;padding:1px 7px;border-radius:999px;background:var(--amber-tint);border:1px solid var(--amber-line);color:var(--amber-2);letter-spacing:.08em}
 .step.complete .step-num{background:var(--ok);border-color:transparent;color:#06281C}
+
+/* top banner: title, one-line promise and progress in one compact card */
+.saa-header{padding:var(--sp-4) 0 var(--sp-3)}
+.hero.banner{
+  display:grid;grid-template-columns:1fr minmax(240px,300px);align-items:center;gap:var(--sp-5);
+  padding:22px 28px;margin-bottom:var(--sp-4);border-radius:var(--radius-card);
+  background:linear-gradient(120deg,rgba(91,118,255,0.16),rgba(255,255,255,0.03) 60%);
+  border:1px solid var(--line);
+}
+.banner-text{min-width:0}
+.hero.banner h1{font-size:clamp(28px,3.4vw,36px);margin-top:6px;line-height:1.1}
+.banner-tag{margin-top:8px;font-size:15px;color:var(--muted);max-width:52ch}
+.hero.banner .progress{margin:0;max-width:none;padding:14px 16px;border-radius:14px;background:rgba(8,13,36,0.35);border:1px solid var(--line)}
+@media (max-width:760px){
+  .hero.banner{grid-template-columns:1fr;gap:var(--sp-3);padding:18px}
+}
