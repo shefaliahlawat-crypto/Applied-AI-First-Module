@@ -851,7 +851,7 @@ Issued By:
     renderSort(); renderPredict(); renderQC();
   }
   function showComplete(sum) {
-    show('complete');
+    show('complete'); if(window.SAA_DONE)window.SAA_DONE();
     statChips('complete-stats', ['Practice round: ' + (sum.caught || 0) + '/' + sum.total + ' caught', 'Unsupported claims: ' + sum.a + ' → ' + sum.b]);
     scenario = null;
   }

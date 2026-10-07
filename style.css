@@ -153,3 +153,18 @@ button.tile.video.tapped{border-color:var(--amber-line);background:var(--amber-t
 .toast svg{width:20px;height:20px;color:var(--amber-2);flex:0 0 auto}
 .toast span{display:flex;flex-direction:column;font-size:13px;line-height:1.35}
 .toast b{color:var(--ivory);font-size:14px}
+
+/* progress: bar under the title, green tick on finished tiles */
+:root{--ok:#4FE0A8;--ok-tint:rgba(79,224,168,0.12);--ok-line:rgba(79,224,168,0.45)}
+.progress{margin-top:var(--sp-4);max-width:520px}
+.progress-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.progress-label{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);font-weight:600}
+.progress-n{font-size:14px;font-weight:600;color:var(--ivory)}
+.progress-track{height:8px;border-radius:8px;background:rgba(255,255,255,0.08);overflow:hidden}
+.progress-track i{display:block;height:100%;width:0;border-radius:8px;background:linear-gradient(90deg,var(--ok),#7CF0C4);transition:width .5s ease}
+.tile-tick{flex:0 0 auto;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--ok);color:#06281C}
+.tile-tick svg{width:15px;height:15px;stroke-width:2.6}
+a.tile.done{border-color:var(--ok-line)}
+a.tile.done .tile-icon{background:var(--ok-tint);border-color:var(--ok-line);color:var(--ok)}
+.tile-state{font-style:normal;margin-left:8px;padding:1px 7px;border-radius:999px;background:var(--amber-tint);border:1px solid var(--amber-line);color:var(--amber-2);letter-spacing:.08em}
+.step.complete .step-num{background:var(--ok);border-color:transparent;color:#06281C}

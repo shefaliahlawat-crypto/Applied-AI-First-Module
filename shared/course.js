@@ -17,6 +17,30 @@
   var HOME = '../../index.html' + (m ? '#' + m[1] : '');
   function goHome() { location.href = HOME; }
   win.SAA_HOME = goHome;
+
+  /* ---------- progress: "started" on open, "done" on the last screen ----------
+     Saved in this browser (localStorage 'mc1-progress'); the course page reads it. */
+  var CODE = (location.pathname.match(/modules\/(S\d+-[A-Z]+\d+)/) || [])[1];
+  var PKEY = 'mc1-progress';
+  function readP() { try { return JSON.parse(localStorage.getItem(PKEY)) || {}; } catch (e) { return {}; } }
+  function mark(state) {
+    if (!CODE) { return; }
+    var p = readP();
+    if (p[CODE] === 'done' || p[CODE] === state) { return; }
+    p[CODE] = state;
+    try { localStorage.setItem(PKEY, JSON.stringify(p)); } catch (e) {}
+  }
+  mark('started');
+  /* modules without an "n / N" counter call this on their final screen */
+  win.SAA_DONE = function () { mark('done'); };
+  var COUNTERS = '#count, .count, .saa-prog-n, #deck-count, #page-count, #counter, .pos, #pageCount, #pageNum, #stepCount';
+  function checkDone() {
+    $$(COUNTERS).some(function (e) {
+      var m = (e.textContent || '').match(/(\d+)\s*(?:\/|of)\s*(\d+)/i);
+      if (m && +m[2] > 1 && +m[1] === +m[2]) { mark('done'); return true; }
+      return false;
+    });
+  }
   win.SAA_TODO = function () { return todo(); };
 
   /* ---------- styles ---------- */
@@ -155,7 +179,20 @@
   ['input', 'change', 'click', 'saa:done'].forEach(function (ev) {
     doc.addEventListener(ev, function () { setTimeout(paint, 0); }, true);
   });
-  setInterval(function () { paint(); addClose(); }, 400);
+  /* ---------- the Swift AI logo also goes back to the course page ---------- */
+  function linkLogo() {
+    $$('.saa-hd-brand, header .brand, header .saa-brand, .top .lockup, .topbar .brand').forEach(function (b) {
+      if (b.closest('#saa-start') || b.hasAttribute('data-course-home')) { return; }
+      b.setAttribute('data-course-home', '');
+      b.setAttribute('role', 'link'); b.setAttribute('tabindex', '0');
+      b.setAttribute('title', 'Back to the course'); b.setAttribute('aria-label', 'Swift AI Academy, back to the course');
+      b.style.cursor = 'pointer';
+      b.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); goHome(); });
+      b.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goHome(); } });
+    });
+  }
+
+  setInterval(function () { paint(); addClose(); linkLogo(); checkDone(); }, 400);
 
   function init() { addClose(); paint(); }
   if (doc.readyState === 'loading') { doc.addEventListener('DOMContentLoaded', init); } else { init(); }

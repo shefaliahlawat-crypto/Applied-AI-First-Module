@@ -247,6 +247,7 @@
     cards.forEach(function (c) { c.classList.toggle('is-seen', explored.indexOf(c.id.slice(4)) > -1); });
     $('prog-fill').style.width = (n / RES.length * 100) + '%'; $('prog-n').textContent = n;
     $('prog').classList.toggle('done', n === RES.length);
+    if (n === RES.length) { if(window.SAA_DONE)window.SAA_DONE(); }
     return n;
   }
   function markExplored(id) { if (explored.indexOf(id) > -1) return; explored.push(id); save(STORE, explored); if (paintProgress() === RES.length) play('chime'); }

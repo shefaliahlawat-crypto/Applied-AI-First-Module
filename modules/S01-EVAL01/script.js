@@ -465,7 +465,7 @@ function hideSheet(){ sheet.hidden=true; sheetCard.innerHTML=''; }
 function result(){
   hideSheet(); stopSpeak(); S.inQ=false; dots();
   const score = S.results.filter(r=>r.ok).length, passed = score>=PASS;
-  if(passed){ S.passedEver=true; store.set(KEY+':passed',true); }
+  if(passed){ S.passedEver=true; store.set(KEY+':passed',true); if(window.SAA_DONE)window.SAA_DONE(); }
   const rows = Object.entries(CONCEPTS).map(([k,c])=>{
     const rs=S.results.filter(r=>r.concept===k), good=rs.filter(r=>r.ok).length, all=good===rs.length;
     return `<li>${all?`<span style="color:var(--ok)">${ICON.check}</span>`:`<span style="color:var(--no)">${ICON.book}</span>`}

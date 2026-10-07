@@ -77,19 +77,41 @@ const ARROW = svg('<path d="M5 12h14M13 6l6 6-6 6"/>');
 const stepsEl = document.getElementById('steps');
 const gridEl = document.getElementById('grid');
 
+/* Progress saved by shared/course.js in this browser: { CODE: 'started' | 'done' } */
+function progress() { try { return JSON.parse(localStorage.getItem('mc1-progress')) || {}; } catch (e) { return {}; } }
+const TICK = svg('<path d="m5 12.5 4.5 4.5L19 7.5"/>');
+const visible = (s) => s.type !== 'fac';
+
+function paintProgress() {
+  const p = progress();
+  const open = SEGMENTS.filter((s) => s.ready && visible(s));
+  const done = open.filter((s) => p[s.code] === 'done').length;
+  document.getElementById('progressN').textContent = `${done} of ${open.length} done`;
+  document.getElementById('progressFill').style.width = (open.length ? done / open.length * 100 : 0) + '%';
+  const bar = document.getElementById('progress');
+  bar.setAttribute('aria-valuemax', open.length); bar.setAttribute('aria-valuenow', done);
+  stepsEl.querySelectorAll('.step').forEach((b) => {
+    const mine = open.filter((s) => s.code.startsWith(b.dataset.id));
+    b.classList.toggle('complete', mine.length > 0 && mine.every((s) => p[s.code] === 'done'));
+  });
+}
+
 /* Videos look like any other button; tapping one says "Coming soon" */
 function tile(seg, gate) {
   const [label, icon] = TYPES[seg.type];
   const video = !seg.ready && seg.type === 'video';
   let tag = 'div', attrs = 'aria-disabled="true"', cls = ' soon', end = '<span class="soon-tag">Soon</span>';
   if (seg.ready) {
-    tag = 'a'; attrs = `href="modules/${seg.code}/index.html"`; cls = ''; end = `<span class="tile-go">${ARROW}</span>`;
+    const st = progress()[seg.code];
+    tag = 'a'; attrs = `href="modules/${seg.code}/index.html"`;
+    cls = st === 'done' ? ' done' : st === 'started' ? ' started' : '';
+    end = st === 'done' ? `<span class="tile-tick" title="Done" aria-label="Done">${TICK}</span>` : `<span class="tile-go">${ARROW}</span>`;
   } else if (video) {
     tag = 'button'; attrs = 'type="button" data-coming-soon'; cls = ' video'; end = `<span class="tile-go">${ARROW}</span>`;
   }
   return `<${tag} class="tile${cls}${gate ? ' gate' : ''}" ${attrs}>
     <span class="tile-icon">${svg(icon)}</span>
-    <div class="tile-text"><span class="tile-type">${label}</span><h3>${seg.title}</h3></div>
+    <div class="tile-text"><span class="tile-type">${label}${cls === ' started' ? '<em class="tile-state">In progress</em>' : ''}</span><h3>${seg.title}</h3></div>
     ${end}
   </${tag}>`;
 }
@@ -114,7 +136,7 @@ gridEl.addEventListener('click', (e) => {
 function show(id) {
   const sec = SECTIONS.find((s) => s.id === id) || SECTIONS[0];
   /* Facilitator Kits are kept in modules/ for the facilitator version, not shown to learners */
-  const segs = SEGMENTS.filter((s) => s.code.startsWith(sec.id) && s.type !== 'fac');
+  const segs = SEGMENTS.filter((s) => s.code.startsWith(sec.id) && visible(s));
   stepsEl.querySelectorAll('.step').forEach((b) =>
     b.setAttribute('aria-selected', String(b.dataset.id === sec.id)));
   document.getElementById('secTitle').textContent = sec.name;
@@ -122,6 +144,7 @@ function show(id) {
   const open = segs.filter((s) => s.ready).length;
   document.getElementById('secCount').textContent = `${open} / ${segs.length} open`;
   gridEl.innerHTML = segs.map((s) => tile(s, sec.gate)).join('');
+  paintProgress();
   gridEl.querySelectorAll('.tile').forEach((t, i) => (t.style.animationDelay = `${i * 30}ms`));
   try { localStorage.setItem('mc1-section', sec.id); } catch (e) {}
   if (location.hash !== '#' + sec.id) history.replaceState(null, '', '#' + sec.id);
@@ -142,3 +165,5 @@ let start = location.hash.slice(1);
 if (!start) { try { start = localStorage.getItem('mc1-section'); } catch (e) {} }
 show(start);
 window.addEventListener('hashchange', () => show(location.hash.slice(1)));
+/* coming back from a module (incl. the browser Back button): redraw with the latest progress */
+window.addEventListener('pageshow', () => show(location.hash.slice(1)));

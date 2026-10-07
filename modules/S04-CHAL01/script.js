@@ -1510,7 +1510,7 @@
       if (!sc.decision) return;
       S.scoring.decision = sc.decision; S.scoring.decidedAt = Date.now();
       log('Decision saved: ' + decisionText(sc.decision) + '.');
-      assessorOpen = false; S.screen = 'result'; save(); render(); window.scrollTo(0, 0);
+      assessorOpen = false; S.screen = 'result'; save(); render(); window.scrollTo(0, 0); if(window.SAA_DONE)window.SAA_DONE();
     },
     'reassess': function () {
       var nv = nextVariant();

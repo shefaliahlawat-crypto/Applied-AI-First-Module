@@ -335,7 +335,9 @@ const words=s=>(s||"").trim().split(/\s+/).filter(w=>/[\p{L}\p{N}]/u.test(w)).le
 const realChars=s=>((s||"").match(/[\p{L}\p{N}]/gu)||[]).length;
 const P=i=>PROMPTS[i][S.lang];
 const isM=()=>window.innerWidth<=760;
-const MP={0:1,2:1,3:1,4:1,5:1};
+const MP={2:1,3:1,4:1,5:1};
+/* the opening: a title slide (the start screen stands in for it), then 2 short slides: your 90 minutes, help rules */
+let sub0=0;
 const hasMP=()=>MP[S.step]!==undefined;
 function mtog(){const m=t("mp")[S.step];return `<div class="seg mtog" role="group">${m.map((k,i)=>`<button data-mp="${i}" aria-pressed="${S.mp===i}">${i+1}. ${k}</button>`).join("")}</div>`;}
 function pane0ok(){if(S.step===2)return sortDone();if(S.step===4)return S.spot===L().spot.hit;if(S.step===3){const e=S.entries[S.cur];return !!e.text.trim()&&brackets(e.text)===0&&!scan(e.text).length;}return true;}
@@ -399,9 +401,9 @@ function chrome(){
 
 function footer(){
   const nb=$("nextBtn"),bb=$("backBtn"),ex=$("extraBtns"),msg=$("msg");
-  bb.disabled=S.step===0; ex.innerHTML=""; msg.textContent=""; nb.style.display="";
+  bb.disabled=S.step===0&&sub0===0; ex.innerHTML=""; msg.textContent=""; nb.style.display="";
   if(isM()&&hasMP()&&S.mp===0){nb.innerHTML=(S.step===3?t("mp")[3][1]:t("cont"))+I.arrow;nb.disabled=!pane0ok();return;}
-  if(S.step===0){nb.innerHTML=t("start")+I.arrow;}
+  if(S.step===0){nb.innerHTML=(sub0<2?t("cont"):t("start"))+I.arrow;}
   else if(S.step===3){
     const last=S.cur===9||S.entries.every((e,i)=>e.saved||i===S.cur);
     nb.innerHTML=last?t("toCheck"):f(t("saveNext"),{n:nextOpen()+1});
@@ -426,16 +428,16 @@ function nextOpen(){for(let k=1;k<=10;k++){const j=(S.cur+k)%10;if(!S.entries[j]
 /* ---------- screens ---------- */
 function vStart(){
   const mi=t("mins"),st=t("stages");
-  return `<div class="lead" data-saa-lead><h1>${t("s0h")}</h1><p class="lede">${t("s0p")}</p>
-  <div class="key">${I.search}<span>${t("s0key")}</span></div></div>
-  ${mtog()}<div class="cols grow start" data-mp="${S.mp}">
-   <section class="card c0"><h2>${t("s0time")}</h2><ol class="time">${st.map((s,i)=>`<li><span class="n">${i+1}</span><span>${s}</span><span class="m">${mi[i]} ${t("min")}</span></li>`).join("")}<li><span></span><span>${t("total")}</span><span class="m">90 ${t("min")}</span></li></ol></section>
-   <section class="card c1 rules"><h2>${t("s0rules")}</h2>${doLine("s0do")}
+  const dots=sub0===0?"":`<div class="intro-dots" aria-label="${sub0} / 2">${[1,2].map(i=>`<i class="${i===sub0?"on":i<sub0?"done":""}"></i>`).join("")}<span>${sub0} / 2</span></div>`;
+  if(sub0===0) return `${dots}<div class="intro-one">
+    <h1>${t("s0h")}</h1><p class="lede">${t("s0p")}</p></div>`;
+  if(sub0===1) return `${dots}<div class="intro-one"><h1>${t("s0time")}</h1>
+    <ol class="time">${st.map((x,i)=>`<li><span class="n">${i+1}</span><span>${x}</span><span class="m">${mi[i]} ${t("min")}</span></li>`).join("")}<li><span></span><span>${t("total")}</span><span class="m">90 ${t("min")}</span></li></ol>
+    <div class="key">${I.search}<span>${t("s0key")}</span></div></div>`;
+  return `${dots}<div class="intro-one rules"><h1>${t("s0rules")}</h1>${doLine("s0do")}
     <div class="saa-kit" data-kit="reveal" data-theme="light"${S.rulesSeen?"":" data-required"}>
      <div class="saa-cards">${t("rTabs").map((x,i)=>`<button class="saa-card r${i}${S.rulesSeen?" open":""}" type="button"><span class="saa-front">${ICO(HELP_IC[i],"ga-ic32")}${x}</span><span class="saa-back"><ul class="plain ${i===2?"no":""}">${t("rLists")[i].map(y=>`<li>${i===2?I.x:I.check}<span>${y}</span></li>`).join("")}</ul></span></button>`).join("")}</div>
-    </div>
-   </section>
-  </div>`;
+    </div></div>`;
 }
 function vSetup(){
   const suNow=(()=>{const k=S.setup.findIndex(v=>!v);return k<0?3:k;})();
@@ -550,6 +552,7 @@ const VIEWS=[vStart,vSetup,vQuestion,vPrompts,vCheck,vPrivacy,vEvidence];
 window.addEventListener("saa:theme",()=>render(false));
 function render(focus){
   chrome();
+  document.querySelector(".main").classList.toggle("intro",S.step===0);
   $("stage").innerHTML=VIEWS[S.step]();
   footer(); live();
   if(focus) $("stage").focus({preventScroll:true});
@@ -567,9 +570,10 @@ function live(){
 }
 
 /* ---------- navigation ---------- */
-function go(n){S.step=Math.max(0,Math.min(6,n));S.maxStep=Math.max(S.maxStep,S.step);S.mp=0;persist();render(true);}
+function go(n){S.step=Math.max(0,Math.min(6,n));if(S.step===6)if(window.SAA_DONE)window.SAA_DONE();S.maxStep=Math.max(S.maxStep,S.step);S.mp=0;persist();render(true);}
 $("nextBtn").addEventListener("click",()=>{
   if(isM()&&hasMP()&&S.mp===0){if(!pane0ok())return;S.mp=1;persist();render(true);return;}
+  if(S.step===0&&sub0<2){sub0++;render(true);return;}
   if(!canNext())return;
   if(S.step===0&&!S.started)S.started=new Date().toISOString();
   if(S.step===3){
@@ -581,6 +585,8 @@ $("nextBtn").addEventListener("click",()=>{
 });
 $("backBtn").addEventListener("click",()=>{
   if(isM()&&hasMP()&&S.mp===1){S.mp=0;persist();render(true);return;}
+  if(S.step===0){if(sub0>0){sub0--;render(true);}return;}
+  if(S.step===1)sub0=2;
   go(S.step-1);
 });
 

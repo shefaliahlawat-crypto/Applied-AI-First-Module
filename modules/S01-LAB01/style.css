@@ -563,3 +563,18 @@ html.saa-skin .app > .main { flex: 1 1 auto !important; min-height: 0 !important
 
 /* teacher-only: the assessor view is not shown in the learner game */
 [data-act="assessor"] { display: none !important; }
+
+/* ---- opening: 3 short slides, one idea each, no side rail ---- */
+.main.intro{grid-template-columns:1fr}
+.main.intro .rail{display:none}
+.intro-dots{display:flex;align-items:center;gap:6px;align-self:center;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.intro-dots i{width:22px;height:4px;border-radius:4px;background:var(--line)}
+.intro-dots i.done{background:var(--royal)}
+.intro-dots i.on{background:var(--gold);width:34px}
+.intro-dots span{margin-left:6px}
+.intro-one{width:100%;max-width:640px;margin:auto;display:flex;flex-direction:column;gap:18px;text-align:left}
+.intro-one h1{font-size:clamp(24px,3vw,34px);max-width:none}
+.intro-one .lede{font-size:17px;line-height:1.55}
+.intro-one .key{max-width:none}
+.intro-one .time li{font-size:16px;padding:11px 0}
+.intro-one.rules{max-width:820px}

@@ -932,6 +932,7 @@ function show(id,push){
   if(push!==false && S.cur && S.cur!==id) S.history.push(S.cur);
   if(S.history.length>80) S.history=S.history.slice(-80);
   S.cur=id; L={}; if(SC[id].init) SC[id].init(L);
+  if(typeof FLOW!=="undefined"&&FLOW.indexOf(id)===FLOW.length-1){if(window.SAA_DONE)window.SAA_DONE();}
   log("node_view",{node:id+"_VIEW"}); draw(false,true); save(); resetIdle();
 }
 function draw(focusFeedback,newScreen){
