@@ -80,7 +80,8 @@ const gridEl = document.getElementById('grid');
 /* Progress saved by shared/course.js in this browser: { CODE: 'started' | 'done' } */
 function progress() { try { return JSON.parse(localStorage.getItem('mc1-progress')) || {}; } catch (e) { return {}; } }
 const TICK = svg('<path d="m5 12.5 4.5 4.5L19 7.5"/>');
-const visible = (s) => s.type !== 'fac';
+/* learners only see what is ready: no Facilitator Kits, no videos or items still to come */
+const visible = (s) => s.type !== 'fac' && s.ready;
 
 function paintProgress() {
   const p = progress();
@@ -141,8 +142,7 @@ function show(id) {
     b.setAttribute('aria-selected', String(b.dataset.id === sec.id)));
   document.getElementById('secTitle').textContent = sec.name;
   document.getElementById('secAbout').textContent = sec.about;
-  const open = segs.filter((s) => s.ready).length;
-  document.getElementById('secCount').textContent = `${open} / ${segs.length} open`;
+  document.getElementById('secCount').textContent = `${segs.length} activities`;
   gridEl.innerHTML = segs.map((s) => tile(s, sec.gate)).join('');
   paintProgress();
   gridEl.querySelectorAll('.tile').forEach((t, i) => (t.style.animationDelay = `${i * 30}ms`));
