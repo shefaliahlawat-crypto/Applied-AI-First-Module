@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Facilitator Kit: Framing and Refining — Swift AI Academy</title>
+<!--
+  Segment: AAI-E-MC1-S02-FAC01 · Facilitator Kit · not counted toward hours · instructor-facing
+  Section 1.2 Framing and Refining. Two lanes (ITI trade / Higher education) change context only.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-segment="AAI-E-MC1-S02-FAC01" data-finish-label="Done" data-lane="iti" data-free-nav>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-outline" viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M11 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-tick" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M17 7 7 17M7 7l10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 11v5M12 8h.01" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-recall" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M3 4v5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5C4 4.67 4.67 4 5.5 4H12v16H5.5A1.5 1.5 0 0 1 4 18.5v-13Z M20 5.5c0-.83-.67-1.5-1.5-1.5H12v16h6.5c.83 0 1.5-.67 1.5-1.5v-13Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+</svg>
+<div class="frame">
+  <header class="top">
+    <div class="brand"><img src="data:image/png;base64,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" alt=""><span>SWIFT&nbsp;AI&nbsp;ACADEMY</span></div>
+    <div class="top-actions">
+      <div class="seg" role="group" aria-label="Group"><button type="button" data-setlane="iti" aria-pressed="true">ITI</button><button type="button" data-setlane="he" aria-pressed="false">Higher education</button></div><span class="fac-badge">Facilitator</span>
+      <button type="button" class="icon-btn" aria-label="Course outline" data-open-outline><svg width="15" height="15"><use href="#i-outline"/></svg></button>
+      <button type="button" class="ghost-pill" data-close><svg width="13" height="13"><use href="#i-close"/></svg><span class="lbl">Close</span></button>
+    </div>
+  </header>
+
+  <main class="card" id="main">
+    <div class="eyebrow"><span>Facilitator Kit · about 5 hours</span></div>
+    <section class="screen" data-title="Before the session" hidden>
+      <h1>Before the session</h1>
+      <p class="lead">Tick each one before learners arrive.</p>
+      <ul class="checklist"><li><label><input type="checkbox"><span>Open the approved AI tool on every device. Test one short prompt.</span></label></li><li><label><input type="checkbox"><span>Print the Prompt Card (CARD01) and paper worksheets, in case the internet fails.</span></label></li><li><label><input type="checkbox"><span>Write a few made-up names and numbers on the board for learners to use.</span></label></li><li><label><input type="checkbox"><span><span class="lane-iti">Keep the workshop’s lathe safety chart or SOP within reach. You need it in demo turn 5.</span><span class="lane-he">Keep the official exam timetable and syllabus within reach. You need them in demo turn 5.</span></span></label></li><li><label><input type="checkbox"><span>Plan buddy pairs for shared devices.</span></label></li><li><label><input type="checkbox"><span>Know who to contact for policy or IT questions.</span></label></li></ul>
+      <p class="hint">Use the switch at the top to pick your group: ITI or Higher education. It changes the examples only, never what learners must do.</p>
+    </section>
+    <section class="screen" data-title="Plan: part 1" hidden>
+      <h1>Session plan, part 1</h1>
+      <div class="blocks">
+        <div class="block"><span class="time">0:00–0:15</span><div><span class="what">Welcome and warm-up</span><p class="do">Ask: “Does AI look up answers, or guess the next words?” Then ask each learner for one task this week that took too long. Write 5 on the board. Lab 2 uses them. Remind everyone: made-up names and numbers only.</p></div></div>
+        <div class="block"><span class="time">0:15–0:30</span><div><span class="what">Videos</span><span class="code">VID01, VID02</span><p class="do">Watch together. Pause at each checkpoint and take answers from the room.</p></div></div>
+        <div class="block"><span class="time">0:30–0:50</span><div><span class="what">Reading</span><span class="code">READ01</span><p class="do">Learners work alone or in buddy pairs. Slow devices? Do screens 2 to 5 aloud together.</p></div></div>
+        <div class="block"><span class="time">0:50–1:20</span><div><span class="what">Live demo</span><p class="do">Six turns. Use the demo screens in this kit.</p></div></div>
+        <div class="block break"><span class="time">1:20–1:30</span><div><span class="what">Break</span></div></div>
+      </div>
+    </section>
+    <section class="screen" data-title="Plan: part 2" hidden>
+      <h1>Session plan, part 2</h1>
+      <div class="blocks">
+        <div class="block"><span class="time">1:30–1:45</span><div><span class="what">Prompt Card</span><span class="code">CARD01</span><p class="do">Learners build one request, then turn to the 5 moves.</p></div></div>
+        <div class="block"><span class="time">1:45–2:35</span><div><span class="what">Lab 1: rewrite five weak requests</span><span class="code">LAB01</span><p class="do">Learners work alone. Fast finishers start Lab 2. No internet? Use the printed card.</p></div></div>
+        <div class="block break"><span class="time">2:35–2:50</span><div><span class="what">Break</span></div></div>
+      </div>
+    </section>
+    <section class="screen" data-title="Plan: part 3" hidden>
+      <h1>Session plan, part 3</h1>
+      <div class="blocks">
+        <div class="block"><span class="time">2:50–3:30</span><div><span class="what">Lab 2: your own task</span><span class="code">LAB02</span><p class="do">Learners pick a task from the warm-up list on the board.</p></div></div>
+        <div class="block"><span class="time">3:30–3:55</span><div><span class="what">Practice Bot</span><span class="code">BOT01</span><p class="do">Shared device: one types, one reads aloud and checks. Swap halfway.</p></div></div>
+        <div class="block"><span class="time">3:55–4:15</span><div><span class="what">Peer exchange</span><span class="code">COMM01</span><p class="do">Work in pairs. Repeat the privacy reminder first.</p></div></div>
+        <div class="block"><span class="time">4:15–4:45</span><div><span class="what">Section Check</span><span class="code">EVAL01</span><p class="do">70% to pass. Unlimited tries. Note who needs a retry.</p></div></div>
+        <div class="block"><span class="time">4:45–5:00</span><div><span class="what">Resources and close</span><span class="code">RES01</span><p class="do">Exit question: “Which move did you use most today? What did you check?”</p></div></div>
+      </div>
+    </section>
+    <section class="screen" data-title="Demo: how to run it" hidden>
+      <h1>Live demo: how to run each turn</h1>
+      <p class="lead">Use one chat for all 6 turns. Do the same 4 steps every turn.</p>
+      <div class="steps2">
+        <div><b>1</b><span>Show the answer on screen. Let it load fully.</span></div>
+        <div><b>2</b><span>Ask the room: “What is wrong with it? Which move fixes it?” Learners show 1 to 5 fingers.</span></div>
+        <div><b>3</b><span>Give pairs 30 seconds to explain their choice. Then vote again.</span></div>
+        <div><b>4</b><span>Type the move. Read the new answer aloud.</span></div>
+      </div>
+    </section>
+    <section class="screen" data-title="Demo turn 1: the weak request" hidden>
+      <h1>Demo turn 1: the weak request</h1>
+      <div class="turn">
+        <div class="line say"><span class="k">Say</span><p><span class="lane-iti">Let’s see what a weak request gets us.</span><span class="lane-he">Let’s see what a weak request gets us.</span></p></div>
+        <div class="line type"><span class="k">Type</span><p><code class="lane-iti">Write about workshop safety.</code><code class="lane-he">Write about exam preparation.</code></p></div>
+        <div class="line ask"><span class="k">Ask the room</span><p>Who is this for? What exactly should it make? How long should it be?</p></div>
+        <div class="line watch"><span class="k">Watch for</span><p><span class="lane-iti">Don’t scroll fast. Let learners see how general the answer is.</span><span class="lane-he">Don’t scroll fast. Let learners see how general the answer is.</span></p></div>
+      </div>
+    </section>
+    <section class="screen" data-title="Demo turn 2: Narrow it" hidden>
+      <h1>Demo turn 2: Narrow it</h1>
+      <div class="turn">
+        <div class="line say"><span class="k">Say</span><p><span class="lane-iti">That covers too much. I’ll narrow it.</span><span class="lane-he">That covers too much. I’ll narrow it.</span></p></div>
+        <div class="line type"><span class="k">Type</span><p><code class="lane-iti">Only tell me about lathe safety.</code><code class="lane-he">Only tell me how to prepare for my first-semester maths exam.</code></p></div>
+        <div class="line ask"><span class="k">Ask the room</span><p>What was the problem? (Too much.)</p></div>
+        <div class="line watch"><span class="k">Watch for</span><p><span class="lane-iti">The new answer is shorter and about one machine.</span><span class="lane-he">The new answer is shorter and about one exam.</span></p></div>
+      </div>
+    </section>
+    <section class="screen" data-title="Demo turn 3: Expand it" hidden>
+      <h1>Demo turn 3: Expand it</h1>
+      <div class="turn">
+        <div class="line say"><span class="k">Say</span><p><span class="lane-iti">It skipped what I need. I’ll expand it.</span><span class="lane-he">It skipped what I need. I’ll expand it.</span></p></div>
+        <div class="line type"><span class="k">Type</span><p><code class="lane-iti">Tell me more about what to check before switching on the lathe.</code><code class="lane-he">Tell me more about how to plan the last 7 days.</code></p></div>
+        <div class="line ask"><span class="k">Ask the room</span><p>What was missing?</p></div>
+        <div class="line watch"><span class="k">Watch for</span><p><span class="lane-iti">More real, useful detail.</span><span class="lane-he">More real, useful detail.</span></p></div>
+      </div>
+    </section>
+    <section class="screen" data-title="Demo turn 4: Change the tone" hidden>
+      <h1>Demo turn 4: Change the tone</h1>
+      <div class="turn">
+        <div class="line say"><span class="k">Say</span><p><span class="lane-iti">This is too hard for a new trainee. I’ll change the tone.</span><span class="lane-he">This is hard to follow. I’ll change the tone.</span></p></div>
+        <div class="line type"><span class="k">Type</span><p><code class="lane-iti">Say this simply, for a first-year trainee.</code><code class="lane-he">Say this simply, as a checklist a first-year student can follow.</code></p></div>
+        <div class="line ask"><span class="k">Ask the room</span><p>Who is the reader? Is it easier now?</p></div>
+        <div class="line watch"><span class="k">Watch for</span><p><span class="lane-iti">Show the old and new answers side by side, if your tool keeps them.</span><span class="lane-he">Show the old and new answers side by side, if your tool keeps them.</span></p></div>
+      </div>
+    </section>
+    <section class="screen" data-title="Demo turn 5: Check it" hidden>
+      <h1>Demo turn 5: Check it</h1>
+      <div class="turn">
+        <div class="line say"><span class="k">Say</span><p><span class="lane-iti">Now I’ll ask what might be wrong. Then we check it ourselves, against our workshop’s safety chart.</span><span class="lane-he">Now I’ll ask what might be wrong. Then we check it ourselves, against the official timetable.</span></p></div>
+        <div class="line type"><span class="k">Type</span><p><code class="lane-iti">Which parts of this might be wrong or made up?</code><code class="lane-he">Which parts of this might be wrong or made up?</code></p></div>
+        <div class="line ask"><span class="k">Ask the room</span><p>Which rules, numbers or dates did nobody give it? Where do we check them?</p></div>
+        <div class="line watch key"><span class="k">Watch for</span><p><span class="lane-iti">This is the most important turn. Open the chart. Compare 2 or 3 rules. Cross out anything not on the chart. Say: “Safety rules come from our workshop, not from AI.”</span><span class="lane-he">This is the most important turn. Open the timetable and syllabus. Cross out any date, unit or marks split that is not in them. Say: “Dates come from the official timetable, not from AI.”</span></p></div>
+      </div>
+    </section>
+    <section class="screen" data-title="Demo turn 6: Combine" hidden>
+      <h1>Demo turn 6: Combine</h1>
+      <div class="turn">
+        <div class="line say"><span class="k">Say</span><p><span class="lane-iti">I have two good versions in this chat. I’ll combine them.</span><span class="lane-he">I have two good versions in this chat. I’ll combine them.</span></p></div>
+        <div class="line type"><span class="k">Type</span><p><code class="lane-iti">Combine the simple version and the pre-start checklist into one notice.</code><code class="lane-he">Combine the 7-day plan and the checklist into one page.</code></p></div>
+        <div class="line ask"><span class="k">Ask the room</span><p>“Would I use this now?”</p></div>
+        <div class="line watch"><span class="k">Watch for</span><p><span class="lane-iti">Answer you want: “Only after checking every rule against our chart.”</span><span class="lane-he">Answer you want: “Only after checking dates and units against the official timetable.”</span></p></div>
+      </div>
+    </section>
+    <section class="screen" data-title="When the AI is wrong in class" hidden>
+      <h1>When the AI is wrong in class</h1>
+      <p class="lead">This is a teaching moment, not a failure.</p>
+      <div class="steps2">
+        <div><b>1</b><span>Stay calm. Say: “Good. This is why we check.”</span></div>
+        <div><b>2</b><span>Ask the room: “What is wrong? How do we know?”</span></div>
+        <div><b>3</b><span>Check it together against a trusted source: the chart, textbook or official notice. Don’t ask the AI to decide.</span></div>
+        <div><b>4</b><span>Fix it by hand, or ask again with the right fact in the Context.</span></div>
+        <div><b>5</b><span>Note it in the facilitator channel as a teaching example.</span></div>
+      </div>
+      <div class="note"><svg width="18" height="18"><use href="#i-info"/></svg><p>Can’t check it now? Say: “I will check and tell you before the next session.” Never guess on policy.</p></div>
+    </section>
+    <section class="screen" data-title="Quick fixes" hidden>
+      <h1>Quick fixes</h1>
+      <div class="fixes"><div><b>Fast finishers</b><span>Start the next lab early, or rewrite one more weak request of their own.</span></div><div><b>No internet</b><span>Switch to the printed Prompt Card and a paper worksheet.</span></div><div><b>Shared device</b><span>One types. One reads aloud and checks. Swap halfway. Use a visible timer.</span></div><div><b>Device stops working</b><span>Move the learner to the card and worksheet. Rejoin at the next break.</span></div><div><b>Learner is nervous or stuck</b><span>Pair them with a buddy. Start from the worked example on Reading screen 5. Praise the first try.</span></div></div>
+    </section>
+    <section class="screen" data-title="Answer bank" hidden>
+      <h1>Answer bank</h1>
+      <p class="lead">Pick a topic. Tap a question to see the answer.</p>
+      <div class="chips" data-chips="#qa-list" role="group" aria-label="Topics"><button type="button" data-cluster="Ideas" aria-pressed="false">Ideas</button><button type="button" data-cluster="Devices" aria-pressed="false">Devices</button><button type="button" data-cluster="Privacy" aria-pressed="false">Privacy</button><button type="button" data-cluster="Wrong answers" aria-pressed="false">Wrong answers</button><button type="button" data-cluster="Section Check" aria-pressed="false">Section Check</button><button type="button" data-cluster="Escalation" aria-pressed="false">Escalation</button></div>
+      <div id="qa-list"><details class="qa" data-cluster="Ideas"><summary>Is a longer request always better?</summary><div class="ans"><p><b>Say:</b> No.</p><p><b>Why:</b> A long request can still be unclear. Clear beats long.</p><p><b>Then:</b> Show Reading screen 4, the 4 parts.</p></div></details><details class="qa" data-cluster="Ideas"><summary>Do learners need all 5 moves every time?</summary><div class="ans"><p><b>Say:</b> No.</p><p><b>Why:</b> Use only the move that fixes the problem.</p><p><b>Then:</b> Point to the moves on the Prompt Card.</p></div></details><details class="qa" data-cluster="Ideas"><summary>Can the AI check its own answer?</summary><div class="ans"><p><b>Say:</b> Partly.</p><p><b>Why:</b> Asking “what might be wrong?” can show weak spots. But it can miss its own mistakes.</p><p><b>Then:</b> The learner checks those spots with a trusted source.</p></div></details><details class="qa" data-cluster="Devices"><summary>A device won’t connect.</summary><div class="ans"><p><b>Say:</b> Use the printed card and worksheet.</p><p><b>Why:</b> The card has the same 4 parts and 5 moves.</p><p><b>Then:</b> Move them back when a device is free.</p></div></details><details class="qa" data-cluster="Devices"><summary>Two learners share one device.</summary><div class="ans"><p><b>Say:</b> One types. One reads aloud and checks.</p><p><b>Why:</b> Both need their own turn.</p><p><b>Then:</b> Swap halfway. Use a visible timer.</p></div></details><details class="qa" data-cluster="Devices"><summary>Which AI tool should learners use?</summary><div class="ans"><p><b>Say:</b> Only the approved tool for this programme.</p><p><b>Why:</b> Other tools may not be safe or free.</p><p><b>Then:</b> Learners write it in Rulebook R1 in the Check Before You Use section.</p></div></details><details class="qa" data-cluster="Privacy"><summary>Can a learner use real names in examples?</summary><div class="ans"><p><b>Say:</b> No.</p><p><b>Why:</b> Made-up names, dates and numbers only.</p><p><b>Then:</b> Give a made-up example from the board.</p></div></details><details class="qa" data-cluster="Privacy"><summary>A learner typed a real phone or ID number.</summary><div class="ans"><p><b>Say:</b> Stop. Delete it. Use a made-up one.</p><p><b>Why:</b> Real personal data must not go into an AI tool.</p><p><b>Then:</b> If it was already sent, tell the programme or IT owner. Stay calm with the learner.</p></div></details><details class="qa" data-cluster="Wrong answers"><summary>The AI gave a wrong answer in front of the class.</summary><div class="ans"><p><b>Say:</b> Say so, calmly.</p><p><b>Why:</b> It shows exactly why we check.</p><p><b>Then:</b> Follow the “When the AI is wrong” screen.</p></div></details><details class="qa" data-cluster="Wrong answers"><summary>The AI made up a date, rule or fee.</summary><div class="ans"><p><b>Say:</b> Point to it: “Nobody gave it that number.”</p><p><b>Why:</b> A gap became a guess.</p><p><b>Then:</b> Ask: “Which move? Where do we check?”</p></div></details><details class="qa" data-cluster="Wrong answers"><summary>Does spelling need to be perfect?</summary><div class="ans"><p><b>Say:</b> No.</p><p><b>Why:</b> Clear matters more than perfect.</p><p><b>Then:</b> Reassure the learner and move on.</p></div></details><details class="qa" data-cluster="Section Check"><summary>Does the Section Check give marks or credit?</summary><div class="ans"><p><b>Say:</b> It is a mastery check.</p><p><b>Why:</b> Pass at 70%. Unlimited tries. It does not add training hours.</p><p><b>Then:</b> For other grading questions, say: “I will check and confirm.”</p></div></details><details class="qa" data-cluster="Section Check"><summary>A learner failed the Section Check.</summary><div class="ans"><p><b>Say:</b> They can try again right away.</p><p><b>Why:</b> Questions come from a bank of 20.</p><p><b>Then:</b> Suggest Reading screens 9 to 12 first.</p></div></details><details class="qa" data-cluster="Escalation"><summary>A policy question you are not sure about.</summary><div class="ans"><p><b>Say:</b> “I will check and confirm before the next session.”</p><p><b>Why:</b> Never guess on policy.</p><p><b>Then:</b> Note it and ask the programme owner.</p></div></details><details class="qa" data-cluster="Escalation"><summary>The tool asked for payment or a login.</summary><div class="ans"><p><b>Say:</b> Stop and close it.</p><p><b>Why:</b> Use only the approved tool. It should never ask for payment.</p><p><b>Then:</b> Tell the IT owner right away.</p></div></details></div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="bars" data-bars aria-hidden="true"></div>
+    <span class="pos" data-pos></span>
+    <div class="nav">
+      <button type="button" class="btn-quiet" data-prev><svg width="14" height="14"><use href="#i-back"/></svg>Back</button>
+      <button type="button" class="btn-primary" data-next><span data-next-label>Continue</span><svg width="15" height="15"><use href="#i-arrow"/></svg></button>
+    </div>
+    <p class="gate-hint" data-gate-msg hidden></p>
+  </footer>
+</div>
+
+<div class="scrim" data-close-outline></div>
+<aside class="drawer" aria-label="Course outline" aria-hidden="true">
+  <div class="drawer-head">
+    <span class="cap">Course outline</span>
+    <button type="button" class="icon-btn" aria-label="Close outline" data-close-outline><svg width="13" height="13"><use href="#i-close"/></svg></button>
+  </div>
+  <div><p class="sec-meta">Use It, and Check It</p><p class="sec-name">Facilitator Kit: Framing and Refining</p></div>
+  <ol class="outline" data-outline></ol>
+  <p class="hint">Jump to any screen.</p>
+</aside>
+
+<script src="script.js"></script>
+<script src="../../shared/course.js"></script>
+</body>
+</html>

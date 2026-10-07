@@ -133,3 +133,20 @@ a.tile:hover .tile-go{background:linear-gradient(135deg,var(--amber-2),var(--amb
   .step-name{font-size:12px}
 }
 .step-num svg{width:14px;height:14px}
+
+/* videos: a normal-looking button that answers "Coming soon" */
+button.tile{font:inherit;text-align:left;width:100%;cursor:pointer}
+button.tile.video:hover{transform:translateY(-1px);border-color:var(--blue);background:var(--glass-3)}
+button.tile.video:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,0.28)}
+button.tile.video.tapped{border-color:var(--amber-line);background:var(--amber-tint)}
+.toast{
+  position:fixed;left:50%;bottom:28px;z-index:50;display:flex;align-items:center;gap:12px;
+  padding:12px 18px 12px 14px;border-radius:14px;max-width:calc(100% - 32px);
+  background:rgba(14,26,79,0.92);border:1px solid var(--amber-line);color:var(--text);
+  box-shadow:0 18px 40px rgba(0,0,0,0.45);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  transform:translate(-50%,20px);opacity:0;pointer-events:none;transition:opacity .2s ease,transform .2s ease;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast svg{width:20px;height:20px;color:var(--amber-2);flex:0 0 auto}
+.toast span{display:flex;flex-direction:column;font-size:13px;line-height:1.35}
+.toast b{color:var(--ivory);font-size:14px}

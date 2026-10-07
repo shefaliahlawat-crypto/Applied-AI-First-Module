@@ -31,8 +31,8 @@ const SEGMENTS = [
   ['S02-BOT01',  'Practice Bot', 'bot', true],
   ['S02-COMM01', 'Peer Exchange', 'comm', true],
   ['S02-EVAL01', 'Section Check', 'eval', true],
-  ['S02-RES01',  'Resources', 'res'],
-  ['S02-FAC01',  'Facilitator Kit', 'fac'],
+  ['S02-RES01',  'Resources', 'res', true],
+  ['S02-FAC01',  'Facilitator Kit', 'fac', true],
 
   ['S03-VID01',  'It Will Lie to You Confidently', 'video'],
   ['S03-VID02',  'Mark It Before You Send It', 'video'],
@@ -44,10 +44,10 @@ const SEGMENTS = [
   ['S03-RULE01', 'Rulebook Section', 'rule', true],
   ['S03-COMM01', 'Peer Exchange', 'comm', true],
   ['S03-EVAL01', 'Section Check', 'eval', true],
-  ['S03-RES01',  'Resources', 'res'],
+  ['S03-RES01',  'Resources', 'res', true],
   ['S03-FAC01',  'Facilitator Kit', 'fac', true],
 
-  ['S04-CHAL01', 'Checkpoint 1: Use It and Check It', 'chal'],
+  ['S04-CHAL01', 'Checkpoint 1: Use It and Check It', 'chal', true],
   ['S04-FORM01', 'Portfolio Submission', 'form'],
 ].map(([code, title, type, ready]) => ({ code, title, type, ready: !!ready }));
 
@@ -73,18 +73,39 @@ const ARROW = svg('<path d="M5 12h14M13 6l6 6-6 6"/>');
 const stepsEl = document.getElementById('steps');
 const gridEl = document.getElementById('grid');
 
+/* Videos look like any other button; tapping one says "Coming soon" */
 function tile(seg, gate) {
   const [label, icon] = TYPES[seg.type];
-  const tag = seg.ready ? 'a' : 'div';
-  const attrs = seg.ready
-    ? `href="modules/${seg.code}/index.html"`
-    : 'aria-disabled="true"';
-  return `<${tag} class="tile${seg.ready ? '' : ' soon'}${gate ? ' gate' : ''}" ${attrs}>
+  const video = !seg.ready && seg.type === 'video';
+  let tag = 'div', attrs = 'aria-disabled="true"', cls = ' soon', end = '<span class="soon-tag">Soon</span>';
+  if (seg.ready) {
+    tag = 'a'; attrs = `href="modules/${seg.code}/index.html"`; cls = ''; end = `<span class="tile-go">${ARROW}</span>`;
+  } else if (video) {
+    tag = 'button'; attrs = 'type="button" data-coming-soon'; cls = ' video'; end = `<span class="tile-go">${ARROW}</span>`;
+  }
+  return `<${tag} class="tile${cls}${gate ? ' gate' : ''}" ${attrs}>
     <span class="tile-icon">${svg(icon)}</span>
     <div class="tile-text"><span class="tile-type">${label}</span><h3>${seg.title}</h3></div>
-    ${seg.ready ? `<span class="tile-go">${ARROW}</span>` : '<span class="soon-tag">Soon</span>'}
+    ${end}
   </${tag}>`;
 }
+
+let toastTimer = 0;
+gridEl.addEventListener('click', (e) => {
+  const t = e.target.closest('[data-coming-soon]');
+  if (!t) return;
+  let toast = document.getElementById('toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'toast'; toast.className = 'toast'; toast.setAttribute('role', 'status');
+    document.body.appendChild(toast);
+  }
+  toast.innerHTML = `${svg(TYPES.video[1])}<span><b>Coming soon</b>${t.querySelector('h3').textContent}</span>`;
+  toast.classList.add('show');
+  t.classList.add('tapped');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { toast.classList.remove('show'); t.classList.remove('tapped'); }, 2400);
+});
 
 function show(id) {
   const sec = SECTIONS.find((s) => s.id === id) || SECTIONS[0];

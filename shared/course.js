@@ -46,6 +46,15 @@
   /* keeps Close as the last item of the header (other scripts add buttons there later),
      and floats a second one over the start screen while it is showing */
   function addClose() {
+    /* a module that already has its own Close: point it at the course page */
+    var own = doc.querySelector('header [data-close], header .ghost-pill, header .saa-ghost-pill, #topbar [data-close]');
+    if (own) {
+      if (!own.hasAttribute('data-course-home')) {
+        own.setAttribute('data-course-home', '');
+        own.addEventListener('click', function (e) { e.preventDefault(); e.stopImmediatePropagation(); goHome(); }, true);
+      }
+      return;
+    }
     var h = null;
     ['.saa-header', 'header.top', '.top > .narr', 'header.masthead', '.app > header', 'body > header'].some(function (s) { h = doc.querySelector(s); return h; });
     var b = doc.querySelector('.course-close-hd');
@@ -67,7 +76,7 @@
   }
 
   /* ---------- 2. Next lock ---------- */
-  var NAV = '#primary, #deck-next, #navNext, #nav-next, #nextBtn, #next-btn, #next, .btn-next, .nav-btn.primary, .nav-circle.primary, footer .btn-primary, .foot .btn-primary';
+  var NAV = '[data-next], #primary, #deck-next, #navNext, #nav-next, #nextBtn, #next-btn, #next, .btn-next, .nav-btn.primary, .nav-circle.primary, footer .btn-primary, .foot .btn-primary';
   var JUMP = '.deck-dots, .page-dots, .seg-bar, .segs, .fpe-dots, .progress, .deck-progress, .footer-progress, .journey, [data-goto]';
   /* boxes that are never "the task": chat composers, search, anything marked optional */
   var SKIP = '[readonly], [disabled], [data-optional], [type=search], .composer *, .chat-input, .saa-header *, header *, .modal:not(.open) *, [aria-hidden=true] *';
