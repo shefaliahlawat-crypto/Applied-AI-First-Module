@@ -1,0 +1,210 @@
+/* ==========================================================================
+   Swift AI Academy — module frame base (from handoff/tokens.css + screens/dark)
+   ========================================================================== */
+:root{
+  --font:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+
+  --sp-1:8px;--sp-2:12px;--sp-3:16px;--sp-4:24px;--sp-5:32px;--sp-6:40px;
+
+  --bg-0:#080D24; --bg-1:#0E1A4F; --bg-2:#0B1440;
+  --glass:rgba(255,255,255,0.035);
+  --glass-2:rgba(255,255,255,0.05);
+  --line:rgba(255,255,255,0.10);
+  --line-2:rgba(255,255,255,0.14);
+
+  --ivory:#F6F4EF; --text:#DCE1F2; --text-2:#D5DAEE;
+  --muted:#AEB6D4; --dim:#7C86AE; --faint:#5C6690;
+
+  --amber:#F3AB31; --amber-2:#FFC168; --amber-ink:#241300;
+  --blue:#5B76FF; --blue-light:#8FA0FF; --blue-pale:#B8C4FF;
+  --blue-tint:rgba(91,118,255,0.12); --blue-tint-2:rgba(91,118,255,0.16);
+  --blue-line:rgba(91,118,255,0.35); --blue-line-2:rgba(91,118,255,0.5);
+
+  --ok:#4FE0A8; --ok-tint:rgba(79,224,168,0.10); --ok-line:rgba(79,224,168,0.40);
+  --bad:#FF8A80; --bad-tint:rgba(255,107,107,0.10); --bad-line:rgba(255,107,107,0.40);
+
+  --radius-card:20px; --radius-pill:999px;
+  --shadow-amber:0 8px 24px rgba(243,171,49,0.30);
+  --shadow-modal:0 40px 90px rgba(0,0,0,0.5);
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;min-height:100vh;
+  font-family:var(--font);font-size:15px;line-height:1.6;color:var(--text);
+  background:linear-gradient(150deg,var(--bg-0) 0%,var(--bg-1) 52%,var(--bg-2) 100%) fixed;
+  background-color:var(--bg-0);
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(circle at 88% 4%,rgba(60,89,246,0.22) 0%,rgba(60,89,246,0) 40%);
+}
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:radial-gradient(rgba(255,255,255,0.05) 1px,transparent 1px);background-size:3px 3px;
+  mix-blend-mode:overlay;
+}
+body > *{position:relative;z-index:1}
+
+h1,h2,h3{font-family:var(--font);color:var(--ivory);font-weight:700;margin:0;line-height:1.2}
+p{margin:0}
+::selection{background:rgba(91,118,255,0.35);color:#fff}
+
+/* header */
+.saa-header{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-2);padding:var(--sp-4) 0 var(--sp-3)}
+.saa-brand{display:flex;align-items:center;gap:var(--sp-2)}
+.saa-brand img{width:20px;height:auto;display:block}
+.saa-brand span{font-size:11px;letter-spacing:.16em;color:#C6CDE6;font-weight:600;white-space:nowrap}
+.saa-ghost-pill{
+  display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:var(--radius-pill);
+  background:var(--glass-2);border:1px solid var(--line-2);color:var(--muted);
+  font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;
+}
+.saa-ghost-pill svg{width:13px;height:13px}
+
+/* eyebrow */
+.saa-eyebrow{
+  display:flex;align-items:center;gap:10px;margin:0;
+  font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);font-weight:600;
+}
+.saa-eyebrow::before{content:'';width:22px;height:1px;background:var(--amber);flex:0 0 auto}
+
+/* buttons — PRIMARY = amber, one visible per screen */
+.saa-btn-primary{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  padding:13px 24px;min-height:44px;border:none;border-radius:var(--radius-pill);cursor:pointer;
+  background:linear-gradient(135deg,var(--amber-2),var(--amber));color:var(--amber-ink);
+  font-family:var(--font);font-size:14px;font-weight:700;box-shadow:var(--shadow-amber);
+}
+.saa-btn-primary svg{width:15px;height:15px}
+.saa-btn-primary:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+.saa-btn-secondary{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:12px 20px;min-height:44px;border-radius:var(--radius-pill);cursor:pointer;
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.16);color:#DADEEE;
+  font-family:var(--font);font-size:13px;font-weight:600;
+}
+.saa-btn-secondary[hidden]{display:none}
+button:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--amber-2);outline-offset:2px}
+
+/* ==========================================================================
+   Video page
+   ========================================================================== */
+.app{max-width:920px;margin:0 auto;padding:0 20px 40px}
+
+.intro{margin:0 0 var(--sp-3)}
+.intro .saa-eyebrow{margin-bottom:10px}
+.intro h1{font-size:clamp(24px,3.6vw,32px);letter-spacing:-.01em;margin:0 0 8px}
+.lead{font-size:15px;color:var(--muted);max-width:62ch}
+
+.player-card{
+  background:var(--glass);border:1px solid var(--line);border-radius:var(--radius-card);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:12px;
+}
+.player{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:14px;overflow:hidden}
+video{width:100%;height:100%;display:block;object-fit:contain;background:#000;cursor:pointer}
+/* repaints the misspelt name in the burned-in subtitles (see caption-fix.js) */
+.capfix{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+
+.big-play{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:76px;height:76px;border-radius:50%;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--amber-2),var(--amber));color:var(--amber-ink);
+  box-shadow:var(--shadow-amber);display:flex;align-items:center;justify-content:center;
+}
+.big-play svg{width:30px;height:30px;margin-left:4px}
+.big-play[hidden]{display:none}
+
+/* quiz overlay — lives outside .player-card: its backdrop-filter would trap a fixed child */
+.quiz{
+  position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:16px;
+  background:rgba(8,13,36,0.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  animation:fade .25s ease;
+}
+.quiz[hidden]{display:none}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.quiz-card{
+  width:100%;max-width:560px;max-height:100%;overflow:auto;scrollbar-color:var(--line-2) transparent;
+  background:linear-gradient(160deg,#121D55 0%,#0B1440 100%);
+  border:1px solid var(--line-2);border-radius:var(--radius-card);
+  padding:var(--sp-4) var(--sp-4);box-shadow:var(--shadow-modal);
+}
+.quiz-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.quiz-time{
+  font-size:12px;font-weight:600;color:var(--blue-pale);
+  background:var(--blue-tint);border:1px solid var(--blue-line);border-radius:var(--radius-pill);padding:4px 12px;
+}
+.quiz-card h2{font-size:clamp(17px,2.4vw,21px);line-height:1.35;margin:0 0 16px}
+
+.opts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.opt{
+  width:100%;display:flex;align-items:center;gap:14px;text-align:left;cursor:pointer;
+  padding:12px 16px;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid var(--line);
+  color:var(--text-2);font-family:var(--font);font-size:14.5px;line-height:1.4;
+  transition:border-color .15s ease,background .15s ease;
+}
+.opt:hover:not(:disabled){border-color:var(--blue-line-2);background:rgba(91,118,255,0.06)}
+.opt .letter{
+  width:28px;height:28px;border-radius:50%;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
+  background:var(--blue-tint-2);border:1px solid var(--blue-line-2);color:var(--blue-pale);font-size:12.5px;font-weight:700;
+}
+.opt:disabled{cursor:default}
+.opt.is-correct{background:var(--ok-tint);border-color:var(--ok-line);color:var(--ivory);font-weight:600}
+.opt.is-correct .letter{background:var(--ok);border-color:var(--ok);color:#06281B}
+.opt.is-wrong{background:var(--bad-tint);border-color:var(--bad-line);color:var(--ivory)}
+.opt.is-wrong .letter{background:var(--bad);border-color:var(--bad);color:#3A0805}
+.opt.is-dim{opacity:.5}
+
+.feedback{min-height:1.6em;margin:14px 0 0;font-size:14px;line-height:1.5}
+.feedback.ok{color:var(--ok)}
+.feedback.bad{color:var(--bad)}
+.feedback:empty{margin-top:8px}
+
+.quiz-foot{display:flex;justify-content:flex-end;gap:10px;margin-top:14px;flex-wrap:wrap}
+
+/* controls */
+.controls{display:flex;align-items:center;gap:14px;padding:12px 6px 4px}
+.ctrl-btn{
+  width:42px;height:42px;border-radius:50%;flex:0 0 auto;cursor:pointer;padding:0;
+  background:var(--glass-2);border:1px solid var(--line-2);color:var(--ivory);
+  display:flex;align-items:center;justify-content:center;
+}
+.ctrl-btn svg{width:16px;height:16px}
+.ctrl-btn .i-pause{display:none}
+.ctrl-btn.is-playing .i-play{display:none}
+.ctrl-btn.is-playing .i-pause{display:block}
+.scrub{flex:1;padding:10px 0;cursor:pointer}
+.scrub-track{position:relative;height:4px;background:rgba(255,255,255,0.14);border-radius:2px}
+.scrub-fill{position:absolute;left:0;top:0;height:100%;width:0%;background:var(--blue);border-radius:2px}
+.mark{
+  position:absolute;top:50%;width:12px;height:12px;border-radius:50%;padding:0;
+  background:var(--amber);border:2px solid var(--bg-1);transform:translate(-50%,-50%);
+  pointer-events:none;
+}
+.mark.is-done{background:var(--ok)}
+.time{font-size:12.5px;font-weight:600;color:var(--dim);white-space:nowrap;font-variant-numeric:tabular-nums}
+
+/* checkpoint list under the player */
+.checkpoints{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:var(--sp-3)}
+.cp{
+  display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:16px;
+  background:var(--glass);border:1px solid var(--line);
+}
+.cp .num{
+  width:30px;height:30px;border-radius:50%;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
+  background:var(--blue-tint-2);border:1px solid var(--blue-line-2);font-size:13px;font-weight:800;color:var(--blue-pale);
+}
+.cp.is-done .num{background:var(--ok-tint);border-color:var(--ok-line);color:var(--ok)}
+.cp b{display:block;font-size:14px;color:var(--ivory);font-weight:600}
+.cp .when{display:block;font-size:13px;color:var(--dim)}
+
+@media (max-width:640px){
+  .app{padding:0 16px 32px}
+  .saa-brand span{font-size:10px}
+  .player-card{padding:8px;border-radius:16px}
+  .checkpoints{grid-template-columns:1fr}
+  .big-play{width:60px;height:60px}
+  .big-play svg{width:24px;height:24px}
+}

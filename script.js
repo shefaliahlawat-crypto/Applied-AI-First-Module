@@ -38,7 +38,7 @@ const SEGMENTS = [
   ['S02-RES01',  'Resources', 'res', true],
   ['S02-FAC01',  'Facilitator Kit', 'fac', true],
 
-  ['S03-VID01',  'It Will Lie to You Confidently', 'video'],
+  ['S03-VID01',  'Check Before You Use', 'video', true],
   ['S03-VID02',  'Mark It Before You Send It', 'video'],
   ['S03-READ01', 'Marking, Separating and Correcting', 'read', true],
   ['S03-CARD01', 'Marking Card', 'card', true],

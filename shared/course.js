@@ -196,8 +196,9 @@
     return l;
   }
   function unifyLogo() {
-    if (doc.querySelector('.saa-hd-brand, .lockup, .course-logo')) { return; }
-    var b = doc.querySelector('header .brand, .topbar .brand, #topbar .brand');
+    /* pages on the saa-upgrade kit build this lockup themselves */
+    if (doc.querySelector('.saa-hd-brand, .lockup, .course-logo, script[src*="saa-upgrade"]')) { return; }
+    var b = doc.querySelector('header .brand, header .saa-brand, .topbar .brand, #topbar .brand');
     if (b) {
       $$('img, .brand-mark', b).forEach(function (x) { x.remove(); });
       $$('span, b, strong', b).forEach(function (x) { if (/^\s*swift\s*ai\s*academy\s*$/i.test(x.textContent)) { x.remove(); } });
