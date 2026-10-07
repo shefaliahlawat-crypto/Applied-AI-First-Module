@@ -109,7 +109,8 @@ gridEl.addEventListener('click', (e) => {
 
 function show(id) {
   const sec = SECTIONS.find((s) => s.id === id) || SECTIONS[0];
-  const segs = SEGMENTS.filter((s) => s.code.startsWith(sec.id));
+  /* Facilitator Kits are kept in modules/ for the facilitator version, not shown to learners */
+  const segs = SEGMENTS.filter((s) => s.code.startsWith(sec.id) && s.type !== 'fac');
   stepsEl.querySelectorAll('.step').forEach((b) =>
     b.setAttribute('aria-selected', String(b.dataset.id === sec.id)));
   document.getElementById('secTitle').textContent = sec.name;
