@@ -179,9 +179,51 @@
   ['input', 'change', 'click', 'saa:done'].forEach(function (ev) {
     doc.addEventListener(ev, function () { setTimeout(paint, 0); }, true);
   });
+  /* ---------- one logo everywhere: the two-line "Swift AI / ACADEMY" lockup ----------
+     Modules built on saa-upgrade already show it; older headers get their small mark
+     and one-line wordmark swapped for it (any title next to it is kept). */
+  var LOGO = '../../assets/logo-mark.webp';
+  function lightBg(e) {
+    for (var n = e; n; n = n.parentElement) {
+      var m = getComputedStyle(n).backgroundColor.match(/rgba?\(([\d.]+),\s*([\d.]+),\s*([\d.]+)(?:,\s*([\d.]+))?/);
+      if (m && !(m[4] !== undefined && +m[4] < 0.3)) { return (0.2126 * m[1] + 0.7152 * m[2] + 0.0722 * m[3]) / 255 > 0.6; }
+    }
+    return false;
+  }
+  function lockup() {
+    var l = doc.createElement('span'); l.className = 'course-logo';
+    l.innerHTML = '<img src="' + LOGO + '" alt="" width="30" height="27"><span class="course-wm"><span class="n">Swift AI</span><span class="s">Academy</span></span>';
+    return l;
+  }
+  function unifyLogo() {
+    if (doc.querySelector('.saa-hd-brand, .lockup, .course-logo')) { return; }
+    var b = doc.querySelector('header .brand, .topbar .brand, #topbar .brand');
+    if (b) {
+      $$('img, .brand-mark', b).forEach(function (x) { x.remove(); });
+      $$('span, b, strong', b).forEach(function (x) { if (/^\s*swift\s*ai\s*academy\s*$/i.test(x.textContent)) { x.remove(); } });
+      Array.prototype.slice.call(b.childNodes).forEach(function (x) { if (x.nodeType === 3 && /swift\s*ai\s*academy/i.test(x.nodeValue)) { x.remove(); } });
+      var l = lockup(); b.insertBefore(l, b.firstChild);
+      if (b.textContent.replace(/swift\s*ai\s*academy/i, '').trim()) { b.classList.add('course-logo-host'); }   /* a title follows the logo */
+    } else {
+      var bar = doc.querySelector('body > .topbar, .app > .topbar, .app > header, body > header');
+      if (!bar) { return; }
+      bar.insertBefore(lockup(), bar.firstChild);
+    }
+    var lg = doc.querySelector('.course-logo');
+    if (lg && lightBg(lg.parentElement)) { lg.classList.add('on-light'); }
+  }
+  css.textContent +=
+    '.course-logo{display:inline-flex;align-items:center;gap:12px;flex:0 0 auto}' +
+    '.course-logo img{width:30px;height:27px;object-fit:contain;display:block}' +
+    '.course-wm{line-height:1;font-family:"Instrument Sans",system-ui,sans-serif}' +
+    '.course-wm .n{display:block;font-size:21px;font-weight:700;letter-spacing:-.02em;color:#F6F4EF;text-transform:none}' +
+    '.course-wm .s{display:block;font-size:9px;font-weight:600;letter-spacing:.34em;text-transform:uppercase;color:#7C86AE;margin-top:3px}' +
+    '.course-logo.on-light .n{color:#0E1A4F}.course-logo.on-light .s{color:#6B76A0}' +
+    '.course-logo-host{display:flex!important;align-items:center;gap:16px}';
+
   /* ---------- the Swift AI logo also goes back to the course page ---------- */
   function linkLogo() {
-    $$('.saa-hd-brand, header .brand, header .saa-brand, .top .lockup, .topbar .brand').forEach(function (b) {
+    $$('.saa-hd-brand, header .brand, header .saa-brand, .top .lockup, .topbar .brand, .course-logo:not(.brand .course-logo)').forEach(function (b) {
       if (b.closest('#saa-start') || b.hasAttribute('data-course-home')) { return; }
       b.setAttribute('data-course-home', '');
       b.setAttribute('role', 'link'); b.setAttribute('tabindex', '0');
@@ -192,7 +234,7 @@
     });
   }
 
-  setInterval(function () { paint(); addClose(); linkLogo(); checkDone(); }, 400);
+  setInterval(function () { paint(); addClose(); unifyLogo(); linkLogo(); checkDone(); }, 400);
 
   function init() { addClose(); paint(); }
   if (doc.readyState === 'loading') { doc.addEventListener('DOMContentLoaded', init); } else { init(); }

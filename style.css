@@ -46,8 +46,11 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--amber-2);outline-of
 /* header chrome */
 .saa-header{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-2);padding:var(--sp-5) 0 var(--sp-4)}
 .saa-brand{display:flex;align-items:center;gap:var(--sp-2)}
-.saa-brand img{width:20px;height:auto;display:block}
-.saa-brand span{font-size:11px;letter-spacing:.16em;color:#C6CDE6;font-weight:600;white-space:nowrap}
+/* same lockup as the module headers (.saa-hd-brand / .saa-wm in saa-upgrade.css) */
+.saa-brand img{width:30px;height:27px;object-fit:contain;display:block}
+.saa-wm{line-height:1}
+.saa-wm .n{display:block;font-size:21px;font-weight:700;letter-spacing:-.02em;color:#F6F4EF}
+.saa-wm .s{display:block;font-size:9px;font-weight:600;letter-spacing:.34em;text-transform:uppercase;color:#7C86AE;margin-top:3px}
 .saa-cap{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);font-weight:600}
 .saa-eyebrow{
   display:flex;align-items:center;gap:10px;
