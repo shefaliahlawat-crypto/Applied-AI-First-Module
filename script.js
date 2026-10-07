@@ -3,10 +3,14 @@
    To add a segment: unzip it into modules/<code>/ and flip its flag. */
 
 const SECTIONS = [
-  { id: 'S01', name: 'First Contact' },
-  { id: 'S02', name: 'Framing and Refining' },
-  { id: 'S03', name: 'Check Before You Use' },
-  { id: 'S04', name: 'Checkpoint', gate: true },
+  { id: 'S01', name: 'First Contact',
+    about: 'Meet your AI tool. Send your first questions and see what it does well and where it goes wrong.' },
+  { id: 'S02', name: 'Framing and Refining',
+    about: 'Learn to ask clearly, then fix a weak answer step by step until it is useful.' },
+  { id: 'S03', name: 'Check Before You Use',
+    about: 'AI can sound sure and still be wrong. Learn to check every fact before you use it.' },
+  { id: 'S04', name: 'Checkpoint', gate: true,
+    about: 'Show what you learned. Do a real task with AI, check it, and hand in your work.' },
 ];
 
 const SEGMENTS = [
@@ -114,6 +118,7 @@ function show(id) {
   stepsEl.querySelectorAll('.step').forEach((b) =>
     b.setAttribute('aria-selected', String(b.dataset.id === sec.id)));
   document.getElementById('secTitle').textContent = sec.name;
+  document.getElementById('secAbout').textContent = sec.about;
   const open = segs.filter((s) => s.ready).length;
   document.getElementById('secCount').textContent = `${open} / ${segs.length} open`;
   gridEl.innerHTML = segs.map((s) => tile(s, sec.gate)).join('');
