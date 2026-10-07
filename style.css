@@ -88,7 +88,8 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--amber-2);outline-of
 .section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--sp-3);margin-bottom:var(--sp-4)}
 .section-head h2{font-size:24px}
 .section-intro{display:flex;flex-direction:column;gap:6px;min-width:0}
-.section-about{font-size:15px;line-height:1.5;color:var(--muted);max-width:60ch}
+.section-about{font-size:15px;line-height:1.5;color:var(--muted)}
+@media (min-width:761px){.section-about{white-space:nowrap}}
 .section-head .saa-cap{flex:0 0 auto}
 
 /* tiles: compact option buttons, same look as the modules' saa-upgrade options
