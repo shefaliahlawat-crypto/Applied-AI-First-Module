@@ -14,7 +14,7 @@
   function $$(s, r) { return Array.prototype.slice.call((r || doc).querySelectorAll(s)); }
 
   var m = location.pathname.match(/modules\/(S\d+)-/);
-  var HOME = '../../index.html' + (m ? '#' + m[1] : '');
+  var HOME = '../../course.html' + (m ? '#' + m[1] : '');
   function goHome() { location.href = HOME; }
   win.SAA_HOME = goHome;
 

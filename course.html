@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!--
+  Applied AI · Module 1 — course page
+  Swift AI Academy · A ConveGenius company
+  Each segment opens modules/<CODE>/index.html. To add one, drop its unzipped
+  folder into modules/ and set its `ready` flag in script.js.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Applied AI · Module 1 — Swift AI Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="saa-header">
+    <div class="saa-brand" aria-label="Swift AI Academy">
+      <img src="assets/logo-mark.webp" alt="" width="30" height="27">
+      <span class="saa-wm"><span class="n">Swift AI</span><span class="s">Academy</span></span>
+    </div>
+  </header>
+
+  <section class="hero banner">
+    <div class="banner-text">
+      <p class="saa-eyebrow">Module 1</p>
+      <h1>Applied AI</h1>
+      <p class="banner-tag">Use an AI tool for everyday tasks, and check every answer before you use it.</p>
+    </div>
+    <div class="progress" id="progress" role="progressbar" aria-label="Your progress" aria-valuemin="0">
+      <div class="progress-top"><span class="progress-label">Your progress</span><span class="progress-n" id="progressN"></span></div>
+      <div class="progress-track"><i id="progressFill"></i></div>
+    </div>
+  </section>
+
+  <nav class="steps" id="steps" aria-label="Sections"></nav>
+
+  <main>
+    <div class="section-head">
+      <div class="section-intro">
+        <h2 id="secTitle"></h2>
+        <p class="section-about" id="secAbout"></p>
+      </div>
+      <span class="saa-cap" id="secCount"></span>
+    </div>
+    <div class="grid" id="grid"></div>
+  </main>
+
+</div>
+<script src="script.js"></script>
+</body>
+</html>

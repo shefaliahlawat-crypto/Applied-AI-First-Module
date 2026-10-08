@@ -1,56 +1,373 @@
 <!DOCTYPE html>
-<!--
-  Applied AI · Module 1 — course page
-  Swift AI Academy · A ConveGenius company
-  Each segment opens modules/<CODE>/index.html. To add one, drop its unzipped
-  folder into modules/ and set its `ready` flag in script.js.
--->
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Applied AI · Module 1 — Swift AI Academy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Find your course · Swift AI Academy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#13205E;--ink:#1A2140;--muted:#5A6386;--blue:#3B5BFD;--blue-soft:#E8ECFF;--amber:#F5A524;
+  --paper:#F4F6FC;--card:#FFFFFF;--line:#DCE2F2;--ok:#1E8E5A;--warn-bg:#FFF4DE;--notice:#FFFBEA;
+  --bubble:#E7FBDF;--on-navy:#FFFFFF;--on-navy-muted:#B9C3F0;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --navy:#0E1640;--ink:#E8ECFA;--muted:#A3ACCF;--blue:#7C93FF;--blue-soft:#1F2A5E;--paper:#0B1030;--card:#151C45;
+  --line:#2A3466;--warn-bg:#3A2E12;--notice:#2B2914;--bubble:#173A2A;}}
+:root[data-theme="dark"]{--navy:#0E1640;--ink:#E8ECFA;--muted:#A3ACCF;--blue:#7C93FF;--blue-soft:#1F2A5E;--paper:#0B1030;--card:#151C45;
+  --line:#2A3466;--warn-bg:#3A2E12;--notice:#2B2914;--bubble:#173A2A;}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Plus Jakarta Sans","Segoe UI",system-ui,-apple-system,sans-serif;font-size:17px;line-height:1.55}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.top{background:var(--navy);color:var(--on-navy);padding:18px 20px 22px}
+.top-in{max-width:640px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px}
+.logo{display:inline-flex;align-items:center;gap:10px;color:#fff}
+.logo-icon{flex:none}
+.logo-text{display:flex;flex-direction:column;line-height:1}
+.logo-name{font-weight:800;font-size:22px;letter-spacing:-.01em}
+.logo-sub{font-weight:600;font-size:10.5px;letter-spacing:.42em;color:#A9B3D9;margin-top:5px}
+
+.bar{display:flex;gap:5px;margin-top:18px}
+.bar span{flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,.18)}
+.bar span.done{background:var(--amber)}
+.stepline{font-size:14px;color:var(--on-navy-muted);margin-top:8px;min-height:1.4em}
+main{max-width:640px;margin:0 auto;padding:24px 20px 40px}
+h1{font-size:clamp(28px,6vw,36px);line-height:1.15;margin:0 0 12px;letter-spacing:-.02em}
+h2{font-size:clamp(22px,5vw,27px);line-height:1.25;margin:0 0 8px;letter-spacing:-.01em}
+.help{color:var(--muted);margin:0 0 20px}
+.opts{display:grid;gap:10px}
+.opts.two{grid-template-columns:1fr}
+@media (min-width:520px){.opts.two{grid-template-columns:1fr 1fr}}
+.opt{display:flex;align-items:center;gap:12px;text-align:left;width:100%;min-height:56px;padding:12px 16px;background:var(--card);
+  border:2px solid var(--line);border-radius:14px;cursor:pointer}
+.opt:hover{border-color:var(--blue)}
+.opt .tick{flex:none;width:22px;height:22px;border:2px solid var(--line);display:grid;place-items:center}
+.opt[data-kind="single"] .tick{border-radius:50%}
+.opt[data-kind="multi"] .tick{border-radius:6px}
+.opt[aria-pressed="true"]{border-color:var(--blue);background:var(--blue-soft)}
+.opt[aria-pressed="true"] .tick{background:var(--blue);border-color:var(--blue)}
+.opt[aria-pressed="true"] .tick::after{content:"";width:8px;height:8px;background:#fff;border-radius:2px}
+.opt[data-kind="single"][aria-pressed="true"] .tick::after{border-radius:50%}
+.nav{display:flex;gap:12px;margin-top:28px}
+.btn{min-height:52px;padding:0 24px;border-radius:14px;border:2px solid var(--line);background:var(--card);font-weight:700;cursor:pointer}
+.btn.primary{flex:1;background:var(--blue);border-color:var(--blue);color:#fff}
+.btn.primary:disabled{opacity:.45;cursor:not-allowed}
+.hint{font-size:14px;color:var(--muted);margin-top:10px;min-height:1.4em}
+.promises{display:grid;gap:10px;margin:22px 0 26px;padding:0;list-style:none}
+.promises li{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px}
+.promises b{display:block}
+.examples{display:flex;flex-wrap:wrap;gap:8px;margin:-6px 0 18px}
+.examples span{font-size:14px;font-weight:600;padding:5px 12px;border-radius:999px;background:var(--card);border:1px solid var(--line)}
+/* situations */
+.scene{margin:0 0 20px}
+.phone{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:14px;max-width:420px}
+.phone .who{font-size:13px;color:var(--muted);margin:0 0 8px 4px}
+.bubble{background:var(--bubble);border-radius:4px 16px 16px 16px;padding:12px 14px;font-size:16px}
+.bubble small{display:block;text-align:right;color:var(--muted);font-size:12px;margin-top:4px}
+.ai-q{background:var(--blue);color:#fff;border-radius:16px 4px 16px 16px;padding:10px 14px;margin:0 0 10px auto;width:fit-content;max-width:85%}
+.ai-a{background:var(--blue-soft);border-radius:4px 16px 16px 16px;padding:10px 14px;max-width:85%}
+.notice{background:var(--notice);border:1px solid #E9D98A;border-radius:4px;padding:20px 22px;max-width:420px;
+  box-shadow:0 2px 0 #E9D98A;transform:rotate(-.6deg);font-family:Georgia,"Times New Roman",serif}
+.notice strong{display:block;text-align:center;letter-spacing:.08em;margin-bottom:8px}
+.note{font-size:14px;color:var(--muted);margin-top:10px}
+/* results */
+.plan-head{margin-bottom:20px}
+.start{background:var(--navy);color:var(--on-navy);border-radius:20px;padding:22px}
+.start .lbl{color:var(--amber);font-weight:700;font-size:15px}
+.start h3{font-size:24px;line-height:1.25;margin:6px 0 10px}
+.start .why{background:rgba(255,255,255,.08);border-radius:12px;padding:14px;margin-top:14px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;font-size:13px;font-weight:600}
+.meta span{padding:4px 10px;border-radius:999px;background:var(--blue-soft);color:var(--ink)}
+.start .meta span{background:rgba(255,255,255,.14);color:#fff}
+.meta .after{background:var(--warn-bg)}
+.sec{font-size:18px;margin:28px 0 12px}
+.course{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:12px}
+.course h3{font-size:19px;margin:8px 0 6px;line-height:1.3}
+.course p{margin:8px 0 0;color:var(--muted)}
+.course .cta,.start .cta{margin-top:14px;min-height:46px;padding:0 18px;border-radius:12px;border:0;background:var(--amber);color:#1A2140;font-weight:700;cursor:pointer}
+.course .cta{background:var(--blue-soft);color:var(--ink)}
+.understood{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:6px 18px}
+.understood div{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}
+.understood div:last-child{border-bottom:0}
+.understood span:first-child{color:var(--muted)}
+.understood span:last-child{text-align:right;font-weight:600}
+details.staff{margin-top:24px;font-size:14px;background:var(--card);border:1px dashed var(--line);border-radius:12px;padding:12px 16px}
+details.staff summary{cursor:pointer;font-weight:600}
+details.staff code{font-size:13px}
+.level{display:flex;gap:4px;align-items:center;margin-top:6px}
+.level i{width:22px;height:7px;border-radius:4px;background:var(--line)}
+.level i.on{background:var(--blue)}
+.toast{font-size:14px;color:var(--ok);margin-top:8px;min-height:1.2em}
+@media (prefers-reduced-motion:no-preference){.screen{animation:in .25s ease-out}@keyframes in{from{opacity:0;transform:translateY(6px)}}}
+</style>
 </head>
 <body>
-<div class="app">
+<header class="top"><div class="top-in">
+  <div class="brand"><span class="logo" role="img" aria-label="Swift AI Academy"><svg class="logo-icon" viewBox="0 0 44 42" width="40" height="38" aria-hidden="true">
+<g stroke-width="1.6" stroke-linecap="round"><path d="M24 6L13 22M24 6l8 14" stroke="#C98F35"/>
+<path d="M13 22L32 20M13 22L4 37M13 22l9 15M32 20L22 37M32 20l8 17M13 22l27 15" stroke="#3554E0" opacity=".75"/></g>
+<circle cx="4" cy="37" r="4" fill="#22318F"/><circle cx="22" cy="37" r="4" fill="#22318F"/><circle cx="40" cy="37" r="4" fill="#22318F"/>
+<circle cx="13" cy="22" r="4.6" fill="#3B5BFD"/><circle cx="32" cy="20" r="4.6" fill="#3B5BFD"/><circle cx="24" cy="6" r="4.6" fill="#F5A524"/></svg><span class="logo-text"><span class="logo-name">Swift AI</span><span class="logo-sub">ACADEMY</span></span></span></div>
+  <div class="bar" id="bar" aria-hidden="true"></div>
+  <div class="stepline" id="stepline" aria-live="polite"></div>
+</div></header>
+<main id="app"></main>
+<script>
+const COURSES = {
+  AIFS:{name:"AI First Steps on Your Phone",cat:"AI Foundations",h:8,rung:1,teaches:["web_search","ai_aware","file_sharing","phone_typing"],
+    needs:[],promise:"It starts from zero and uses only your phone."},
+  EAB:{name:"Everyday AI Basics",cat:"AI Foundations",h:10,rung:2,teaches:["ai_first_use","online_forms","email_use"],
+    needs:["phone_typing"],needsAny:["web_search","file_sharing"],promise:"You will use an AI app for small daily tasks, step by step."},
+  AA1:{name:"Applied AI 1: Use It, and Check It",cat:"Applied AI",h:16,rung:3,teaches:["ai_first_use","ai_prompting","ai_verification"],
+    needs:["phone_typing","web_search"],promise:"You will use an AI app on real tasks and check every answer."},
+  AA2:{name:"Applied AI 2: Apply It Where It Matters",cat:"Applied AI",h:16,rung:3,teaches:["ai_task_use"],
+    needs:["ai_prompting","ai_verification"],promise:"You will use AI for real work and study tasks."},
+  AA3:{name:"Applied AI 3: Trust, Safety and Harm",cat:"Applied AI",h:16,rung:4,teaches:["ai_safety"],
+    needs:["ai_prompting","ai_verification"],promise:"You will learn to spot fake messages and use AI safely."},
+  AA4:{name:"Applied AI 4: Make It Stick",cat:"Applied AI",h:16,rung:4,teaches:["ai_method"],
+    needs:["ai_safety"],promise:"You will build your own way of using AI every week."},
+  PY:{name:"Python for Data Work",cat:"Data and Code",h:16,rung:5,teaches:["python","coding"],
+    needs:["computer_basics","spreadsheet","ai_prompting"],promise:"You will write simple Python to work with data."},
+  BOT:{name:"SwiftChat Bot Builder",cat:"Bot Building",h:15,teaches:["bot_building"],
+    needs:["phone_typing","web_search","ai_first_use"],needsAny:["computer_basics","online_forms"],promise:"You will build a simple chatbot of your own."},
+  COM1:{name:"Basic and Foundational Workplace Communication",cat:"Communication",h:58,teaches:["eng_basic","eng_reading"],
+    needs:[],promise:"It starts with simple English you can use at work."},
+  TTC:{name:"Trade and Team Communication",cat:"Communication",h:44,teaches:["trade_talk"],
+    needs:["eng_basic"],promise:"You will practise talking about your trade with customers and your team."},
+  WWE:{name:"Written Workplace English",cat:"Career Readiness",h:9,teaches:["email_writing"],
+    needs:["eng_reading","phone_typing"],needsAny:["online_forms","email_use"],promise:"You will write short work messages and emails."},
+  IGD:{name:"Interviews and Group Discussion",cat:"Career Readiness",h:6,teaches:["interview_skills"],
+    needs:["eng_basic","eng_reading"],promise:"You will practise answering interview questions."}
+};
+const GOAL_PHRASE={govt:"get a government job",private:"get a private job",business:"start your own work or shop",
+  tech:"build a career with computers",trade:"get better at your trade work",notsure:"find the right path for you"};
+const GAP={phone_typing:"you have not typed messages on a phone yet",file_sharing:"you have not sent a photo or PDF on your phone yet",
+  web_search:"you have not searched online yet",ai_aware:"you have not tried an AI app yet",ai_first_use:"you have not used an AI app yet",
+  online_forms:"you have not filled a form online yet",email_use:"you have not sent an email yet",
+  ai_prompting:"you have not yet learnt to ask AI clearly",ai_verification:"you have not yet learnt to check AI answers",
+  ai_task_use:"the next step is using AI for real tasks",ai_safety:"you are ready to learn how to stay safe with AI and online messages",
+  ai_method:"the next step is making AI a weekly habit",python:"you already use a computer and AI, and can go further with data",
+  coding:"you are ready to try coding",bot_building:"you are interested in building things with AI",
+  eng_basic:"you have not introduced yourself in English yet",eng_reading:"the English notice was not easy to read",
+  trade_talk:"you can speak some English and can now use it in your trade",email_writing:"you can read English and can now write work messages",
+  interview_skills:"you can speak and read some English and can now prepare for interviews"};
 
-  <header class="saa-header">
-    <div class="saa-brand" aria-label="Swift AI Academy">
-      <img src="assets/logo-mark.webp" alt="" width="30" height="27">
-      <span class="saa-wm"><span class="n">Swift AI</span><span class="s">Academy</span></span>
-    </div>
-  </header>
+function skillsFrom(a){
+  const s=new Set(), ph=a.phone||[], pc=a.computer||[];
+  if(ph.includes("msg"))s.add("phone_typing"); if(ph.includes("pdf"))s.add("file_sharing");
+  if(ph.includes("search"))s.add("web_search"); if(ph.includes("form"))s.add("online_forms"); if(ph.includes("email"))s.add("email_use");
+  if(pc.some(x=>x!=="none"))s.add("computer_basics"); if(pc.includes("sheet"))s.add("spreadsheet"); if(pc.includes("code"))s.add("coding");
+  const used=a.aiUse&&a.aiUse!=="never", often=["month","week"].includes(a.aiUse);
+  if(used){s.add("ai_aware");s.add("ai_first_use");}
+  if(often)s.add("ai_prompting");
+  if(used&&a.aiCheck==="check")s.add("ai_verification");
+  if(often&&a.aiCheck==="check")s.add("ai_task_use");
+  if(a.aiUse==="week"&&a.aiCheck==="check"&&a.scam==="check")s.add("ai_safety");
+  if(a.aiUse==="week"&&a.aiCheck==="check"&&a.scam==="check")s.add("ai_method");
+  if(["many","few"].includes(a.intro))s.add("eng_basic");
+  if(a.notice==="tue")s.add("eng_reading");
+  return s;
+}
+const RUNGS=[[1,["phone_typing","file_sharing","web_search","ai_aware"]],[2,["ai_first_use","online_forms","email_use"]],
+  [3,["ai_first_use","ai_prompting","ai_verification"]],[4,["ai_safety","ai_method"]]];
+function aiLevel(s){for(const [r,k] of RUNGS){if(k.filter(x=>s.has(x)).length/k.length<0.6)return r;}return 5;}
+function ready(id,s,a){const c=COURSES[id];
+  if(!c.needs.every(x=>s.has(x)))return false;
+  if(c.needsAny&&!c.needsAny.some(x=>s.has(x)))return false;
+  if(id==="PY"&&!(["c12","dip"].includes(a.education)||a.trade==="copa"))return false;
+  return true;}
+function known(id,s){return COURSES[id].teaches.every(x=>s.has(x));}
+function risks(a){return{scam:a.scam&&a.scam!=="check",unchecked:["month","week"].includes(a.aiUse)&&a.aiCheck==="use"};}
 
-  <section class="hero banner">
-    <div class="banner-text">
-      <p class="saa-eyebrow">Module 1</p>
-      <h1>Applied AI</h1>
-      <p class="banner-tag">Use an AI tool for everyday tasks, and check every answer before you use it.</p>
-    </div>
-    <div class="progress" id="progress" role="progressbar" aria-label="Your progress" aria-valuemin="0">
-      <div class="progress-top"><span class="progress-label">Your progress</span><span class="progress-n" id="progressN"></span></div>
-      <div class="progress-track"><i id="progressFill"></i></div>
-    </div>
-  </section>
+function recommend(a){
+  const s=skillsFrom(a), lvl=aiLevel(s), r=risks(a), goals=(a.goals||[]);
+  const g=goals.filter(x=>x!=="notsure"); const goal=g[0]||"notsure";
+  const has=x=>goals.includes(x);
+  const later=new Set(s), plan={start:null,next:[],later:[]}, used=new Set();
+  // 1. Start: always an AI course matched to level
+  const LADDER=["AIFS","EAB","AA1","AA3","AA4"];
+  let start=null;
+  if(lvl===5&&has("tech")&&ready("PY",s,a))start="PY";
+  for(const id of LADDER.slice(Math.min(lvl,5)-1)){if(start)break;if(ready(id,s,a)&&!known(id,s))start=id;}
+  if(!start)start=ready("PY",s,a)?"PY":"AA4";
+  plan.start=start;used.add(start);COURSES[start].teaches.forEach(x=>later.add(x));
+  // 2. Next: follow-on on the AI ladder
+  const follow={AIFS:"EAB",EAB:"AA1",AA1:(r.scam||r.unchecked)?"AA3":"AA2",AA2:"AA3",AA3:"AA4",AA4:has("tech")?"BOT":null,PY:"BOT"}[start];
+  if(follow&&ready(follow,later,a)&&!known(follow,s)){plan.next.push({id:follow,after:start});used.add(follow);}
+  // 3. Next: one course from another area, only if goals need it
+  const engGoal=g.some(x=>["govt","private","tech"].includes(x));
+  let par=null;
+  if(engGoal&&(!s.has("eng_basic")||!s.has("eng_reading")))par="COM1";
+  else if((has("govt")||has("private"))&&!s.has("interview_skills"))par="IGD";
+  else if(has("tech")&&!used.has("PY")&&ready("PY",s,a))par="PY";
+  else if(has("tech")&&!used.has("BOT")&&ready("BOT",later,a))par="BOT";
+  else if(has("trade")&&s.has("eng_basic"))par="TTC";
+  else if(has("tech")&&ready("WWE",s,a))par="WWE";
+  if(par&&!used.has(par)){plan.next.push({id:par});used.add(par);}
+  // 4. Later: safety raised when answers show risk; tech learners see bot building
+  if((r.scam||r.unchecked)&&!used.has("AA3"))plan.later.push({id:"AA3",after:"AA1"});
+  if(has("tech")&&!used.has("BOT")&&plan.later.length<2)plan.later.push({id:"BOT",after:ready("BOT",later,a)?null:start});
+  if(!plan.later.length){const nx={AIFS:"AA1",EAB:"AA1",AA1:"AA3",AA2:"AA3",AA3:"AA4"}[plan.next[0]?.id||start];
+    if(nx&&!used.has(nx))plan.later.push({id:nx,after:plan.next[0]?.id||start});}
+  // reasons
+  const why=(id,role,after)=>{const c=COURSES[id];const out=[];
+    const base=after?later:s; const gap=c.teaches.find(x=>!base.has(x));
+    if(id==="AA3"&&r.scam)out.push("You said you might pay or call back on a fake job message. This course shows you how to spot these.");
+    else if(id==="AA3"&&r.unchecked)out.push("You said you would use an AI answer without checking it. This course shows you how to stay safe.");
+    else if(gap&&GAP[gap])out.push(goal==="notsure"?cap(GAP[gap])+".":`You told us you want to ${GOAL_PHRASE[goal]}, and ${GAP[gap]}.`);
+    if(role==="start"&&c.rung)out.push("This is the best first step for you, because the next courses build on it.");
+    if(role==="next"&&after)out.push(`It follows naturally once you finish ${COURSES[after].name}.`);
+    if(role==="later"&&after)out.push(`You can take this after ${COURSES[after].name}.`);
+    out.push(c.promise);return out.join(" ");};
+  return{skills:[...s],level:lvl,risks:r,
+    start:{id:start,why:why(start,"start")},
+    next:plan.next.map(n=>({id:n.id,after:n.after||null,why:why(n.id,"next",n.after)})),
+    later:plan.later.map(n=>({id:n.id,after:n.after||null,why:why(n.id,"later",n.after)}))};
+}
+function cap(x){return x[0].toUpperCase()+x.slice(1);}
+const QUESTIONS=[
+ {id:"trade",type:"single",grid:true,q:"Which trade are you studying at ITI?",help:"If you have finished ITI, pick the trade you studied.",
+  opts:[["electrician","Electrician"],["fitter","Fitter"],["welder","Welder"],["copa","COPA (Computer Operator)"],["electronics","Electronics Mechanic"],
+   ["mmv","Motor Vehicle Mechanic"],["sewing","Sewing Technology"],["plumber","Plumber"],["other","Another trade"]]},
+ {id:"goals",type:"multi",max:2,exclusive:"notsure",q:"What do you want to do after ITI?",help:"Pick up to 2. Put the most important one first.",
+  opts:[["govt","Get a government job"],["private","Get a job in a private company"],["business","Start my own work or shop"],
+   ["tech","Work with computers or technology"],["trade","Get better at my trade work"],["notsure","I am not sure yet"]]},
+ {id:"education",type:"single",q:"What did you pass before ITI?",
+  opts:[["c8","Class 8"],["c10","Class 10"],["c12","Class 12"],["dip","Diploma or degree"]]},
+ {id:"phone",type:"multi",exclusive:"none",q:"Which of these have you done on a phone?",help:"Pick all that you have done. Any answer is fine.",
+  opts:[["msg","Sent a WhatsApp message"],["pdf","Sent a photo or PDF"],["search","Searched on Google or YouTube"],
+   ["form","Filled a form online"],["email","Sent an email"],["none","None of these"]]},
+ {id:"computer",type:"multi",exclusive:"none",q:"Which of these have you done on a computer?",help:"Pick all that you have done.",
+  opts:[["doc","Typed a letter or document"],["sheet","Made a table in Excel"],["code","Wrote some computer code"],["none","I have not used a computer"]]},
+ {id:"aiUse",type:"single",q:"Have you used an app where you type or speak a question, and it answers like a person?",
+  examples:["ChatGPT","Gemini","SwiftChat","Meta AI","Copilot"],
+  opts:[["never","No, never"],["once","Once or twice"],["month","Yes, every month"],["week","Yes, every week"]]},
+ {id:"aiCheck",type:"single",scene:"ai",q:"An AI app gives you a size for your workshop job. What will you do?",
+  opts:[["use","Use it straight away"],["check","Check it in my book or with my instructor first"],["notuse","I would not use an AI app for this"]]},
+ {id:"scam",type:"single",scene:"scam",q:"You get this message on your phone. What will you do?",
+  opts:[["pay","Pay the money to keep the job"],["call","Call the number to ask"],["check","Ignore it and check the official website"]]},
+ {id:"notice",type:"single",scene:"notice",q:"When should you bring your ID card?",
+  opts:[["mon","Monday"],["tue","Tuesday"],["unsure","I am not sure"]]},
+ {id:"intro",type:"single",q:"Have you ever introduced yourself in English?",help:"For example, saying your name, your trade and where you are from.",
+  opts:[["many","Yes, many times"],["few","Once or twice"],["never","Not yet"]]}
+];
+const SCENES={
+ ai:`<div class="scene"><div class="phone" aria-label="AI app chat">
+   <div class="ai-q">What size pipe do I need for this job?</div>
+   <div class="ai-a">You need a 25 mm pipe for this job.</div></div></div>`,
+ scam:`<div class="scene"><div class="phone" aria-label="Phone message">
+   <p class="who">+91 98xxx xxx21 &nbsp;(not in your contacts)</p>
+   <div class="bubble">Congratulations! You are selected for a government job. Pay ₹2,000 today to confirm your seat.<small>10:42 am</small></div></div></div>`,
+ notice:`<div class="scene"><div class="notice" role="img" aria-label="Notice in English: The workshop will be closed on Monday. Please bring your ID card on Tuesday.">
+   <strong>NOTICE</strong>The workshop will be closed on Monday. Please bring your ID card on Tuesday.</div>
+   <p class="note">Read this notice on the board at your ITI.</p></div>`
+};
+const LABELS={trade:{},goals:{},education:{}};
+QUESTIONS.forEach(q=>{if(LABELS[q.id])q.opts.forEach(([v,l])=>LABELS[q.id][v]=l)});
 
-  <nav class="steps" id="steps" aria-label="Sections"></nav>
+let step=-1; const answers={}; const app=document.getElementById("app");
+const N=QUESTIONS.length;
+document.getElementById("bar").innerHTML=QUESTIONS.map(()=>"<span></span>").join("");
+function setBar(done,label){[...document.querySelectorAll("#bar span")].forEach((s,i)=>s.classList.toggle("done",i<done));
+  document.getElementById("stepline").textContent=label;}
+function esc(t){return String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
 
-  <main>
-    <div class="section-head">
-      <div class="section-intro">
-        <h2 id="secTitle"></h2>
-        <p class="section-about" id="secAbout"></p>
-      </div>
-      <span class="saa-cap" id="secCount"></span>
-    </div>
-    <div class="grid" id="grid"></div>
-  </main>
+/* the Applied AI course on this site; other courses in the plan are not here yet */
+const COURSE_URL={AA1:"course.html"};
+const DONE_KEY="saa-find-course-done";
+function finishedBefore(){try{return localStorage.getItem(DONE_KEY)==="1";}catch(e){return false;}}
 
-</div>
-<script src="script.js"></script>
+function welcome(){setBar(0,"About 3 minutes");
+  const back=finishedBefore();
+  app.innerHTML=`<section class="screen">${back?`<div class="start" style="margin-bottom:22px"><div class="lbl">Welcome back</div>
+    <h3>${esc(COURSES.AA1.name)}</h3><a class="cta" href="${COURSE_URL.AA1}" style="display:inline-flex;align-items:center;text-decoration:none">Continue to the course</a></div>`:""}
+  <h1>Let us find the right course for you</h1>
+  <p class="help">Answer 10 short questions. We will show you one course to start today, and what to learn next.</p>
+  <ul class="promises"><li><b>This is not an exam</b>There are no marks. Every answer is fine.</li>
+  <li><b>Tell us what you have done</b>We ask about real things, not how good you think you are.</li>
+  <li><b>You can go back</b>Change any answer before you see your plan.</li></ul>
+  <div class="nav"><button class="btn primary" id="go">${back?"Take the questions again":"Start the questions"}</button></div>
+  <p class="hint"><a href="${COURSE_URL.AA1}" style="color:var(--blue);font-weight:600">Skip this and go straight to the Applied AI course</a></p></section>`;
+  document.getElementById("go").onclick=()=>{step=0;render();};}
+
+function isAnswered(q){const v=answers[q.id];return q.type==="multi"?Array.isArray(v)&&v.length>0:!!v;}
+function render(){
+  if(step<0)return welcome(); if(step>=N)return results();
+  const q=QUESTIONS[step]; setBar(step,`Question ${step+1} of ${N}`);
+  const sel=answers[q.id]||(q.type==="multi"?[]:null);
+  app.innerHTML=`<section class="screen" aria-labelledby="qh">
+   ${q.scene?SCENES[q.scene]:""}
+   <h2 id="qh">${esc(q.q)}</h2>${q.help?`<p class="help">${esc(q.help)}</p>`:`<div style="height:12px"></div>`}
+   ${q.examples?`<div class="examples" aria-label="Examples">${q.examples.map(e=>`<span>${e}</span>`).join("")}</div>`:""}
+   <div class="opts ${q.grid?"two":""}" role="group" aria-labelledby="qh">
+   ${q.opts.map(([v,l])=>{const on=q.type==="multi"?sel.includes(v):sel===v;
+     return `<button class="opt" data-kind="${q.type}" data-v="${v}" aria-pressed="${on}"><span class="tick" aria-hidden="true"></span><span>${esc(l)}</span></button>`}).join("")}
+   </div>
+   <div class="nav"><button class="btn" id="back">Back</button>
+   <button class="btn primary" id="next" ${isAnswered(q)?"":"disabled"}>${step===N-1?"See my plan":"Continue"}</button></div>
+   <p class="hint" id="hint" aria-live="polite">${isAnswered(q)?"":(q.type==="multi"?"Pick at least one answer to continue.":"Pick an answer to continue.")}</p>
+  </section>`;
+  app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>pick(q,b.dataset.v));
+  document.getElementById("back").onclick=()=>{step--;render();};
+  document.getElementById("next").onclick=()=>{step++;render();window.scrollTo(0,0);};
+  const h=document.getElementById("qh"); h.tabIndex=-1; if(step>0||document.activeElement!==document.body)h.focus({preventScroll:true});
+}
+function pick(q,v){
+  if(q.type==="single"){answers[q.id]=v;}
+  else{let cur=[...(answers[q.id]||[])];
+    if(v===q.exclusive)cur=cur.includes(v)?[]:[v];
+    else{cur=cur.filter(x=>x!==q.exclusive);
+      if(cur.includes(v))cur=cur.filter(x=>x!==v);
+      else{if(q.max&&cur.length>=q.max){document.getElementById("hint").textContent=`You can pick up to ${q.max}. Tap one again to remove it.`;return;}cur.push(v);}}
+    answers[q.id]=cur;}
+  const scroll=window.scrollY; render(); window.scrollTo(0,scroll);
+  const b=app.querySelector(`.opt[data-v="${v}"]`); if(b)b.focus({preventScroll:true});
+}
+
+function card(item,kind){const c=COURSES[item.id];
+  const meta=`<div class="meta"><span>${c.cat}</span><span>${c.h} hours</span>${item.after?`<span class="after">After ${esc(COURSES[item.after].name)}</span>`:""}</div>`;
+  if(kind==="start")return `<article class="start"><div class="lbl">Start here</div><h3>${esc(c.name)}</h3>${meta}
+    <div class="why">${esc(item.why)}</div><button class="cta" data-c="${item.id}">Start this course</button><div class="toast" aria-live="polite"></div></article>`;
+  return `<article class="course">${meta}<h3>${esc(c.name)}</h3><p>${esc(item.why)}</p>
+    <button class="cta" data-c="${item.id}">${kind==="later"?"Save for later":"Add to my plan"}</button><div class="toast" aria-live="polite"></div></article>`;}
+
+function summary(r){
+  const a=answers, s=new Set(r.skills);
+  const goals=(a.goals||[]).map(g=>LABELS.goals[g]).join(", ");
+  const phone=s.has("web_search")&&s.has("online_forms")?"Comfortable online":s.has("web_search")?"Uses search and messages":s.has("phone_typing")?"Uses WhatsApp":"Starting out";
+  const comp=s.has("spreadsheet")?"Uses Excel and documents":s.has("computer_basics")?"Has used a computer":"Not yet";
+  const ai={never:"New to AI apps",once:"Tried AI once or twice",month:"Uses AI every month",week:"Uses AI every week"}[a.aiUse];
+  const eng=s.has("eng_basic")&&s.has("eng_reading")?"Can speak and read some English":s.has("eng_reading")?"Can read simple English":s.has("eng_basic")?"Can speak some English":"Building English basics";
+  return [["Trade",LABELS.trade[a.trade]],["Goals",goals],["Studies",LABELS.education[a.education]],["Phone",phone],["Computer",comp],["AI apps",ai],["English at work",eng]];
+}
+function results(){
+  setBar(N,"Your plan is ready"); const r=recommend(answers);
+  app.innerHTML=`<section class="screen"><div class="plan-head"><h1>Here is your learning plan</h1>
+   <p class="help">We matched your answers to what each course needs and teaches. Start with the first course today.</p></div>
+   ${card(r.start,"start")}
+   ${r.next.length?`<h2 class="sec">Next</h2>${r.next.map(n=>card(n,"next")).join("")}`:""}
+   ${r.later.length?`<h2 class="sec">You may also like</h2>${r.later.map(n=>card(n,"later")).join("")}`:""}
+   <h2 class="sec">What we understood about you</h2>
+   <div class="understood">${summary(r).map(([k,v])=>`<div><span>${k}</span><span>${esc(v)}</span></div>`).join("")}</div>
+   <div class="nav"><button class="btn" id="change">Change my answers</button><button class="btn primary" id="again">Start again</button></div>
+   ${r.start.id!=="AA1"?`<p class="hint"><a href="${COURSE_URL.AA1}" style="color:var(--blue);font-weight:600">Go to the Applied AI course</a></p>`:""}
+  </section>`;
+  try{localStorage.setItem(DONE_KEY,"1");}catch(e){}
+  /* Applied AI opens the course page; courses not on this site yet say so */
+  app.querySelectorAll(".cta").forEach(b=>b.onclick=()=>{const t=b.nextElementSibling;
+    if(COURSE_URL[b.dataset.c]){t.textContent="Opening the course…";location.href=COURSE_URL[b.dataset.c];return;}
+    t.textContent="This course is coming soon to Swift AI Academy.";});
+  document.getElementById("change").onclick=()=>{step=0;render();};
+  document.getElementById("again").onclick=()=>{Object.keys(answers).forEach(k=>delete answers[k]);step=-1;render();};
+  window.scrollTo(0,0);
+}
+render();
+</script>
 </body>
 </html>
