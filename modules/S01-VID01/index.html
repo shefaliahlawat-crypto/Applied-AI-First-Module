@@ -58,6 +58,16 @@
           </div>
         </div>
         <span class="time" id="timeLabel">0:00 / 0:00</span>
+        <label class="speed" title="Playback speed">
+          <span class="sr-only">Playback speed</span>
+          <select id="speedSel" aria-label="Playback speed">
+            <option value="0.5">0.5×</option>
+            <option value="0.75" selected>0.75× Normal</option>
+            <option value="1">1×</option>
+            <option value="1.25">1.25×</option>
+            <option value="1.5">1.5×</option>
+          </select>
+        </label>
       </div>
     </div>
 
@@ -86,6 +96,7 @@
 
 <script src="script.js"></script>
 <script src="caption-fix.js"></script>
+<script src="speed.js"></script>
 <script src="../../shared/course.js"></script>
 </body>
 </html>
