@@ -180,7 +180,7 @@ window.FG = {
         ],
         "answer_key": [
           {
-            "q": "Neha notices that AI has added a detail that was not in her original source. What should she do?",
+            "q": "Sameer notices that AI has added a detail that was not in the company report. What should he do?",
             "a": "Check the original source and remove or correct it. Sounding believable is not proof."
           },
           {

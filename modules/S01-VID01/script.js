@@ -7,9 +7,9 @@
 (function(){
   var CHECKPOINTS = [
     {
-      time: 94,
+      time: 90,
       title: 'Spot an added fact',
-      question: 'Neha notices that AI has added a detail that was not in her original source. What should she do?',
+      question: 'Sameer notices that AI has added a detail that was not in the company report. What should he do?',
       options: [
         'Keep it if it sounds believable',
         'Check the original source and remove or correct it',
