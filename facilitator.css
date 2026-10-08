@@ -133,3 +133,59 @@
   body::before,body::after,.fg-nav,.fg-tools,.fg-switch,.fg-open,.fg-chev{display:none!important}
   .fg-item{break-inside:avoid}
 }
+
+/* ---------- v2: objectives, click-to-open panels, module-wide toolkit ---------- */
+.fg-sum-obj{display:block;font-size:13px;color:var(--muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fg-item[open] .fg-sum-obj{display:none}
+.fg-obj{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:12px;background:var(--ok-tint, rgba(79,224,168,0.10));border:1px solid rgba(79,224,168,0.35);font-size:15px;line-height:1.5}
+.fg-obj b{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#6EE7B7;margin-bottom:2px}
+.fg-obj-ic{flex:0 0 auto;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:rgba(79,224,168,0.15);color:#6EE7B7}
+.fg-obj-ic svg{width:16px;height:16px}
+
+.fg-panels{display:flex;flex-direction:column;gap:8px}
+.fg-panel{border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,0.025)}
+.fg-panel[open]{background:rgba(255,255,255,0.045);border-color:var(--line-2)}
+.fg-panel > summary{list-style:none;display:flex;align-items:center;gap:10px;padding:10px 12px;cursor:pointer;min-height:44px}
+.fg-panel > summary::-webkit-details-marker{display:none}
+.fg-panel > summary:hover{background:rgba(255,255,255,0.03)}
+.fg-p-ic{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:var(--blue-tint);color:var(--blue-light);flex:0 0 auto}
+.fg-p-ic svg{width:14px;height:14px}
+.fg-p-t{flex:1;font-size:14px;font-weight:600;color:var(--ivory)}
+.fg-p-chev{color:var(--muted);transition:transform .2s;display:grid}
+.fg-p-chev svg{width:14px;height:14px}
+.fg-panel[open] > summary .fg-p-chev{transform:rotate(180deg)}
+.fg-p-body{padding:4px 14px 14px;display:flex;flex-direction:column;gap:10px}
+.fg-sub{background:none}
+
+.fg-dl{margin:0;display:flex;flex-direction:column;gap:8px}
+.fg-row{display:grid;grid-template-columns:170px 1fr;gap:12px;font-size:14.5px;line-height:1.5}
+.fg-row dt{color:var(--dim);font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;padding-top:2px}
+.fg-row dd{margin:0;color:var(--text)}
+.fg-rubric{width:100%;border-collapse:collapse;font-size:14px}
+.fg-rubric th{width:120px;text-align:left;vertical-align:top;padding:8px 10px 8px 0;color:var(--ivory);font-weight:600}
+.fg-rubric td{padding:8px 0;color:var(--muted);border-bottom:1px solid var(--line)}
+.fg-rubric tr:last-child td{border-bottom:0}
+.fg-todo{color:var(--gold-2)!important;font-style:italic}
+
+/* toolkit under the title */
+.fg-toolkit{display:flex;flex-direction:column;gap:8px;margin-bottom:var(--sp-3)}
+.fg-panel.tk{border-radius:14px;background:var(--glass-2)}
+.fg-panel.tk > summary{min-height:52px;padding:12px 14px}
+.fg-panel.tk .fg-p-t{font-size:15px}
+.fg-grid-3{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.fg-check{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.fg-check label{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.45;cursor:pointer}
+.fg-check input{margin-top:3px;width:16px;height:16px;accent-color:#4FE0A8;flex:0 0 auto}
+.fg-check input:checked + span{color:var(--dim);text-decoration:line-through}
+.fg-note{font-size:13px;color:var(--muted)}
+.fg-link{background:none;border:0;color:var(--blue-light);font:600 13px var(--font);cursor:pointer;padding:0 4px}
+.fg-table{width:100%;border-collapse:collapse;font-size:14px}
+.fg-table th{text-align:left;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);padding:6px 10px 6px 0;border-bottom:1px solid var(--line-2)}
+.fg-table td{padding:9px 10px 9px 0;border-bottom:1px solid var(--line);vertical-align:top;color:var(--text)}
+.fg-sec-goals-wrap{margin-bottom:var(--sp-3)}
+@media (max-width:760px){
+  .fg-row{grid-template-columns:1fr;gap:2px}
+  .fg-table thead{display:none}
+  .fg-table td{display:block;border:0;padding:2px 0}
+  .fg-table tr{display:block;padding:8px 0;border-bottom:1px solid var(--line)}
+}
