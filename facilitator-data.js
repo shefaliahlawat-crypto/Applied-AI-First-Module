@@ -158,24 +158,6 @@ window.FG = {
           "fix": "Stop. Delete it. Use a made-up one. If it was already sent, tell the programme or IT contact."
         }
       ],
-      "escalation": [
-        {
-          "when": "The approved AI tool or the internet is down for the whole room.",
-          "who": "[Add name and contact]"
-        },
-        {
-          "when": "Real personal data was sent to an AI tool, or this keeps happening.",
-          "who": "[Add name and contact]"
-        },
-        {
-          "when": "A policy or grading question you are not sure about.",
-          "who": "[Add name and contact]"
-        },
-        {
-          "when": "A wrong AI answer affected a learner's graded work. Tell them the same day.",
-          "who": "[Add name and contact]"
-        }
-      ],
       "accommodations": [
         "Let learners use read-aloud buttons and zoom for bigger text.",
         "Pair a nervous or stuck learner with a buddy. Do not do the work for them.",

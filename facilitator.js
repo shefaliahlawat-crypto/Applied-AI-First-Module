@@ -146,7 +146,6 @@ function toolkit() {
   const s = t.support || {};
   const support = `
     ${box('Common technical problems', qa(s.tech, 'issue', 'fix'))}
-    ${has(s.escalation) ? `<div class="fg-box"><h3>Who to contact</h3><table class="fg-rubric"><tbody>${s.escalation.map((r) => `<tr><th>${esc(r.when)}</th><td class="${/^\[/.test(r.who) ? 'fg-todo' : ''}">${esc(r.who)}</td></tr>`).join('')}</tbody></table></div>` : ''}
     <div class="fg-grid">${box('Accommodations', list(s.accommodations))}${box('Learners who fall behind', steps(s.behind))}</div>
     ${box('FAQs', qa(s.faqs))}`;
   const fb = has(t.feedback) ? `<table class="fg-table"><thead><tr><th>What</th><th>When</th><th>How</th></tr></thead><tbody>${t.feedback.map((r) => `<tr><td>${esc(r.what)}</td><td>${esc(r.when)}</td><td>${esc(r.how)}</td></tr>`).join('')}</tbody></table>` : '';
