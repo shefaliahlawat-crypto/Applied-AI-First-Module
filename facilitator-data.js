@@ -103,107 +103,109 @@ window.FG = {
       "ready": true,
       "title": "Why You Are Not Behind",
       "type": "Video",
-      "duration": "about 2.5 min",
-      "why": "AI can add a detail that was never in the source and say it with confidence. This video shows that happening, so learners stop trusting an answer just because it sounds sure.",
+      "duration": "about 2.5 min (plays at 0.75× by default)",
+      "why": "Many learners feel they are too late for AI. This video shows four ordinary people, none of them AI experts, using AI for everyday tasks, and the one rule they all follow: ask, inspect, use.",
       "learn": [
-        "AI can add facts that were not in the original source",
-        "Sounding confident is not proof that something is true",
-        "AI can help with wording, but facts still need checking"
+        "You do not need to know everything about AI. Start with one small task.",
+        "Ask clearly, inspect what AI gives you, and only then use it",
+        "AI can be wrong: Sameer finds made-up details and gets them fixed",
+        "When the facts match, as for Pooja, Neha and Arjun, the answer can be used"
       ],
       "perform": [
-        "Spot a detail the AI added that is not in the source",
-        "Check important facts against the source before using an answer",
-        "Correct or remove a detail that cannot be checked"
+        "Say the three steps: ask, inspect, use",
+        "Check an AI answer against a trusted source before using it",
+        "Point out a wrong detail and ask the AI to correct it"
       ],
       "output": "",
       "pass": "The video pauses twice with a question. Learners answer correctly to keep watching.",
       "prep": [
         "Headphones or speakers for each device",
-        "A device that can play video; it is about 49 MB, so load it on good internet"
+        "The video is about 48 MB, so load it on good internet",
+        "Show learners the CC button (captions on/off) and the speed menu"
       ],
       "watch": [
-        "Learners who keep a detail because it sounds believable",
-        "Learners who think checking means only spelling or tone"
+        "Learners who think they must be experts before they start",
+        "Learners who trust AI fully, or distrust it fully, after watching"
       ],
-      "objective": "By the end, learners will be able to spot a detail AI added that is not in the source, and check it before use.",
+      "objective": "By the end, learners will be able to explain the ask, inspect, use rule and say why checking an AI answer comes before using it.",
       "run": {
-        "open": "Ask: 'Has a confident friend ever told you something wrong?' Say today's video shows AI doing the same thing.",
-        "explain": "Tell learners the video pauses twice with a question. They must pick the right answer to keep watching.",
-        "discuss": "After the video, ask what detail Neha's AI added, and how she could tell it was not in the source.",
-        "breakout": "Pairs watch together and agree on each checkpoint answer before clicking. Each partner explains one choice.",
-        "close": "Recap: confident is not the same as correct; check facts against the source. Link to the reading on what an AI tool is."
+        "open": "Ask: 'Who here feels they are behind with AI?' Say the people in this video felt the same, and none were experts.",
+        "explain": "Tell learners the video pauses twice with a question. They pick the right answer to keep watching. CC and speed controls are on the bar.",
+        "discuss": "After the video, ask what each person checked: Pooja her notebook, Sameer the report, Neha her sales data, Arjun the notice.",
+        "breakout": "Pairs pick one person from the video and say what they asked, what they inspected, and when they used it.",
+        "close": "Recap the rule: ask, inspect, use. Link to the reading on what an AI tool is."
       },
       "engage": {
         "prompts": [
-          "Watch for the moment the AI says something that was never in the source.",
-          "If a sentence sounds sure, does that make it true?"
+          "Who in the video caught the AI making a mistake?",
+          "What did each person check the AI answer against?"
         ],
-        "poll": "Have you ever trusted an answer because it sounded confident? Yes / Not sure / No",
+        "poll": "Before today, how did you feel about using AI? Behind / Curious / Already using it",
         "quiz": [
           {
-            "q": "AI adds a detail that was not in your source. What do you do?",
-            "a": "Check the original source, then correct or remove the detail."
+            "q": "What is the one rule all four people follow?",
+            "a": "Ask, inspect, and use."
           },
           {
-            "q": "Is a confident AI answer proof that it is true?",
-            "a": "No. Important facts still need checking against the source."
+            "q": "What did Sameer do when the AI got details wrong?",
+            "a": "He checked the report, pointed out the error and asked the AI to fix it."
           }
         ],
         "discussion": [
-          "Where in your study or work could an added detail cause a real problem?",
-          "What can AI safely help with, and what must you always check yourself?"
+          "Which small task in your study or work could you try with AI first?",
+          "What would you check the answer against?"
         ],
-        "peer": "Partners each explain one checkpoint answer to the other in their own words.",
-        "quiet": "Ask quieter learners to write their checkpoint answer on paper or in chat first, then share it."
+        "peer": "Partners each explain one person's story using the words ask, inspect and use.",
+        "quiet": "Ask quieter learners to write which person they relate to most, then share if they want to."
       },
       "assess": {
         "criteria": [
-          "Answers both checkpoint questions correctly",
-          "Can explain why a confident detail still needs checking",
-          "Can say what to do with a detail not found in the source"
+          "Answers both pause-point questions correctly",
+          "Can name the three steps: ask, inspect, use",
+          "Can say what to check an AI answer against"
         ],
         "rubric": [
           {
             "level": "Strong",
-            "looks_like": "Gets both checkpoints right first time and explains why in their own words."
+            "looks_like": "Gets both questions right first time and explains the rule with an example from the video."
           },
           {
             "level": "Developing",
-            "looks_like": "Gets checkpoints right after a retry; explanation is partial or vague."
+            "looks_like": "Gets the questions right after a retry; can name the rule but not explain it."
           },
           {
             "level": "Not yet",
-            "looks_like": "Guesses through retries; still thinks a confident answer can be trusted."
+            "looks_like": "Guesses through retries; still thinks a confident AI answer can be used as it is."
           }
         ],
         "answer_key": [
           {
             "q": "Neha notices that AI has added a detail that was not in her original source. What should she do?",
-            "a": "Check the original source and remove or correct it. Sounding believable or confident is not proof."
+            "a": "Check the original source and remove or correct it. Sounding believable is not proof."
           },
           {
             "q": "Before using an AI answer, what should you check?",
-            "a": "Important facts against the source. Spelling or a professional tone alone is not enough."
+            "a": "Important facts against the source. Spelling or tone alone is not enough."
           }
         ],
         "feedback_examples": [
-          "Good catch on the added detail. Now say how you would check it against the source.",
-          "You picked 'sounds professional'. Tone is fine, but did you check the facts?"
+          "Good: you checked the facts before using it. That is the inspect step.",
+          "You picked 'sounds professional'. Tone is fine, but did you check the facts against the source?"
         ],
-        "returned": "Instantly on screen at each checkpoint; a wrong pick shows a hint and a 'Try again' button."
+        "returned": "Instantly on screen at each question; a wrong pick shows a hint and a 'Try again' button."
       },
       "support": [
         {
-          "issue": "The video loads slowly or stops (it is about 49 MB).",
-          "fix": "Load it on good internet before class, or play it once from the facilitator screen."
+          "issue": "The video loads slowly or stops.",
+          "fix": "Load it on good internet before class, or play it once for everyone on one screen."
         },
         {
-          "issue": "A learner tries to skip ahead past a question.",
-          "fix": "Explain the video stops at any unanswered checkpoint; they must answer to continue."
+          "issue": "A learner cannot follow the speech.",
+          "fix": "Keep CC on, or choose 0.5× in the speed menu."
         },
         {
-          "issue": "A learner keeps picking wrong answers to get past.",
-          "fix": "Pause them and ask what the video said to check, then let them retry."
+          "issue": "A learner tries to skip past a question.",
+          "fix": "The video stops at any unanswered question; they must answer to continue."
         }
       ]
     },
