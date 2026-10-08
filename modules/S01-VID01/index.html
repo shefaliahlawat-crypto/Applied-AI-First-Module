@@ -39,8 +39,9 @@
 
     <div class="player-card">
       <div class="player" id="player">
-        <video id="vid" src="video.mp4" playsinline preload="metadata"></video>
-        <canvas class="capfix" id="capfix" width="1920" height="1080" aria-hidden="true"></canvas>
+        <video id="vid" src="video.mp4" playsinline preload="metadata">
+          <track kind="captions" src="captions.vtt" srclang="en" label="English" default>
+        </video>
 
         <button type="button" class="big-play" id="bigPlay" aria-label="Play video">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
@@ -58,6 +59,7 @@
           </div>
         </div>
         <span class="time" id="timeLabel">0:00 / 0:00</span>
+        <button type="button" class="cc-btn" id="ccBtn" aria-pressed="true" aria-label="Captions on. Tap to turn off" title="Captions">CC</button>
         <label class="speed" title="Playback speed">
           <span class="sr-only">Playback speed</span>
           <select id="speedSel" aria-label="Playback speed">
@@ -95,7 +97,7 @@
 </div>
 
 <script src="script.js"></script>
-<script src="caption-fix.js"></script>
+<script src="captions.js"></script>
 <script src="speed.js"></script>
 <script src="../../shared/course.js"></script>
 </body>
