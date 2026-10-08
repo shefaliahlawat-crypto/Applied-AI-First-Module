@@ -133,8 +133,8 @@ function section(s, i) {
   </section>`;
 }
 
-/* ---------- module-wide toolkit: three panels under the title ---------- */
-const CK_KEY = 'mc1-fac-prep';
+/* ---------- module-wide toolkit: two short panels under the title ---------- */
+const CK_KEY = 'mc1-fac-prep-v2';
 function readChecks() { try { return JSON.parse(localStorage.getItem(CK_KEY)) || {}; } catch (e) { return {}; } }
 function toolkit() {
   const t = FG.toolkit; if (!t) return '';
@@ -145,14 +145,10 @@ function toolkit() {
   }).join('')}</ul></div>`).join('');
   const s = t.support || {};
   const support = `
-    ${box('Common technical problems', qa(s.tech, 'issue', 'fix'))}
-    <div class="fg-grid">${box('Accommodations', list(s.accommodations))}${box('Learners who fall behind', steps(s.behind))}</div>
-    ${box('FAQs', qa(s.faqs))}`;
-  const fb = has(t.feedback) ? `<table class="fg-table"><thead><tr><th>What</th><th>When</th><th>How</th></tr></thead><tbody>${t.feedback.map((r) => `<tr><td>${esc(r.what)}</td><td>${esc(r.when)}</td><td>${esc(r.how)}</td></tr>`).join('')}</tbody></table>` : '';
+    <div class="fg-grid">${box('Quick fixes', qa(s.tech, 'issue', 'fix'))}${box('If a learner falls behind', steps(s.behind))}</div>`;
   return `<div class="fg-toolkit">
-    ${panel('prep', 'Preparation checklist', `<p class="fg-note">Tick items as you go — your ticks are saved on this device. <button type="button" class="fg-link" id="ckReset">Clear ticks</button></p><div class="fg-grid fg-grid-3">${prep}</div>`, 'tk')}
+    ${panel('prep', 'Preparation checklist', `<p class="fg-note">Your ticks are saved on this device. <button type="button" class="fg-link" id="ckReset">Clear ticks</button></p><div class="fg-grid">${prep}</div>`, 'tk')}
     ${panel('support', 'Learner support', support, 'tk')}
-    ${panel('time', 'Feedback timetable', fb, 'tk')}
   </div>`;
 }
 

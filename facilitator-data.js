@@ -52,196 +52,50 @@ window.FG = {
   "toolkit": {
     "prep": [
       {
-        "group": "Platform access",
+        "group": "Before the session",
         "items": [
-          "Open the course page on every learner device and check the activity list loads.",
-          "Open the approved AI tool on every device and test one short prompt.",
-          "Check learner sign-in for the approved AI tool. Have sign-in help ready.",
-          "Tell learners the name of the approved AI tool. They write it in their Rulebook.",
-          "Plan buddy pairs or groups of 2 to 3 for shared devices.",
-          "Remind learners: progress saves only in that browser, on that device."
+          "Open the course page and each activity once.",
+          "Test the approved AI tool with one short prompt on each device.",
+          "Check headphones or speakers work.",
+          "Print the Marking Card, Prompt Card and worksheets as a backup.",
+          "Pair learners who will share a device."
         ]
       },
       {
-        "group": "Working links",
+        "group": "If something fails",
         "items": [
-          "Open each activity link from the course page once before the session.",
-          "Check the Resources pages' outside links open on a phone and on lab devices.",
-          "Open the interactive video and play the first minute.",
-          "Write the course page link on the board or on a printed slip."
-        ]
-      },
-      {
-        "group": "Downloadable resources",
-        "items": [
-          "Test one download (PDF or text file) on each type of device in the room.",
-          "Agree how learners will share their downloaded files with you.",
-          "On shared devices, remind learners to download their file, then clear it.",
-          "Suggest Wi-Fi for the large PDF guide on the Resources page.",
-          "Be ready to view answers on screen if a learner cannot download."
-        ]
-      },
-      {
-        "group": "Slides and materials",
-        "items": [
-          "There is no slide deck. If you use your own slides, use made-up examples only.",
-          "Print the Prompt Card and paper worksheets in case the internet fails.",
-          "Print and laminate the Marking Card PDF for each workstation.",
-          "Print the Ten Starter Prompts card if learners will use it in the lab.",
-          "Get the fictional demo records from the Facilitator Kits ready. Note the planted errors.",
-          "Keep the workshop safety chart, or the exam timetable and syllabus, within reach.",
-          "Write a few made-up names and numbers on the board."
-        ]
-      },
-      {
-        "group": "Assessments",
-        "items": [
-          "Know the pass rule: Section Checks need 70%, with unlimited tries.",
-          "Know the must-pass steps: Practice Bot rounds, both labs and the Rulebook page in Check Before You Use.",
-          "Checkpoint 1: open the AI tool on the device and close all other apps.",
-          "Checkpoint 1: set the learner ID, lane, an unseen task variant and a 4-digit PIN.",
-          "Checkpoint 1: keep the offline pack ready. The clock runs for 30 minutes.",
-          "Portfolio: tell learners the six items to attach and the allowed file types."
-        ]
-      },
-      {
-        "group": "Accessibility checks",
-        "items": [
-          "Check the video's on-screen captions are easy to read on your devices.",
-          "Check headphones or speakers work, so learners can use read-aloud buttons.",
-          "Show learners how to zoom in (Ctrl and +) for bigger text.",
-          "Check colours and text are clear on the projector and on phone screens.",
-          "Show the Gujarati option in activities that have one.",
-          "Check activities work with the keyboard alone (Tab and Enter)."
-        ]
-      },
-      {
-        "group": "Technology backup plan",
-        "items": [
-          "No internet: switch to the printed Prompt Card, Marking Card and paper worksheets.",
-          "Print the demo records and AI answers, so labs can run on paper.",
-          "Shared devices: rotate every 10 minutes on a timer everyone can see.",
-          "AI tool blocked on a device: pair the learner with a neighbour. Log the problem.",
-          "Checkpoint tool fails: pause the clock, try once to reconnect, then use the offline pack.",
-          "Know who to contact for IT and policy questions before the session."
+          "No internet: switch to the printed cards and worksheets.",
+          "AI tool blocked: pair the learner with a neighbour.",
+          "Video slow: play it once for everyone on one screen."
         ]
       }
     ],
     "support": {
       "tech": [
         {
-          "issue": "The AI tool will not load on a device.",
-          "fix": "Pair the learner with a neighbour or use the printed card. Log the device problem after the session."
+          "issue": "The AI tool will not load.",
+          "fix": "Pair the learner with a neighbour or use the printed card."
         },
         {
-          "issue": "The tool asks for payment or a login you did not expect.",
-          "fix": "Stop and close it. Use only the approved tool. Tell the IT contact right away."
+          "issue": "Progress is missing.",
+          "fix": "Progress saves on one device and browser. Use the same one."
         },
         {
-          "issue": "The video will not play, or the internet is slow.",
-          "fix": "The video is about 49 MB. Load it on good Wi-Fi, or watch together on one screen."
+          "issue": "The page looks old.",
+          "fix": "Press Ctrl+F5 to refresh it."
         },
         {
-          "issue": "A download is blocked on a shared device.",
-          "fix": "Look at the learner's answers on screen and note them. Try the download later on another device."
-        },
-        {
-          "issue": "A learner's progress is missing.",
-          "fix": "Progress saves only in one browser on one device. Ask them to use the same device and browser."
-        },
-        {
-          "issue": "A page looks old or does not show a change.",
-          "fix": "Press Ctrl+F5 to fully refresh the page."
-        },
-        {
-          "issue": "A learner typed a real phone number, ID or marks into the AI tool.",
-          "fix": "Stop. Delete it. Use a made-up one. If it was already sent, tell the programme or IT contact."
-        }
-      ],
-      "accommodations": [
-        "Let learners use read-aloud buttons and zoom for bigger text.",
-        "Pair a nervous or stuck learner with a buddy. Do not do the work for them.",
-        "If a lab timer causes clear stress, quietly give more time.",
-        "Give slow finishers 5 extra minutes before the review.",
-        "Allow a short switch into another language in discussion. Do not penalise it.",
-        "Offer paper cards and worksheets to learners without a working device."
-      ],
-      "faqs": [
-        {
-          "q": "Which AI tool should I use?",
-          "a": "Only the approved tool for this programme. Other tools may not be safe or free."
-        },
-        {
-          "q": "Can I use my real name or numbers in examples?",
-          "a": "No. Use made-up names, dates and numbers only."
-        },
-        {
-          "q": "Is a longer request always better?",
-          "a": "No. A long request can still be unclear. Clear beats long."
-        },
-        {
-          "q": "Can the AI check its own answer?",
-          "a": "Partly. It can point to weak spots, but you must check them against a trusted source."
-        },
-        {
-          "q": "I failed the Section Check. What now?",
-          "a": "Try again right away. Tries are unlimited. Re-reading the reading first helps."
-        },
-        {
-          "q": "The AI gave two different answers. Which is right?",
-          "a": "Neither is right by default. Check both against a real record."
-        },
-        {
-          "q": "Does my spelling need to be perfect?",
-          "a": "No. Being clear matters more than being perfect."
+          "issue": "A learner typed real personal details.",
+          "fix": "Stop, delete it, and use made-up details instead."
         }
       ],
       "behind": [
-        "Pair the learner with a batchmate who has finished one round. Do not do it for them.",
-        "Start them from the worked example in the reading.",
-        "If their device stops working, move them to the printed card and worksheet. Rejoin at the break.",
-        "If time is short in the correction lab, finish the ending first, then the corrections.",
-        "If a must-pass step is not cleared, note it and plan a short follow-up session.",
-        "Never mark a learner complete after only an attempt."
+        "Pair them with a batchmate who has finished. Do not do it for them.",
+        "Restart them from the worked example in the reading.",
+        "Plan a short catch-up if a must-pass step is not done."
       ]
     },
-    "feedback": [
-      {
-        "what": "Answers inside activities",
-        "when": "Instantly",
-        "how": "On screen, after each answer."
-      },
-      {
-        "what": "Practice Bots",
-        "when": "Instantly",
-        "how": "The bot replies in the chat. Missed points come back with a new example."
-      },
-      {
-        "what": "Section Checks",
-        "when": "Instantly, after each try",
-        "how": "Score and explanations on screen, plus a results file. Unlimited tries."
-      },
-      {
-        "what": "Lab logs and evidence files",
-        "when": "Aim within 2 working days",
-        "how": "Facilitator reads the shared file and gives written or spoken comments."
-      },
-      {
-        "what": "Peer Exchange",
-        "when": "During the session",
-        "how": "From the partner: one strength, one risk and one suggested change."
-      },
-      {
-        "what": "Checkpoint 1 decision",
-        "when": "Same sitting, once the assessor saves the decision",
-        "how": "Learner sees the result on screen. If not yet passed: feedback and practice, then a new task on a later day."
-      },
-      {
-        "what": "Portfolio (Proof File)",
-        "when": "After submission",
-        "how": "Assessor reviews the six items. The learner can resubmit after feedback."
-      }
-    ]
+    "feedback": []
   },
   "activities": [
     {
