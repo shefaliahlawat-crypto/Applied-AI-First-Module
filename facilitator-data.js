@@ -1140,10 +1140,10 @@ window.FG = {
     },
     {
       "code": "S02-VID02",
-      "ready": false,
+      "ready": true,
       "title": "Bad to Usable in Six Turns",
       "type": "Video",
-      "duration": "",
+      "duration": "about 2 min",
       "why": "Unedited screen recording of one output improved through six follow-up instructions. Shows the moves, not the theory.",
       "learn": [],
       "perform": [],

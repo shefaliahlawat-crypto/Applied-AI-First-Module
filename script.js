@@ -27,7 +27,7 @@ const SEGMENTS = [
   ['S01-FAC01',  'Facilitator Kit', 'fac'],
 
   ['S02-VID01',  'The Four Things Every Request Needs', 'video', true],
-  ['S02-VID02',  'Bad to Usable in Six Turns', 'video'],
+  ['S02-VID02',  'Bad to Usable in Six Turns', 'video', true],
   ['S02-READ01', 'Framing and the Five Refinement Moves', 'read', true],
   ['S02-CARD01', 'Request Builder and Refinement Card', 'card', true],
   ['S02-LAB01',  'Rewrite Five Weak Requests', 'lab', true],
