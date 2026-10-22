@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<!--
+  Interactive video with in-line multiple-choice checkpoints.
+  Keep index.html, style.css, script.js, video.mp4 and assets/ in the same folder.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Four Things Every Request Needs — Swift AI Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Lora:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="saa-header vh-header">
+    <div class="saa-hd-brand" aria-label="Swift AI Academy">
+      <img src="../../assets/logo-mark.webp" alt="" width="30" height="27">
+      <span class="saa-wm"><span class="n">Swift AI</span><span class="s">Academy</span></span>
+    </div>
+    <div class="saa-hd-ttl">
+      <p class="saa-hd-eb">Framing and Refining</p>
+      <p class="saa-hd-h">The Four Things Every Request Needs</p>
+    </div>
+    <div class="saa-header-actions">
+      <button type="button" class="saa-ghost-pill" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        Close
+      </button>
+    </div>
+  </header>
+<div class="app">
+
+  <main class="stage">
+    <div class="intro">
+      <p class="lead">Watch how a request gets better when it has all four parts.</p>
+    </div>
+
+    <div class="player-card">
+      <div class="player" id="player">
+        <video id="vid" src="video.mp4" playsinline preload="metadata">
+        </video>
+
+        <button type="button" class="big-play" id="bigPlay" aria-label="Play video">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
+        </button>
+      </div>
+
+      <div class="controls">
+        <button type="button" class="ctrl-btn" id="playBtn" aria-label="Play">
+          <svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
+          <svg class="i-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6.5" y="5" width="4" height="14" rx="1"/><rect x="13.5" y="5" width="4" height="14" rx="1"/></svg>
+        </button>
+        <div class="scrub" id="scrub">
+          <div class="scrub-track" id="scrubTrack">
+            <div class="scrub-fill" id="scrubFill"></div>
+          </div>
+        </div>
+        <span class="time" id="timeLabel">0:00 / 0:00</span>
+        <label class="speed" title="Playback speed">
+          <span class="sr-only">Playback speed</span>
+          <select id="speedSel" aria-label="Playback speed">
+            <option value="0.5">0.5×</option>
+            <option value="0.75">0.75×</option>
+            <option value="1" selected>1× Normal</option>
+            <option value="1.25">1.25×</option>
+            <option value="1.5">1.5×</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div class="checkpoints" id="cpList" aria-label="Checkpoints"></div>
+  </main>
+</div>
+
+<div class="quiz" id="quiz" hidden role="dialog" aria-modal="true" aria-labelledby="quizQ">
+  <div class="quiz-card">
+    <div class="quiz-top">
+      <span class="saa-eyebrow" id="quizKicker">Checkpoint</span>
+      <span class="quiz-time" id="quizTime"></span>
+    </div>
+    <h2 id="quizQ"></h2>
+    <ul class="opts" id="quizOpts"></ul>
+    <p class="feedback" id="quizResult" aria-live="polite"></p>
+    <div class="quiz-foot">
+      <button type="button" class="saa-btn-secondary" id="quizRetry" hidden>Try again</button>
+      <button type="button" class="saa-btn-primary" id="quizContinue" disabled>
+        Continue watching
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script src="speed.js"></script>
+<script src="../../shared/course.js"></script>
+</body>
+</html>

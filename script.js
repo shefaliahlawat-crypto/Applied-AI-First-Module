@@ -15,7 +15,7 @@ const SECTIONS = [
 
 const SEGMENTS = [
   ['S01-VID01',  'Why You Are Not Behind', 'video', true],
-  ['S01-VID02',  'Your First Prompt, On Screen', 'video'],
+  ['S01-VID02',  'Your First Prompt, On Screen', 'video', true],
   ['S01-READ01', 'What This Tool Actually Is', 'read', true],
   ['S01-CARD01', 'Ten Starter Prompts', 'card', true],
   ['S01-LAB01',  'Set Up and Send Ten Prompts', 'lab', true],
@@ -26,7 +26,7 @@ const SEGMENTS = [
   ['S01-RES01',  'Resources', 'res', true],
   ['S01-FAC01',  'Facilitator Kit', 'fac'],
 
-  ['S02-VID01',  'The Four Things Every Request Needs', 'video'],
+  ['S02-VID01',  'The Four Things Every Request Needs', 'video', true],
   ['S02-VID02',  'Bad to Usable in Six Turns', 'video'],
   ['S02-READ01', 'Framing and the Five Refinement Moves', 'read', true],
   ['S02-CARD01', 'Request Builder and Refinement Card', 'card', true],
