@@ -16,6 +16,7 @@
     date: 'Dates and times', place: 'Places and venues', number: 'Numbers and money',
     name: 'Names of people or companies', standard: 'Standards and sizes', extra: 'Extra details or rules nobody gave'
   };
+  const CAT_ICON = { date: 'date', place: 'campus', number: 'figure', name: 'name', standard: 'source-rating-plate', extra: 'extra' };
 
   /* ---------------- scenarios ----------------
      lane: which course lane gets this case (L6)
@@ -35,7 +36,7 @@
         ['Sockets and protection', ['Indian modular sockets: 6 ampere 5 pin and 16 ampere 3 pin', 'RCCB 30 milliampere on the distribution board', 'MCBs: 6, 10 and 16 ampere, B and C curve, in an SPN distribution board']]
       ],
       gaps: 'that the workshop is in India, which wiring standards to follow, and what level the trainees are at.',
-      whySpecific: 'Your prompt never said the workshop was in India. A lot of the wiring text the AI learned from is American, so it reached for American cable sizes, connectors and sockets. They sound expert, but they are wrong for an Indian workshop.',
+      whySpecific: 'Your prompt never said the workshop was in India. Much of the wiring text the AI learned from is American. So it gave American cable sizes, connectors and sockets. They sound expert, but they are wrong for an Indian workshop.',
       hint: { role: 'a workshop instructor at an Indian ITI', format: 'a checklist grouped by Safety, Tools, Testing, Wiring and Protection' },
       claims: [
         { t: 'Safety Glasses / Goggles: Protects eyes from flying copper clippings.', ok: true, why: 'Supported: safety glasses are on the card.' },
@@ -99,7 +100,7 @@
         ['Not given', 'How long the drill lasts, and any extinguisher demonstration. Anything specific here is made up.', true]
       ],
       gaps: 'the day, the time, where to gather, and the one safety step that matters most in an electrical workshop.',
-      whySpecific: 'Your prompt said "next week" but gave no day, time or place. The AI picked ones that sound normal for a school notice, and it skipped the step that matters most here: switching off the practice boards.',
+      whySpecific: 'Your prompt said "next week", but it gave no day, time or place. The AI picked ones that sound normal for a school notice. It also missed the step that matters most here: switch off the practice boards.',
       hint: { role: 'the Electrician trade instructor', format: 'a short notice with numbered steps' },
       claims: [
         { t: 'A fire safety drill will be held in the workshop next week.', ok: true, why: 'Supported: this is what the prompt and the card say.' },
@@ -107,7 +108,7 @@
         { t: 'Time: 9:00 AM to 10:00 AM', cat: 'date', why: 'The card says 11 am. It does not give an end time at all.' },
         { t: 'Venue: Main Ground, near the Principal\'s Office', cat: 'place', why: 'The card says the assembly point outside Workshop Block B.' },
         { t: 'When the alarm rings, leave your tools and move to the nearest exit.', cat: 'extra', why: 'It misses the key step on the card: switch off your practice board at its main switch first.' },
-        { t: 'Walk calmly. Do not run or use the lift.', ok: true, why: 'Supported: the card says walk, do not run. (The lift part is extra but harmless.)' },
+        { t: 'Walk calmly. Do not run or use the lift.', ok: true, why: 'Supported: the card says walk, do not run. The lift part is extra, but it does no harm.' },
         { t: 'A demonstration of CO2 and ABC fire extinguishers will be given by the local fire station team.', cat: 'extra', why: 'The card says no demonstration was given. This is invented.' },
         { t: 'Absent trainees will be marked absent for the day\'s practical.', cat: 'extra', why: 'No rule like this is on the card.' }
       ],
@@ -148,10 +149,10 @@ Principal
         ['Not given', 'End time, registration, certificates. Anything specific here is made up.', true]
       ],
       gaps: 'the topic, the date, the time, the venue, and who can attend.',
-      whySpecific: 'Your prompt gave only "Mechanical Engineering" and "Sunday afternoon". The AI filled every other line of a typical notice with something believable: a topic, a hall, a time, a registration deadline.',
+      whySpecific: 'Your prompt gave only "Mechanical Engineering" and "Sunday afternoon". The AI filled every other line of a usual notice with something believable: a topic, a hall, a time and a registration deadline.',
       hint: { role: 'the department office assistant', format: 'a short formal notice with a subject line' },
       claims: [
-        { t: 'The Department of Mechanical Engineering is organizing a practical hands-on workshop this coming weekend.', ok: true, why: 'Supported: the department and the weekend timing match. (Hands-on is not on the card.)' },
+        { t: 'The Department of Mechanical Engineering is organizing a practical hands-on workshop this coming weekend.', ok: true, why: 'Supported: the department and the weekend timing match. The card does not say hands-on.' },
         { t: 'Topic: Advanced Fabrication & Hands-on Machining Workshop', cat: 'extra', why: 'The card topic is the role of mechanical engineering in driving sustainability.' },
         { t: 'Date: Saturday, September 26, 2026', cat: 'date', why: 'The card says ' + fmt(comingSunday) + '.' },
         { t: 'Time: 02:00 PM to 05:00 PM (Second Half)', cat: 'date', why: 'The card says 3 pm, and gives no end time.' },
@@ -206,8 +207,8 @@ Head of Department, Mechanical Engineering`
         ['Hiring by sector', 'IT 40% · Consulting 25% · EdTech 10% · Core engineering 25%'],
         ['Not given', 'Company names, the selection process, feedback. Anything specific here is made up.', true]
       ],
-      gaps: 'every number: dates, company count, candidates, offers, salaries and the sector split.',
-      whySpecific: 'A report is mostly numbers, and your prompt gave none. The AI produced numbers that look like a real placement report, and even named real companies. Notice it also contradicts itself: "over 25 companies" in one place and "28" in another.',
+      gaps: 'any numbers: the dates, the number of companies, candidates and offers, the salaries or the sector split.',
+      whySpecific: 'A report is mostly numbers, and your prompt gave none. The AI made up numbers that look like a real placement report. It even named real companies. It also contradicts itself: "over 25 companies" in one place and "28" in another.',
       hint: { role: 'the placement cell coordinator', format: 'a one-page report with headings' },
       claims: [
         { t: 'REPORT ON ANNUAL CAMPUS PLACEMENT DRIVE 2026', ok: true, why: 'Supported: the card is about the annual campus placement drive.' },
@@ -260,8 +261,8 @@ Training & Placement Cell`
         ['What to bring', 'Project report and any other items needed for the presentation'],
         ['Not given', 'Presentation time, venue, and who is eligible. A careful answer leaves these as blanks to fill in. Any specific value is made up.', true]
       ],
-      gaps: 'the presentation time, the venue and who is eligible. The prompt asked for them but never supplied them.',
-      whySpecific: 'This prompt asked for details it never gave, so the AI invented a time, a lab number and eligibility rules. It also changed both dates, even though the prompt stated them clearly. Always check facts the AI should have copied, not just facts it had to guess.',
+      gaps: 'the presentation time, the venue and who is eligible. The prompt asked for them, but it never gave them.',
+      whySpecific: 'This prompt asked for details it never gave. So the AI made up a time, a lab number and eligibility rules. It also changed both dates, even though the prompt gave them clearly. Always check the facts the AI should have copied, not just the ones it had to guess.',
       hint: { role: 'the lab instructor', format: 'a short notice with a heading for each detail' },
       claims: [
         { t: 'Subject: Lab Project Submission and Presentation Guidelines', ok: true, why: 'Supported: the notice is about submission and presentation.' },
@@ -270,7 +271,7 @@ Training & Placement Cell`
         { t: 'Presentation Date: Friday, October 2, 2026', cat: 'date', why: 'The card says Monday 19 October 2026.' },
         { t: 'Venue / Place: Main Project Laboratory (Lab 302) / Designated Seminar Room', cat: 'place', why: 'No venue is given. It should be a blank like [venue].' },
         { t: 'Eligible Candidates: All students who have completed the required lab sessions and continuous assessment submissions.', cat: 'extra', why: 'No eligibility rule is given. This is invented.' },
-        { t: 'Project Report: Printed and bound lab report formatted as per the guidelines.', ok: true, why: 'Supported: bring the project report. (Printed and bound is extra detail.)' },
+        { t: 'Project Report: Printed and bound lab report formatted as per the guidelines.', ok: true, why: 'Supported: bring the project report. "Printed and bound" is an extra detail.' },
         { t: 'Late submissions or failure to present without prior written permission will impact final evaluation scores.', cat: 'extra', why: 'No penalty rule is on the card.' }
       ],
       output: `NOTICE
@@ -302,62 +303,30 @@ Issued By:
     }
   ];
 
-  const SORT_ITEMS = [
-    { t: 'Your Aadhaar number', ok: false, why: 'Keep it out. ID numbers can be stored and misused.' },
-    { t: 'A made-up name, like "Trainee A"', ok: true, why: 'Fine. Fictional details are safe to use.' },
-    { t: "Your friend's phone number", ok: false, why: "Keep it out. It's someone else's private data." },
-    { t: 'The prompt given in this lab', ok: true, why: 'Fine. It contains no personal data.' },
-    { t: 'Your marks from last term', ok: false, why: 'Keep it out. Marks are confidential records.' }
-  ];
-  const QC = [
-    { t: 'Ask the same question again until the answer looks right.', ok: false, why: 'Asking again gives you a different answer, not a checked one. The gaps are still there.' },
-    { t: 'Add the facts you know, and tell the AI to say when something is missing.', ok: true, why: 'Right. Fill the gaps yourself, and give the AI permission to say "I don\'t know" instead of guessing.' },
-    { t: 'Ask for a longer, more detailed answer.', ok: false, why: 'A longer answer has more room for made-up details. Length doesn\'t fix missing facts.' }
-  ];
-
   /* ---------------- state ---------------- */
   const flow = ['rules', 'predict', 'practice', 'ask', 'check', 'why', 'rewrite', 'compare', 'review'];
   const byId = id => document.getElementById(id);
   const params = new URLSearchParams(location.search);
   let lane = ['iti', 'he'].includes(params.get('lane')) ? params.get('lane') : null;
   let scenario = null, previousId = null, current = 'start';
+  try { previousId = sessionStorage.getItem('wigw-prev'); sessionStorage.removeItem('wigw-prev'); } catch (e) {}
   const st = {};
   function resetState() {
-    Object.assign(st, { sort: {}, predict: new Set(), flags: new Set(), revealed: false, capture: '', outcome: '', recall: '', qc: null, qcRight: false, count1: 0, count2: 0, downloaded: false });
+    Object.assign(st, { predict: new Set(), flags: new Set(), revealed: false, capture: '', outcome: '', recall: '', count1: 0, count2: 0, downloaded: false, caught: 0, falseFlags: 0 });
   }
   resetState();
 
-  /* ---------------- sound (off by default, L14) ---------------- */
-  const sound = (() => {
-    let ctx = null, on = false;
-    try { on = localStorage.getItem('wigw-sound') === 'on'; } catch (e) {}
-    const tone = (f, s, l, g, type, f2) => {
-      try {
-        if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
-        if (ctx.state === 'suspended') ctx.resume();
-        const t = ctx.currentTime + s, o = ctx.createOscillator(), a = ctx.createGain();
-        o.type = type || 'sine'; o.frequency.setValueAtTime(f, t);
-        if (f2) o.frequency.exponentialRampToValueAtTime(f2, t + l * .75);
-        a.gain.setValueAtTime(.0001, t); a.gain.exponentialRampToValueAtTime(g, t + .008); a.gain.exponentialRampToValueAtTime(.0001, t + l);
-        o.connect(a); a.connect(ctx.destination); o.start(t); o.stop(t + l + .02);
-      } catch (e) {}
-    };
-    return {
-      get on() { return on; },
-      set on(v) { on = v; try { localStorage.setItem('wigw-sound', v ? 'on' : 'off'); } catch (e) {} },
-      tap() { if (on) tone(1250, 0, .06, .05, 'sine', 620); },
-      good() { if (on) { tone(880, 0, .3, .1); tone(1318.5, .09, .4, .1); } },
-      bad() { if (on) { tone(329.6, 0, .24, .08, 'triangle'); tone(261.6, .12, .3, .08, 'triangle'); } }
-    };
-  })();
-  const soundBtn = byId('sound-toggle');
-  const paintSound = () => { soundBtn.setAttribute('aria-pressed', String(sound.on)); soundBtn.setAttribute('aria-label', sound.on ? 'Sound effects on. Turn off' : 'Sound effects off. Turn on'); };
-  soundBtn.addEventListener('click', () => { sound.on = !sound.on; paintSound(); sound.tap(); });
-  paintSound();
+  /* ---------------- sound: the shared layer's effects (taps click by themselves; the header sound button turns them off) ---------------- */
+  const sound = {
+    tap() {},
+    good() { try { if (window.SAA_SFX) SAA_SFX.correct(); } catch (e) {} },
+    bad() { try { if (window.SAA_SFX) SAA_SFX.wrong(); } catch (e) {} }
+  };
 
   /* ---------------- helpers ---------------- */
   const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
   const svgUse = (id, cls) => { const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); s.setAttribute('class', cls || 'ic'); const u = document.createElementNS('http://www.w3.org/2000/svg', 'use'); u.setAttribute('href', '#' + id); s.append(u); return s; };
+  const icon = name => { const i = el('img', 'wg-ic'); i.src = 'assets/icons/icon-' + name + '.webp'; i.alt = ''; i.setAttribute('aria-hidden', 'true'); return i; };
   const val = id => byId(id).value.trim();
   const setRadio = (group, btn) => { group.querySelectorAll('[role=radio]').forEach(b => { const on = b === btn; b.setAttribute('aria-checked', String(on)); if (b.classList.contains('chip')) b.setAttribute('aria-pressed', String(on)); }); };
   const caseLabel = () => scenario.id.replace('case-', 'Case ');
@@ -365,6 +334,18 @@ Issued By:
   const cardText = () => scenario.groups
     ? scenario.cardTitle + ': ' + scenario.groups.map(g => g[0] + ': ' + g[1].join('; ')).join(' | ')
     : scenario.cardTitle + ': ' + scenario.rows.map(r => r[0] + ': ' + r[1]).join(' | ');
+
+  /* ---------------- typed answers: real words, not empty, emoji-only or a copy of the prompt.
+     Letters of any script count (Hindi and Gujarati too). ---------------- */
+  const letters = s => (s.match(/[\p{L}\p{N}]/gu) || []).length;
+  const squash = s => s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '');
+  const sameText = (a, b) => { const x = squash(a), y = squash(b); return x.length > 0 && x === y; };
+  /* check(id, min, words): '' when fine, or the reason it is not */
+  function weak(text, min) {
+    if (!text) return 'empty';
+    if (letters(text) < min) return 'short';
+    return '';
+  }
 
   /* ---------------- scenario assignment (L6) ---------------- */
   function assignScenario() {
@@ -381,10 +362,10 @@ Issued By:
       slot.replaceChildren();
       const card = el('section', 'check-card');
       card.setAttribute('aria-label', 'Check card');
-      const h = el('header'); h.append(el('b', '', scenario.cardTitle), el('span', 'tag', 'Check card · ' + caseLabel()));
+      const h = el('header'); const t = el('b', 'wg-card-t'); t.append(icon('verify'), el('span', '', scenario.cardTitle)); h.append(t, el('span', 'tag', 'Check card · ' + caseLabel()));
       card.append(h);
       if (scenario.focus) {
-        const f = el('div', 'focus-strip'); f.append(el('b', '', 'Look closely at'));
+        const f = el('div', 'focus-strip'); f.append(el('b', '', 'Key facts'));
         const ul = el('ul'); scenario.focus.forEach(x => ul.append(el('li', '', x))); f.append(ul); card.append(f);
       }
       if (scenario.groups) {
@@ -408,42 +389,29 @@ Issued By:
     document.querySelectorAll('[data-fill="prompt"]').forEach(n => { n.textContent = scenario.prompt; });
     document.querySelectorAll('[data-fill="output"]').forEach(n => { n.textContent = scenario.output; });
     document.querySelectorAll('[data-safety]').forEach(n => { n.hidden = !scenario.safety; });
+    /* where the case happens (no labels, so it does not hint at what is made up) */
+    document.querySelectorAll('[data-scene]').forEach(n => { n.src = 'assets/mocks/dark/' + (scenario.lane === 'iti' ? 'scene-iti-workshop' : 'scene-campus') + '.webp'; n.alt = scenario.lane === 'iti' ? 'An ITI workshop.' : 'A college campus.'; });
     renderCheckCard();
     byId('check-source').value = 'Check card, ' + caseLabel();
-    byId('gaps').textContent = 'Your prompt didn\'t say ' + scenario.gaps;
+    byId('gaps').textContent = 'Your prompt did not say ' + scenario.gaps;
     byId('why-specific').textContent = scenario.whySpecific;
     renderClaims();
   }
 
-  /* ---------------- rules sort (L7) ---------------- */
-  function renderSort() {
-    const list = byId('sort-list'); list.replaceChildren();
-    SORT_ITEMS.forEach((item, i) => {
-      const box = el('div', 'sort-item'); box.dataset.i = i;
-      const row = el('div', 'sort-row'); const what = el('span', 'what', item.t); what.id = 'sort-' + i;
-      const seg = el('div', 'seg'); seg.setAttribute('role', 'radiogroup'); seg.setAttribute('aria-labelledby', 'sort-' + i);
-      [['OK to type', true], ['Keep out', false]].forEach(([label, v]) => {
-        const b = el('button', '', label); b.type = 'button'; b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', 'false');
-        b.addEventListener('click', () => {
-          setRadio(seg, b); st.sort[i] = v; const right = v === item.ok;
-          box.classList.toggle('right', right); box.classList.toggle('wrong', !right);
-          fb.hidden = false; fb.className = 'feedback ' + (right ? 'ok' : 'no'); fb.textContent = (right ? 'Correct. ' : 'Not quite. ') + item.why;
-          right ? sound.good() : sound.bad(); updateLock();
-        });
-        seg.append(b);
-      });
-      const fb = el('p', 'feedback'); fb.hidden = true; fb.setAttribute('aria-live', 'polite');
-      row.append(what, seg); box.append(row, fb); list.append(box);
-    });
-  }
+  /* ---------------- rules: the sort kit + the 3 rule ticks (L7) ---------------- */
+  const rulesKit = () => document.querySelector('.page[data-page="rules"] .saa-kit');
+  const ruleTicks = () => [...byId('rules-ticks').querySelectorAll('input')];
+  const quickKit = () => document.querySelector('.page[data-page="why"] .saa-kit');
 
   /* ---------------- predict (E-L1) ---------------- */
   function renderPredict() {
     const list = byId('predict-list'); list.replaceChildren();
     Object.entries(CATS).forEach(([k, label]) => {
-      const b = el('button', 'option'); b.type = 'button'; b.setAttribute('aria-pressed', 'false');
-      b.append(el('span', 'dot'), document.createTextNode(label));
+      const b = el('button', 'option wg-opt'); b.type = 'button'; b.setAttribute('aria-pressed', 'false');
+      b.append(el('span', 'dot'), icon(CAT_ICON[k]), el('span', '', label));
       b.addEventListener('click', () => {
+        /* the guess is compared in the practice round: after that it stays as it was */
+        if (st.revealed) { need('Your guess is saved. You checked it in the practice round.'); return; }
         st.predict.has(k) ? st.predict.delete(k) : st.predict.add(k);
         b.setAttribute('aria-pressed', String(st.predict.has(k))); sound.tap(); updateLock();
       });
@@ -452,12 +420,13 @@ Issued By:
   }
   const predictLabels = () => [...st.predict].map(k => CATS[k].toLowerCase()).join(', ');
 
-  /* ---------------- practice: tap to flag (L1, E-L2) ---------------- */
+  /* ---------------- practice: tap to flag (L1, E-L2). Nothing on a line shows whether it is made up
+     until Check my flags; then the lines lock. ---------------- */
   function renderClaims() {
     const box = byId('claims'); box.replaceChildren(); box.classList.remove('revealed');
     scenario.claims.forEach((c, i) => {
       const b = el('button', 'claim'); b.type = 'button'; b.setAttribute('aria-pressed', 'false'); b.dataset.i = i;
-      const body = el('span'); body.append(el('span', 'verdict'), el('q', '', c.t), el('span', 'why', c.why));
+      const body = el('span'); body.append(el('span', 'verdict'), el('q', '', c.t), el('span', 'why'));
       b.append(el('span', 'flag'), body);
       b.addEventListener('click', () => {
         if (st.revealed) return;
@@ -467,6 +436,7 @@ Issued By:
       box.append(b);
     });
     byId('practice-score').hidden = true;
+    const w = byId('practice-why'); w.textContent = ''; w.className = 'saa-k-why wg-result';
   }
   function revealClaims() {
     st.revealed = true;
@@ -479,19 +449,27 @@ Issued By:
       else if (!c.ok) { cls = 'miss'; label = 'Missed · ' + CATS[c.cat]; }
       else if (flagged) { cls = 'false-flag'; label = 'This one is supported'; falseFlags++; }
       else { cls = 'ok'; label = 'Supported'; }
-      b.classList.add(cls); b.querySelector('.verdict').textContent = label; b.setAttribute('aria-disabled', 'true');
+      b.classList.add(cls); b.querySelector('.verdict').textContent = label;
+      if (!c.ok && CAT_ICON[c.cat]) { const vi = icon(CAT_ICON[c.cat]); vi.classList.add('verdict-ic'); b.querySelector('.verdict').prepend(vi); }   /* kind icon, only after Check */ b.querySelector('.why').textContent = c.why; b.setAttribute('aria-disabled', 'true');
     });
     const total = unsupportedClaims().length;
     st.caught = caught; st.falseFlags = falseFlags;
     const cats = [...new Set(unsupportedClaims().map(c => c.cat))];
     const guessed = cats.filter(k => st.predict.has(k));
     byId('score-big').textContent = caught + '/' + total;
-    byId('score-text').textContent = 'made-up details caught' + (falseFlags ? ', and ' + falseFlags + ' supported line' + (falseFlags > 1 ? 's' : '') + ' flagged by mistake' : '') + '. '
-      + 'Invented here: ' + cats.map(k => CATS[k].toLowerCase()).join(', ') + '. '
-      + (guessed.length ? 'Your prediction spotted ' + guessed.length + ' of these ' + cats.length + ' kinds.' : 'None of these were in your prediction.');
+    byId('score-text').textContent = 'made-up details caught.' + (falseFlags ? ' You flagged ' + falseFlags + ' supported line' + (falseFlags > 1 ? 's' : '') + ' by mistake.' : '') + ' '
+      + 'Made up here: ' + cats.map(k => CATS[k].toLowerCase()).join(', ') + '. '
+      + (guessed.length ? 'Your guess matched ' + guessed.length + ' of these ' + cats.length + ' kinds.' : 'Your guess did not include any of these kinds.');
     byId('practice-score').hidden = false;
-    caught >= total - 1 ? sound.good() : sound.bad();
-    byId('practice-score').closest('.pane').scrollTop = 0; byId('practice-score').closest('.card-body').scrollTop = 0;
+    /* one fixed, spoken line (the numbers above are read by the learner) */
+    const good = caught >= total - 1;
+    const w = byId('practice-why');
+    w.className = 'saa-k-why wg-result ' + (good ? 'ok' : 'no');
+    w.textContent = caught === total && !falseFlags ? 'Yes. You caught every made-up line, and you flagged nothing by mistake.'
+      : good ? 'Yes. You caught most of the made-up lines. Read the reason under each line.'
+      : 'Not quite. Some made-up lines got past you. Read the reason under each line.';
+    good ? sound.good() : sound.bad();
+    const work = byId('practice-score').closest('.wg-work'); if (work) work.scrollTop = 0;
   }
 
   /* ---------------- check: explicit outcome (L2) ---------------- */
@@ -505,7 +483,7 @@ Issued By:
     byId('consequence-wrap').hidden = !any;
     byId('source-wrap').hidden = !any;
     byId('predict-recall-wrap').hidden = !any;
-    byId('consequence-l').textContent = found ? 'What could happen if someone used it without checking?' : 'What could have gone wrong if it had guessed instead?';
+    byId('consequence-l').textContent = found ? 'What could happen if someone used it without checking?' : 'What could go wrong if it had guessed instead?';
     byId('recall-list').textContent = predictLabels();
   }
   byId('recall').querySelectorAll('[role=radio]').forEach(b => b.addEventListener('click', () => { setRadio(byId('recall'), b); st.recall = b.dataset.v; sound.tap(); updateLock(); }));
@@ -522,24 +500,6 @@ Issued By:
       st[key] = Math.max(0, Math.min(30, st[key] + Number(b.dataset.d))); byId(key).textContent = st[key]; sound.tap(); paintMeters(); updateLock();
     }));
   });
-
-  /* ---------------- why: quick check (L3) ---------------- */
-  function renderQC() {
-    const box = byId('qc'); box.replaceChildren(); const fb = byId('qc-feedback'); fb.hidden = true;
-    QC.forEach((q, i) => {
-      const b = el('button', 'option'); b.type = 'button'; b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', 'false');
-      b.append(el('span', 'dot'), document.createTextNode(q.t));
-      b.addEventListener('click', () => {
-        if (st.qcRight) return;
-        setRadio(box, b); st.qc = i;
-        box.querySelectorAll('.option').forEach(o => o.classList.remove('right', 'wrong'));
-        b.classList.add(q.ok ? 'right' : 'wrong');
-        fb.hidden = false; fb.className = 'feedback ' + (q.ok ? 'ok' : 'no'); fb.textContent = q.why + (q.ok ? '' : ' Try another option.');
-        st.qcRight = q.ok; q.ok ? sound.good() : sound.bad(); updateLock();
-      });
-      box.append(b);
-    });
-  }
 
   /* ---------------- rewrite builder (L4) ---------------- */
   const clean = s => s.trim().replace(/[.\s]+$/, '');
@@ -574,113 +534,130 @@ Issued By:
   function meterHTML(target) {
     const a = baseline(), b = st.count2, max = Math.max(a, b, 1);
     const box = byId(target); box.replaceChildren();
-    box.append(el('span', 'pane-title', 'Unsupported claims'));
+    box.append(el('span', 'pane-title', 'Unsupported details'));
     [[baselineLabel(), a, ''], ['Second answer', b, 'after']].forEach(([label, n, cls]) => {
       const row = el('div', 'meter-row ' + cls); const bar = el('span', 'bar'); const fill = el('i'); fill.style.width = (n / max * 100) + '%'; bar.append(fill);
       row.append(el('span', '', label), bar, el('b', '', String(n))); box.append(row);
     });
-    const note = a > b ? 'Down by ' + (a - b) + '. Your prompt left fewer gaps to fill.' : a === b ? 'No change yet. Check which facts the AI still had to guess.' : 'Up by ' + (b - a) + '. Look at what the new prompt left open.';
+    const note = a > b ? 'Down by ' + (a - b) + '. Your prompt left fewer gaps to fill.' : a === b ? 'No change yet. Check which facts the AI still had to guess.' : 'Up by ' + (b - a) + '. Look at what the new prompt still left out.';
     box.append(el('p', 'meter-note', note));
   }
   function paintMeters() { meterHTML('meter-compare'); meterHTML('meter-review'); }
 
-  /* ---------------- required fields and lock ---------------- */
+  /* ---------------- required work per screen: [{ ok, el, msg }] (the first one missing is spoken) ---------------- */
+  function typed(id, min, msgs, extra) {
+    const t = val(id), w = weak(t, min);
+    let msg = w === 'empty' ? msgs[0] : w === 'short' ? msgs[1] : '';
+    if (!msg && extra) msg = extra(t) || '';
+    return { ok: !msg, el: byId(id), msg: msg || msgs[0] };
+  }
   const requiredFor = {
-    rules: () => [...SORT_ITEMS.map((s, i) => ({ ok: st.sort[i] === s.ok, el: document.querySelector('.sort-item[data-i="' + i + '"]'), msg: 'Sort every item correctly before you continue.' })),
-                  { ok: byId('rules-ok').checked, el: byId('rules-tick-row'), msg: 'Tick the box to confirm the rules.' }],
-    predict: () => [{ ok: st.predict.size > 0, el: byId('predict-list'), msg: 'Pick at least one kind of detail.' }],
-    practice: () => [{ ok: st.revealed, el: byId('nav-next'), msg: 'Flag the lines, then press Check my flags.' }],
-    ask: () => [{ ok: Boolean(val('first-output')), el: byId('first-output'), msg: 'Paste the first AI answer.' },
-                { ok: Boolean(st.capture), el: byId('capture-chips'), msg: 'Choose how you captured the answer.' },
-                { ok: !byId('changed-prompt').checked || Boolean(val('assigned-prompt')), el: byId('assigned-prompt'), msg: 'Paste the prompt you actually used.' }],
+    rules: () => [{ ok: !!rulesKit() && rulesKit().classList.contains('is-done'), el: rulesKit(), msg: 'Sort all 5 items into the right box first.' },
+                  ...ruleTicks().map(i => ({ ok: i.checked, el: i.closest('.tick'), msg: 'Tick all 3 rules to agree to them.' }))],
+    predict: () => [{ ok: st.predict.size > 0, el: byId('predict-list'), msg: 'Pick at least 1 kind of detail.' },
+                    { ok: st.predict.size < Object.keys(CATS).length, el: byId('predict-list'), msg: 'Do not pick all 6. Leave out the kinds you do not expect.' }],
+    practice: () => [{ ok: st.revealed, el: byId('nav-next'), msg: 'Tap the lines you think are made up. Then press Check my flags.' }],
+    ask: () => [typed('first-output', 25, ['Paste the first AI answer.', 'This answer is too short. Paste the whole AI answer.'],
+                      t => sameText(t, scenario.prompt) ? 'That is the prompt. Paste the AI tool\'s answer instead.' : ''),
+                { ok: Boolean(st.capture), el: byId('capture-chips'), msg: 'Choose how you saved the answer.' },
+                ...(byId('changed-prompt').checked ? [typed('assigned-prompt', 15, ['Paste the prompt you really used.', 'This prompt is too short. Paste the whole prompt you used.'],
+                      t => sameText(t, scenario.prompt) ? 'This is the same as the given prompt. Paste your changed prompt, or untick the box.' : '')] : [])],
     check: () => {
-      const list = [{ ok: Boolean(st.outcome), el: byId('outcome'), msg: 'Choose what your AI did.' }];
+      const list = [{ ok: Boolean(st.outcome), el: byId('outcome'), msg: 'Choose what your AI tool did.' }];
       if (!st.outcome) return list;
-      if (st.outcome === 'found') list.push({ ok: Boolean(val('unsupported')), el: byId('unsupported'), msg: 'Describe the unsupported parts.' }, { ok: st.count1 > 0, el: document.querySelector('[data-stepper="count1"]'), msg: 'Count the unsupported claims (at least 1).' });
-      else list.push({ ok: Boolean(val('clean-why')), el: byId('clean-why'), msg: 'Say what kept your AI accurate.' });
-      list.push({ ok: Boolean(val('consequence')), el: byId('consequence'), msg: 'Describe a possible consequence.' },
-                { ok: Boolean(val('check-source')), el: byId('check-source'), msg: 'Name what you checked against.' },
-                { ok: Boolean(st.recall), el: byId('recall'), msg: 'Say whether your prediction was right.' });
+      if (st.outcome === 'found') list.push(typed('unsupported', 8, ['Write the parts that the card does not support.', 'Write a little more about the parts that are wrong.'], t => sameText(t, scenario.prompt) ? 'That is the prompt. Write the parts of the answer that are wrong.' : ''),
+                                            { ok: st.count1 > 0, el: document.querySelector('[data-stepper="count1"]'), msg: 'Count the unsupported details. There is at least 1.' });
+      else list.push(typed('clean-why', 10, ['Say what kept your AI tool correct.', 'Write a little more about what kept it correct.']));
+      list.push(typed('consequence', 10, ['Say what could go wrong.', 'Write a little more about what could go wrong.']),
+                typed('check-source', 4, ['Name what you checked it against.', 'Name what you checked it against.']),
+                { ok: Boolean(st.recall), el: byId('recall'), msg: 'Say whether your guess was right.' });
       return list;
     },
-    why: () => [{ ok: st.qcRight, el: byId('qc'), msg: 'Choose the best fix to continue.' }],
-    rewrite: () => [...['b-role', 'b-context', 'b-task', 'b-facts', 'b-format'].map(id => ({ ok: Boolean(val(id)), el: byId(id), msg: 'Fill in all five blanks.' })),
-                    { ok: byId('b-missing').checked, el: byId('b-missing-row'), msg: 'Tick the "say when information is missing" line.' }],
-    compare: () => [{ ok: Boolean(val('second-output')), el: byId('second-output'), msg: 'Paste the second AI answer.' },
-                    { ok: Boolean(val('comparison')), el: byId('comparison'), msg: 'Say what changed and what still needs checking.' }],
-    review: () => [...[...byId('checklist').querySelectorAll('input')].map(i => ({ ok: i.checked, el: i.closest('.tick'), msg: 'Tick all five statements before you download.' })),
-                   { ok: Boolean(val('learner-reflection')), el: byId('learner-reflection'), msg: 'Write one sentence to remember.' }]
+    why: () => [{ ok: !!quickKit() && quickKit().classList.contains('is-done'), el: quickKit(), msg: 'Choose the best fix first.' }],
+    rewrite: () => [...[['b-role', 3], ['b-context', 5], ['b-task', 5], ['b-facts', 8], ['b-format', 3]].map(([id, n]) => typed(id, n, ['Fill in all 5 boxes.', 'One box is too short. Write a little more.'], t => sameText(t, scenario.prompt) ? 'Do not paste the old prompt. Write each part in your own words.' : '')),
+                    { ok: byId('b-missing').checked, el: byId('b-missing-row'), msg: 'Tick the line that tells the AI tool not to guess.' }],
+    compare: () => [typed('second-output', 25, ['Paste the second AI answer.', 'This answer is too short. Paste the whole AI answer.'],
+                          t => sameText(t, assembled(false)) || sameText(t, scenario.prompt) ? 'That is a prompt. Paste the AI tool\'s new answer instead.'
+                             : sameText(t, val('first-output')) ? 'This is the same as your first answer. Paste the new answer.' : ''),
+                    typed('comparison', 10, ['Say what changed and what you still need to check.', 'Write a little more about what changed.'])],
+    review: () => [...[...byId('checklist').querySelectorAll('input')].map(i => ({ ok: i.checked, el: i.closest('.tick'), msg: 'Tick all 5 statements before you download.' })),
+                   typed('learner-reflection', 10, ['Write 1 sentence to remember.', 'Write a full sentence to remember.'])]
   };
   const missing = () => (requiredFor[current] ? requiredFor[current]() : []).filter(r => !r.ok);
+  const pageEl = name => document.querySelector('.page[data-page="' + name + '"]');
+  /* the shared layer dims Next (aria-disabled) while the screen carries data-saa-locked; the click is still blocked here */
   function updateLock() {
     if (!flow.includes(current)) return;
-    document.querySelectorAll('.page[data-page="' + current + '"] .field[data-req]').forEach(f => {
+    pageEl(current).querySelectorAll('.field[data-req]').forEach(f => {
       const c = f.querySelector('textarea,input'); f.classList.toggle('done', Boolean(c && c.value.trim()));
     });
-    const locked = missing().length > 0;
-    const primary = current === 'review' ? byId('download') : byId('nav-next');
-    if (current === 'practice' && !st.revealed) { byId('nav-next').classList.toggle('locked', st.flags.size === 0); }
-    else primary.classList.toggle('locked', locked);
-    primary.setAttribute('aria-disabled', String(current === 'practice' && !st.revealed ? st.flags.size === 0 : locked));
-    if (!locked) byId('status').textContent = '';
+    const locked = current === 'practice' && !st.revealed ? st.flags.size === 0 : missing().length > 0;
+    pageEl(current).toggleAttribute('data-saa-locked', locked);
+    if (!locked) hideNeed();
   }
   document.addEventListener('input', updateLock);
   document.addEventListener('change', updateLock);
+  document.addEventListener('saa:done', () => setTimeout(updateLock, 0));
 
-  /* nudges after idle (L14: 25 s, learners are often on another device) */
-  let nudged = [], idle = 0;
+  /* the spoken "what is missing" line on the current screen */
+  function need(msg) {
+    const p = pageEl(current), w = p && p.querySelector('.wg-need');
+    if (!w) return;
+    w.hidden = false; w.textContent = msg;
+  }
+  function hideNeed() { document.querySelectorAll('.wg-need').forEach(w => { if (!w.hidden) { w.hidden = true; w.textContent = ''; } }); }
+
+  /* glow the parts that are missing, for a moment */
+  let nudged = [];
   const clearNudges = () => { nudged.forEach(n => n.classList.remove('nudge')); nudged = []; };
   const nudge = list => { clearNudges(); nudged = list.filter(Boolean).slice(0, 6); nudged.forEach(n => n.classList.add('nudge')); };
-  function resetIdle() {
-    clearTimeout(idle);
-    idle = setTimeout(() => {
-      if (document.hidden || !byId('confirm-modal').hidden || !flow.includes(current)) return;
-      const m = missing(); nudge(m.length ? [...new Set(m.map(r => r.el))] : [current === 'review' ? byId('download') : byId('nav-next')]);
-    }, 25000);
-  }
-  ['pointerdown', 'keydown', 'input'].forEach(t => document.addEventListener(t, () => { clearNudges(); resetIdle(); }, { passive: true, capture: true }));
+  ['pointerdown', 'keydown'].forEach(t => document.addEventListener(t, () => clearNudges(), { passive: true, capture: true }));
 
   /* ---------------- navigation ---------------- */
   const dashes = byId('dashes');
   flow.forEach(() => dashes.append(el('li')));
+  let maybeTip = () => {};   /* set below: the first-visit "How to check a line" pop-up */
   function show(name) {
-    current = name; clearNudges();
+    current = name; clearNudges(); hideNeed();
     document.querySelectorAll('.page').forEach(p => { p.hidden = p.dataset.page !== name; });
-    const page = document.querySelector('.page[data-page="' + name + '"]');
-    page.querySelectorAll('.pane,.card-body').forEach(p => { p.scrollTop = 0; });
+    const page = pageEl(name);
+    page.querySelectorAll('.wg-lead,.wg-work').forEach(p => { p.scrollTop = 0; });
     const i = flow.indexOf(name);
     byId('foot').hidden = name === 'complete';
     [...dashes.children].forEach((d, j) => { d.className = j < i ? 'done' : j === i ? 'now' : ''; });
     byId('step-sr').textContent = i > -1 ? 'Step ' + (i + 1) + ' of ' + flow.length : '';
+    if (i > -1) byId('counter').textContent = (i + 1) + ' / ' + flow.length;
     byId('nav-next').hidden = name === 'review';
     byId('download').hidden = name !== 'review' || st.downloaded;
     byId('finish').hidden = name !== 'review' || !st.downloaded;
     byId('nav-next').querySelector('span').textContent = name === 'practice' && !st.revealed ? 'Check my flags' : 'Continue';
-    byId('status').textContent = '';
     if (name === 'check') paintOutcome();
+    if (name === 'practice') setTimeout(() => { if (current === 'practice') maybeTip(); }, 400);
     if (name === 'rewrite') {
       byId('rewrite-sub').textContent = usedPractice()
-        ? 'Your own AI answer was accurate, so fix the practice answer from earlier: add the facts it got wrong, and tell the AI not to guess.'
-        : 'Add the facts from the card that your first answer got wrong or missed, and tell the AI not to guess.';
+        ? 'Your own AI answer was correct, so fix the practice answer instead. Add the facts it got wrong, and tell the AI tool not to guess.'
+        : 'Add the facts from the card that your first answer got wrong or missed. Then tell the AI tool not to guess.';
       paintPreview();
     }
     if (name === 'compare' || name === 'review') paintMeters();
     if (name === 'review') paintReviewStats();
     if (name === 'complete') paintComplete();
-    updateLock(); fit(); resetIdle();
+    updateLock();
     const h = page.querySelector('h2'); if (h) h.focus({ preventScroll: true });
   }
   function shake(msg, list) {
-    byId('status').textContent = msg; sound.bad();
-    const card = document.querySelector('.page[data-page="' + current + '"] .card');
+    need(msg);
+    const card = pageEl(current).querySelector('.card');
     if (card) { card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake'); }
     nudge([...new Set(list.map(r => r.el))]); setTimeout(clearNudges, 2600);
-    const f = list[0].el; if (f && f.focus) f.focus({ preventScroll: false });
+    const f = list[0].el; if (f && f.focus && f !== byId('nav-next')) f.focus({ preventScroll: false });
   }
   byId('nav-next').addEventListener('click', () => {
     if (current === 'practice' && !st.revealed) {
-      if (!st.flags.size) { shake('Tap at least one line you think is made up.', [{ el: byId('claims') }]); return; }
-      revealClaims(); byId('nav-next').querySelector('span').textContent = 'Continue'; updateLock(); return;
+      if (!st.flags.size) { shake('Tap at least 1 line you think is made up.', [{ el: byId('claims') }]); return; }
+      /* flagging every line is not a check: some lines match the card */
+      if (st.flags.size === scenario.claims.length) { shake('You flagged every line. Some lines match the card, so untick those first.', [{ el: byId('claims') }]); return; }
+      hideNeed(); revealClaims(); byId('nav-next').querySelector('span').textContent = 'Continue'; updateLock(); return;
     }
     const m = missing();
     if (m.length) { shake(m[0].msg, m); return; }
@@ -693,22 +670,58 @@ Issued By:
     show(flow[i - 1]);
   });
 
-  /* ---------------- cover ---------------- */
-  const cover = byId('cover'), app = byId('app');
+  /* ---------------- start screen (the game's own, because it asks for the course) ---------------- */
+  const cover = byId('saa-start'), app = byId('app');
   const laneBtns = byId('lane-pick').querySelectorAll('[role=radio]');
   laneBtns.forEach(b => {
     if (b.dataset.lane === lane) b.setAttribute('aria-checked', 'true');
     b.addEventListener('click', () => { laneBtns.forEach(x => x.setAttribute('aria-checked', String(x === b))); lane = b.dataset.lane; byId('start-status').textContent = ''; sound.tap(); });
   });
   if (params.get('lane') && lane) byId('lane-pick').hidden = true;
-  function openCover() { current = 'start'; cover.hidden = false; cover.classList.remove('leaving'); app.inert = true; byId('cover-title').focus({ preventScroll: true }); }
+  function openCover() { current = 'start'; cover.hidden = false; cover.style.display = ''; cover.classList.remove('gone'); app.inert = true; byId('cover-title').focus({ preventScroll: true }); }
   byId('start').addEventListener('click', () => {
-    if (!lane && !params.get('scenario')) { byId('start-status').textContent = 'Choose your course first.'; sound.bad(); byId('lane-pick').classList.add('nudge'); setTimeout(() => byId('lane-pick').classList.remove('nudge'), 2400); return; }
+    if (!lane && !params.get('scenario')) { byId('start-status').textContent = 'Choose your course first.'; byId('lane-pick').classList.add('nudge'); setTimeout(() => byId('lane-pick').classList.remove('nudge'), 2400); return; }
+    /* a learner who came back and changed course gets a case from the new course (only the practice round depends on it) */
+    if (scenario && !params.get('scenario') && scenario.lane !== lane) { scenario = null; st.flags = new Set(); st.revealed = false; st.caught = 0; st.falseFlags = 0; }
     if (!scenario) { assignScenario(); renderScenario(); }
-    sound.tap(); app.inert = false; cover.classList.add('leaving');
-    setTimeout(() => { cover.hidden = true; cover.classList.remove('leaving'); }, 450);
+    sound.tap(); app.inert = false; cover.classList.add('gone');
+    setTimeout(() => { cover.hidden = true; cover.classList.remove('gone'); }, 550);
     show('rules');
   });
+
+  /* full AI answer: a pop-up (a long record is read by the learner, not aloud) */
+  const outModal = byId('output-modal');
+  const closeOut = () => { outModal.hidden = true; app.inert = false; byId('see-output').focus(); };
+  byId('see-output').addEventListener('click', () => { outModal.hidden = false; app.inert = true; byId('output-close').focus(); });
+  byId('output-close').addEventListener('click', closeOut);
+  outModal.addEventListener('click', e => { if (e.target === outModal) closeOut(); });
+  outModal.addEventListener('keydown', e => { if (e.key === 'Escape') closeOut(); if (e.key === 'Tab') { e.preventDefault(); (document.activeElement === byId('output-close') ? outModal.querySelector('.raw-output') : byId('output-close')).focus(); } });
+
+  /* AI Fluency designer assets (Oct 2026) */
+  const reduceMotion = () => { try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; } };
+  const playVid = v => { if (reduceMotion()) { v.controls = true; return; } v.controls = false; const pr = v.play(); if (pr && pr.catch) pr.catch(() => { v.controls = true; }); };
+  /* practice screen: "How to check a line" tip, a pop-up on the first visit (closing it is remembered), opened again from a small link */
+  const TIP_KEY = 'wg-line-tip-closed';
+  const tipModal = byId('tip-modal'), tipVid = byId('line-tip-vid'), tipOpen = byId('line-tip-open');
+  const openTip = () => { tipModal.hidden = false; app.inert = true; playVid(tipVid); byId('line-tip-close').focus(); };
+  const closeTip = () => { tipModal.hidden = true; tipVid.pause(); app.inert = false; try { localStorage.setItem(TIP_KEY, '1'); } catch (e) { /* storage blocked */ } tipOpen.focus({ preventScroll: true }); };
+  maybeTip = () => { let seen = false; try { seen = localStorage.getItem(TIP_KEY) === '1'; } catch (e) { /* storage blocked */ } if (!seen && tipModal.hidden) openTip(); };
+  tipOpen.addEventListener('click', openTip);
+  byId('line-tip-close').addEventListener('click', closeTip);
+  tipModal.addEventListener('click', e => { if (e.target === tipModal) closeTip(); });
+  tipModal.addEventListener('keydown', e => { if (e.key === 'Escape') closeTip(); if (e.key === 'Tab') { e.preventDefault(); byId('line-tip-close').focus(); } });
+  /* run screen: a short "how to copy and paste" example in a pop-up */
+  const copyModal = byId('copy-modal'), copyVid = byId('copy-vid');
+  const closeCopy = () => { copyModal.hidden = true; copyVid.pause(); app.inert = false; byId('see-copy-demo').focus(); };
+  byId('see-copy-demo').addEventListener('click', () => { copyModal.hidden = false; app.inert = true; playVid(copyVid); byId('copy-close').focus(); });
+  byId('copy-close').addEventListener('click', closeCopy);
+  copyModal.addEventListener('click', e => { if (e.target === copyModal) closeCopy(); });
+  copyModal.addEventListener('keydown', e => { if (e.key === 'Escape') closeCopy(); if (e.key === 'Tab') { e.preventDefault(); byId('copy-close').focus(); } });
+
+  /* typed work: warn before the page is closed */
+  let typedSomething = false;
+  document.addEventListener('input', e => { if (e.target.matches && e.target.matches('textarea, input[type=text]')) typedSomething = true; });
+  addEventListener('beforeunload', e => { if (typedSomething) { e.preventDefault(); e.returnValue = ''; } });
 
   /* ---------------- copy buttons ---------------- */
   async function copy(text, btn, sel) {
@@ -726,7 +739,7 @@ Issued By:
     statChips('review-stats', ['Practice round: ' + (st.caught || 0) + '/' + unsupportedClaims().length + ' caught', 'Prediction: ' + (st.recall || '—'), caseLabel() + (lane ? ' · ' + (lane === 'iti' ? 'ITI' : 'Higher education') : '')]);
   }
   function paintComplete() {
-    statChips('complete-stats', ['Practice round: ' + (st.caught || 0) + '/' + unsupportedClaims().length + ' caught', 'Unsupported claims: ' + baseline() + ' → ' + st.count2]);
+    statChips('complete-stats', ['Practice round: ' + (st.caught || 0) + '/' + unsupportedClaims().length + ' caught', 'Unsupported details: ' + baseline() + ' → ' + st.count2]);
     const next = params.get('next') || NEXT_URL;
     byId('next-link').hidden = !next; if (next) byId('next-link').href = next;
     byId('restart').classList.toggle('btn-primary', !next); byId('restart').classList.toggle('btn-ghost', Boolean(next));
@@ -810,12 +823,16 @@ Issued By:
     const m = missing();
     if (m.length) { shake(m[0].msg, m); return; }
     try {
-      const url = URL.createObjectURL(makePdf(record()));
-      const a = document.createElement('a'); a.href = url; a.download = 'watch-it-get-it-wrong-' + scenario.id + '.pdf';
-      document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 10000);
+      const text = record();
+      const save = (blob, name) => { const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = name; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 10000); };
+      save(makePdf(text), 'watch-it-get-it-wrong-' + scenario.id + '.pdf');
+      /* the PDF font has Latin letters only: answers typed in Hindi or Gujarati also go into a text file that keeps them */
+      const indic = /[^\u0000-\u00ff\u2018\u2019\u201c\u201d\u2022\u2013\u2014\u2026\u20b9\u2192]/.test(text);
+      if (indic) setTimeout(() => save(new Blob(['\ufeff' + text], { type: 'text/plain;charset=utf-8' }), 'watch-it-get-it-wrong-' + scenario.id + '.txt'), 400);
       st.downloaded = true;
       const s = byId('download-status'); s.hidden = false; s.className = 'feedback ok';
-      s.textContent = 'PDF downloaded. Open it to check it, sign out of the AI tool, then press Finish and clear.';
+      s.textContent = indic ? 'Your PDF and a text file are downloaded. The text file keeps your Hindi or Gujarati words. Open them to check, sign out of the AI tool, then press Finish and clear.'
+        : 'Your PDF is downloaded. Open it to check it. Sign out of the AI tool, then press Finish and clear.';
       const again = byId('download-again') || (() => { const b = el('button', 'btn btn-ghost'); b.id = 'download-again'; b.type = 'button'; b.append(svgUse('i-down'), document.createTextNode('Download again')); b.addEventListener('click', () => { st.downloaded = false; byId('download').click(); }); s.after(b); return b; })();
       again.hidden = false;
       byId('download').hidden = true; byId('finish').hidden = false; sound.good();
@@ -847,29 +864,23 @@ Issued By:
     byId('hint-btn').textContent = 'Show a hint';
     ['count1', 'count2'].forEach(k => { byId(k).textContent = '0'; });
     previousId = scenario ? scenario.id : previousId;
+    typedSomething = false;
     resetState();
-    renderSort(); renderPredict(); renderQC();
+    renderPredict();
   }
   function showComplete(sum) {
     show('complete'); if(window.SAA_DONE)window.SAA_DONE();
-    statChips('complete-stats', ['Practice round: ' + (sum.caught || 0) + '/' + sum.total + ' caught', 'Unsupported claims: ' + sum.a + ' → ' + sum.b]);
+    statChips('complete-stats', ['Practice round: ' + (sum.caught || 0) + '/' + sum.total + ' caught', 'Unsupported details: ' + sum.a + ' → ' + sum.b]);
     scenario = null;
   }
-  byId('restart').addEventListener('click', () => { openCover(); });
+  /* Start again really starts again: a fresh page (the case just done is not given twice in a row) */
+  byId('restart').addEventListener('click', () => {
+    try { if (previousId) sessionStorage.setItem('wigw-prev', previousId); } catch (e) {}
+    typedSomething = false; location.reload();
+  });
 
-  /* ---------------- proportional zoom on large screens ---------------- */
-  function fit() {
-    const w = innerWidth, h = innerHeight; let z = w <= 860 ? 1 : Math.max(1, Math.min(w / 1180, h / 760, 1.6));
-    const root = document.documentElement; root.style.setProperty('--z', z.toFixed(3));
-    if (z === 1 || !flow.includes(current)) return;
-    const page = document.querySelector('.page[data-page="' + current + '"]');
-    const over = () => [...page.querySelectorAll('.pane')].some(p => p.scrollHeight > p.clientHeight + 1);
-    while (z > 1 && over()) { z = Math.max(1, z - 0.04); root.style.setProperty('--z', z.toFixed(3)); }
-  }
-  let ff = 0; addEventListener('resize', () => { cancelAnimationFrame(ff); ff = requestAnimationFrame(fit); });
-
-  /* ---------------- init ---------------- */
-  renderSort(); renderPredict(); renderQC();
-  app.inert = true; fit(); resetIdle();
+  /* ---------------- init (the shared layer scales the page) ---------------- */
+  renderPredict();
+  app.inert = true;
   window.__wigw = { get scenario() { return scenario; }, st };
 })();

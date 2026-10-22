@@ -298,3 +298,256 @@ body.drawer-open .drawer{transform:none;visibility:visible;}
   .card{box-shadow:none;border:none;padding:0;}
   .screen[hidden]{display:flex!important;page-break-after:always;}
 }
+
+/* ESL upgrade (game-specific) ===================================================
+   Swift AI layer: .frame is the .app, each .screen is a .page (left: heading and task; right: the activity).
+   Light mode keeps this game's own colours; dark mode (default) uses the navy frame. */
+
+/* ---- frame: header, one card that fills the height, footer ---- */
+.frame.app{display:flex;flex-direction:column;gap:12px;padding:16px 24px;min-height:0;box-sizing:border-box;}
+.frame.app > main.card{flex:1 1 auto;min-height:0;overflow:auto;padding:20px 32px;gap:0;}
+.frame.app > main.card > .screen:not([hidden]){flex:1 1 auto;justify-content:center;}
+.screen .saa-split{align-items:center;}
+.top-actions{margin-left:auto;}
+.top-meta{display:none;}
+.screen .eyebrow{display:flex;align-items:center;gap:10px;margin:0 0 4px;}
+.screen .eyebrow::before{display:none;}
+.screen .eyebrow span{font-size:12.5px;letter-spacing:0.2em;color:var(--amber-text);font-weight:600;text-transform:uppercase;}
+.screen .saa-lead h1{margin-bottom:6px;}
+.screen .saa-lead .lead{font-size:17px;}
+.screen p.do{font-size:16px;font-weight:600;color:var(--heading);background:var(--blue-bg);border:1px solid var(--blue-line);border-radius:14px;padding:12px 16px;margin-top:8px;}
+.screen p.do b{color:var(--blue);}
+.cover{align-items:flex-start;}
+.lbl-short{display:none;}
+
+/* ---- icons: library line icons (ivory); light mode tints them navy ---- */
+.ic{display:inline-block;flex:0 0 auto;width:22px;height:22px;object-fit:contain;vertical-align:-5px;}
+html[data-theme="light"] .ic{filter:brightness(0) saturate(100%) invert(9%) sepia(43%) saturate(3700%) hue-rotate(221deg) brightness(92%) contrast(100%);}
+html[data-theme="light"] .chips button[aria-pressed="true"] .ic{filter:none;}
+.eyebrow .ic{width:20px;height:20px;}
+
+/* ---- checklist ---- */
+.ready{display:flex;flex-direction:column;gap:10px;}
+.checklist{gap:8px;}
+.checklist label{padding:11px 14px;min-height:44px;font-size:15.5px;}
+.check-count{font-size:12.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);}
+
+/* ---- session plan: tap a block to open it ---- */
+.blocks{gap:7px;}
+details.block{display:block;padding:0;}
+details.block > summary{list-style:none;display:flex;align-items:center;gap:12px;min-height:46px;padding:10px 14px;cursor:pointer;}
+details.block > summary::-webkit-details-marker{display:none;}
+details.block > summary::after{content:"+";margin-left:auto;color:var(--blue);font-size:20px;font-weight:600;line-height:1;}
+details.block[open] > summary::after{content:"–";}
+details.block[open]{border-color:var(--blue-line);background:var(--blue-bg);}
+.block .time{flex:0 0 auto;min-width:86px;}
+.block .what{display:inline-flex;align-items:center;gap:8px;}
+.block .code{margin-left:0;}
+details.block .ans{padding:0 14px 12px 112px;display:flex;flex-direction:column;gap:4px;}
+details.block .ans p{font-size:15.5px;line-height:1.5;}
+.block.break{display:flex;align-items:center;gap:12px;padding:10px 14px;min-height:44px;}
+.block.break .what{font-weight:600;color:var(--body);}
+
+/* ---- demo turns ---- */
+.turn{gap:8px;}
+.line{padding:10px 14px;grid-template-columns:104px 1fr;}
+.line p, .line.say p{font-size:16px;line-height:1.5;}
+.typed-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.line.type code{font-size:15.5px;}
+.copy-btn{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:999px;border:1px solid var(--blue-line);background:var(--card);color:var(--blue);font-size:13.5px;font-weight:700;cursor:pointer;}
+.copy-btn.is-copied{border-color:var(--ok-ink);color:var(--ok-ink);}
+
+/* ---- when the AI is wrong ---- */
+.wrong-steps{display:flex;flex-direction:column;gap:10px;}
+.wrong-steps .note{padding:10px 14px;}
+.wrong-steps .note p{font-size:15px;line-height:1.5;}
+
+/* ---- quick fixes: taller cards so the fix fits on the back ---- */
+.saa-kit.fixes-kit .saa-card{min-height:104px;}
+.saa-kit.fixes-kit .saa-back{font-size:14.5px;line-height:1.4;}
+
+/* ---- answer bank ---- */
+.bank{display:flex;flex-direction:column;gap:12px;}
+.chips button{display:inline-flex;align-items:center;gap:7px;min-height:40px;}
+.chips button .ic{width:18px;height:18px;vertical-align:0;}
+.qa summary{min-height:44px;align-items:center;padding:10px 14px;font-size:15.5px;}
+.qa .ans{padding:0 14px 12px;gap:4px;}
+.qa .ans p{font-size:15px;line-height:1.5;}
+
+/* ---- done ---- */
+.screen.done{align-items:center;justify-content:center;text-align:center;gap:14px;}
+
+/* ---- footer progress in light mode (the layer draws it for the dark frame) ---- */
+html[data-theme="light"] .saa-prog-bar{background:#D9DEEE;}
+html[data-theme="light"] .saa-prog-fill{background:var(--blue);}
+html[data-theme="light"] .saa-prog-n{color:var(--muted);}
+.foot .gate-hint{display:none;}
+
+/* ---- short laptop screens: tighter plan rows so an open block fits ---- */
+@media (min-width:701px) and (max-height:660px){
+  details.block > summary{min-height:44px;padding:6px 12px;}
+  details.block .ans{padding-bottom:8px;gap:2px;}
+  details.block .ans p{font-size:14.5px;line-height:1.4;}
+  .block.break{min-height:40px;padding:6px 12px;}
+  html[data-theme="light"] .screen h1{font-size:27px;}
+  html[data-theme="light"] .checklist{gap:6px;}
+  html[data-theme="light"] .checklist label{padding:7px 12px;font-size:14.5px;line-height:1.4;}
+  html[data-theme="light"] .turn{gap:6px;}
+  html[data-theme="light"] .line{padding:7px 12px;}
+  html[data-theme="light"] .line p, html[data-theme="light"] .line.say p{font-size:15px;line-height:1.4;}
+  html[data-theme="light"] .line.type code{font-size:14.5px;padding:3px 8px;}
+  html[data-theme="light"] .screen .saa-lead .lead{font-size:16px;}
+}
+
+/* ---- phones ---- */
+@media (max-width:700px){
+  .frame.app{padding:10px 12px;gap:8px;}
+  .frame.app > main.card{padding:18px 16px;}
+  .lbl-full{display:none;} .lbl-short{display:inline;}
+  .fac-badge{display:none;}
+  .seg button{padding:7px 10px;min-height:36px;}
+  .top-actions{gap:6px;}
+  details.block .ans{padding:0 14px 12px;}
+  .block .time{min-width:0;}
+  details.block > summary{flex-wrap:wrap;row-gap:2px;}
+  .line{grid-template-columns:1fr;}
+  .screen h1{font-size:24px;}
+}
+
+/* ---- dark theme (default): navy frame, glass card, ivory text, blue accents, amber only for Next ---- */
+html[data-theme="dark"]{
+  --bg-wash:rgba(255,255,255,.05); --bg-page:rgba(255,255,255,.04); --card:rgba(255,255,255,.06);
+  --heading:#F6F4EF; --strong:#E4E7F3; --body:#C3C9E4; --muted:#9AA3C7; --border:rgba(255,255,255,.14);
+  --blue:#8FA0FF; --blue-bg:rgba(91,118,255,.14); --blue-line:rgba(143,160,255,.5);
+  --ok-ink:#4FE0A8; --ok-bg:rgba(79,224,168,.12); --amber-text:#FFC168; --shadow:none;
+}
+html[data-theme="dark"] body{background:linear-gradient(150deg,#080D24 0%,#0E1A4F 52%,#0B1440 100%) fixed;background-color:#080D24;color:var(--strong);}
+html[data-theme="dark"] .screen .eyebrow span{color:#8FA0FF;}
+html[data-theme="dark"] .seg{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.16);}
+html[data-theme="dark"] .seg button{color:#C3C9E4;}
+html[data-theme="dark"] .seg button[aria-pressed="true"]{background:#3C59F6;color:#fff;}
+html[data-theme="dark"] .fac-badge{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.16);color:#C3C9E4;}
+html[data-theme="dark"] .block, html[data-theme="dark"] .line, html[data-theme="dark"] .checklist label, html[data-theme="dark"] .qa, html[data-theme="dark"] .note{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.14);}
+html[data-theme="dark"] details.block[open]{background:rgba(91,118,255,.12);border-color:rgba(143,160,255,.5);}
+html[data-theme="dark"] .block.break{background:rgba(255,255,255,.02);border-style:dashed;}
+html[data-theme="dark"] .block .code{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.16);color:#C3C9E4;}
+html[data-theme="dark"] .line.say{background:rgba(91,118,255,.14);border-color:rgba(143,160,255,.5);}
+html[data-theme="dark"] .line.watch.key{background:rgba(243,171,49,.10);border-color:rgba(243,171,49,.45);}
+html[data-theme="dark"] .line.type code{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.18);color:#F6F4EF;}
+html[data-theme="dark"] .checklist input{accent-color:#5B76FF;}
+html[data-theme="dark"] .chips button{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.18);color:#E4E7F3;}
+html[data-theme="dark"] .chips button[aria-pressed="true"]{background:#3C59F6;border-color:#5B76FF;color:#fff;}
+html[data-theme="dark"] .copy-btn{background:rgba(255,255,255,.05);}
+html[data-theme="dark"] .done-badge .badge{color:#4FE0A8;}
+html[data-theme="dark"] .scrim{background:rgba(4,8,24,.6);}
+html[data-theme="dark"] .drawer{background:#10173A;border-left-color:rgba(255,255,255,.12);box-shadow:-20px 0 60px rgba(0,0,0,.4);}
+html[data-theme="dark"] .drawer .icon-btn{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.16);color:#F6F4EF;}
+html[data-theme="dark"] .outline button.seen:hover{background:rgba(255,255,255,.06);}
+html[data-theme="dark"] .outline .dot{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.16);}
+html[data-theme="dark"] .outline button.now .dot{background:#3C59F6;border-color:#3C59F6;color:#fff;}
+html[data-theme="dark"] .btn-primary[disabled]{background:rgba(255,255,255,.05);color:#9AA3C7;border-color:rgba(255,255,255,.2);}
+html[data-theme="dark"] :focus-visible{outline-color:#FFC168;}
+@media (max-width:720px){ html[data-theme="dark"] .foot{background:none;} }
+.screen h1:focus, .screen h1:focus-visible{outline:none;}
+/* light mode on laptops and big screens: the current screen is the scroll box, so the layer's zoom backs off until it fits */
+@media (min-width:701px){
+  html[data-theme="light"] .frame.app > main.card{overflow:hidden;}
+  html[data-theme="light"] .frame.app > main.card > .screen:not([hidden]){min-height:0;overflow:auto;}
+}
+/* very narrow phones: the lane switch, jump button and narration buttons share one header row */
+@media (max-width:420px){
+  .frame.app{padding-left:8px;padding-right:8px;}
+  .top-actions{gap:4px;}
+  .seg{padding:3px;gap:2px;}
+  .seg button{padding:6px 8px;font-size:12px;}
+}
+@media (max-width:520px){
+  html header.top.top{gap:6px !important;}
+  html .saa-hd-brand .saa-wm{display:none !important;}
+  html .saa-vo{gap:4px;}
+}
+
+/* amber is only for the main action: "Watch for" labels and the key note use the blue accent */
+.line.watch .k { color: #3C59F6; }
+.line.watch.key { background: rgba(60,89,246,.07); border-color: rgba(60,89,246,.35); }
+html[data-theme="dark"] .line.watch .k { color: #8FA0FF; }
+html[data-theme="dark"] .line.watch.key { background: rgba(91,118,255,.12); border-color: rgba(143,160,255,.45); }
+
+/* AI Fluency designer assets (Oct 2026) */
+/* line icons that come in two tones (ivory on the dark frame, navy on the light one): no tint filter needed */
+html[data-theme="light"] .aiv-ic{filter:none;}
+.checklist .aiv-ic{width:22px;height:22px;margin-top:1px;}
+details.block > summary .aiv-ic{width:22px;height:22px;margin-right:-4px;}
+.saa-steps li .aiv-ic{width:22px;height:22px;margin-right:4px;vertical-align:middle;}
+/* session timeline strip (built in code, pack look): under the short text, left column; the current part is filled blue */
+.aiv-tl{margin:8px 0 0;max-width:500px;--tl-line:#5B76FF;--tl-gap:#DCE2F1;--tl-ink:#0E1A4F;--tl-sub:#5A6489;--tl-box:#FFFFFF;}
+html[data-theme="dark"] .aiv-tl{--tl-gap:#405185;--tl-ink:#F6F4EF;--tl-sub:#AEB6D4;--tl-box:#141F5C;}
+.aiv-tl-in{display:flex;flex-direction:column;gap:3px;}
+.aiv-tl-ends{display:flex;justify-content:space-between;align-items:flex-end;font-size:12px;line-height:1;color:var(--tl-sub);font-variant-numeric:tabular-nums;}
+.aiv-tl-ends > span:last-child{display:inline-flex;align-items:flex-end;gap:3px;}
+.aiv-tl-flag{color:var(--tl-line);margin-bottom:-2px;}
+.aiv-tl-bar{display:flex;align-items:stretch;gap:2px;}
+.aiv-tl-part{display:flex;flex-direction:column;justify-content:center;min-width:auto;padding:6px 8px;border:1.5px solid var(--tl-line);border-radius:9px;background:var(--tl-box);color:var(--tl-ink);line-height:1.2;white-space:nowrap;}
+.aiv-tl-part b{font-size:13.5px;font-weight:700;}
+.aiv-tl-part span{font-size:12.5px;font-weight:600;color:var(--tl-sub);font-variant-numeric:tabular-nums;}
+.aiv-tl-part.is-now{background:#5B76FF;border-color:#5B76FF;color:#fff;}
+.aiv-tl-part.is-now span{color:#fff;}
+.aiv-tl-part:nth-child(1){flex:80 1 0;} .aiv-tl-part:nth-child(3){flex:65 1 0;} .aiv-tl-part:nth-child(5){flex:130 1 0;}
+.aiv-tl-gap{flex:0 0 14px;border-radius:5px;background:var(--tl-gap);}
+/* the row under the bar repeats the bar's boxes (hidden, no height) so each break label sits under its gap */
+.aiv-tl-under{height:16px;align-items:flex-start;}
+.aiv-tl-under .aiv-tl-part{visibility:hidden;height:0;padding-top:0;padding-bottom:0;border-top:0;border-bottom:0;}
+.aiv-tl-under .aiv-tl-gap{position:relative;background:none;}
+.aiv-tl-under .aiv-tl-gap > span{position:absolute;top:2px;left:50%;transform:translateX(-50%);font-size:11.5px;line-height:1.2;color:var(--tl-sub);white-space:nowrap;}
+/* demo turn 1: "See example" opens the weak answer as a pop-up */
+.aiv-see{margin-top:12px;display:flex;flex-direction:column;align-items:flex-start;gap:1px;width:100%;min-height:44px;padding:9px 14px;border-radius:12px;border:1px solid var(--blue-line);background:var(--blue-bg);color:var(--blue);font:inherit;font-size:15px;font-weight:700;text-align:left;cursor:pointer;}
+.aiv-see .aiv-see-sub{font-size:13.5px;font-weight:500;color:var(--body);}
+.aiv-see:hover{border-color:var(--blue);}
+.aiv-pop{border:0;padding:0;background:transparent;max-width:min(calc(92vw / var(--z,1)),820px);max-height:calc(92vh / var(--z,1));overflow:visible;}
+html dialog.aiv-pop{margin:auto!important;}
+.aiv-pop::backdrop{background:rgba(4,8,24,.62);}
+.aiv-pop-in{position:relative;}
+.aiv-pop img{display:block;width:auto;max-width:100%;height:auto;max-height:calc(84vh / var(--z,1));max-width:min(calc(92vw / var(--z,1)),800px);border-radius:16px;}
+.aiv-pop-x{position:absolute;top:8px;right:8px;width:40px;height:40px;display:grid;place-items:center;border-radius:999px;border:1px solid var(--border);background:var(--card);color:var(--heading);cursor:pointer;}
+html[data-theme="dark"] .aiv-pop-x{background:#10173A;border-color:rgba(255,255,255,.2);color:#F6F4EF;}
+html[data-theme="light"] .aiv-pop-x{background:#fff;}
+html[data-theme="light"] .aiv-pop::backdrop{background:rgba(14,27,92,.45);}
+@media (min-width:701px) and (max-height:660px){
+  .aiv-tl{margin-top:8px;}
+  .aiv-tl-part{padding:4px 7px;}
+  .aiv-see{min-height:40px;padding:6px 12px;margin-top:8px;}
+}
+@media (max-width:700px){
+  .aiv-tl{max-width:none;}
+  .aiv-tl-part{padding:5px 6px;}
+}
+@media (max-width:440px){
+  /* narrow phones: boxes keep room for their times, so the bar is no longer to scale */
+  .aiv-tl-part{flex-basis:auto;min-width:auto;padding:4px 5px;}
+  .aiv-tl-part b{font-size:12.5px;} .aiv-tl-part span{font-size:11.5px;}
+  .aiv-tl-gap{flex-basis:10px;}
+}
+/* reused art (Oct 2026): cover scene (right column), demo turn 6 diagram (left column, navy-line recolour on the light theme), turn 5 pop-up */
+.aiv-scene{margin:0;display:flex;justify-content:center;align-self:center;width:100%;}
+.aiv-scene img{display:block;width:100%;height:auto;max-height:calc(52vh / var(--z,1));object-fit:contain;}
+.aiv-diag{margin:12px 0 0;}
+.aiv-diag img{display:block;width:100%;max-width:480px;height:auto;max-height:calc(20vh / var(--z,1));object-fit:contain;object-position:left center;}
+.aiv-pop-wide{max-width:min(calc(94vw / var(--z,1)),920px);}
+.aiv-pop-wide img{max-width:min(calc(94vw / var(--z,1)),900px);}
+html[data-theme="dark"] .aiv-pop-wide .aiv-pop-in{background:#0E1A4F;border-radius:16px;}
+html[data-theme="light"] .aiv-pop-wide .aiv-pop-in{background:#F6F8FF;border-radius:16px;}
+@media (max-width:700px){
+  .aiv-scene img{max-height:calc(24vh / var(--z,1));}
+  .aiv-diag img{max-width:none;max-height:none;}
+}
+@media (max-width:640px) and (max-height:740px){
+  .aiv-scene{display:none;}
+}
+@media (min-width:701px) and (max-height:660px){
+  .aiv-diag{margin-top:8px;}
+  .aiv-diag img{max-height:96px;}
+}
+/* closed answers take no room (newer browsers lay out closed <details> content without showing it) */
+details:not([open]) > .ans{display:none;}
+/* screen 13: the step icons make the longest step wrap once more on big screens; a tighter gap above the note keeps it inside the card */
+.wrong-steps{gap:4px;}

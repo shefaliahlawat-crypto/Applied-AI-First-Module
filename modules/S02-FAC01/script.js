@@ -51,8 +51,8 @@
     if (pos) pos.textContent = onDone ? 'Done' : (current + 1) + ' of ' + content.length;
 
     var label = all[current].getAttribute('data-next-label') ||
-      (onDone ? body.getAttribute('data-after-label') || 'Continue'
-        : lastContent ? body.getAttribute('data-finish-label') || 'Finish' : 'Continue');
+      (onDone ? body.getAttribute('data-after-label') || 'Next'
+        : lastContent ? body.getAttribute('data-finish-label') || 'Finish' : 'Next');
     nextLabel.textContent = label;
     var ok = unlocked(current);
     nextBtn.disabled = !ok;
@@ -213,6 +213,91 @@
     });
     var first = group.querySelector('button'); if (first) first.click();
   });
+
+  /* facilitator: checklist count ("3 of 6 ready") */
+  document.querySelectorAll('.ready').forEach(function (box) {
+    var boxes = box.querySelectorAll('input[type=checkbox]'), out = box.querySelector('.check-count');
+    function upd() { var n = 0; boxes.forEach(function (c) { if (c.checked) n++; }); if (out) out.textContent = n + ' of ' + boxes.length + ' ready'; }
+    boxes.forEach(function (c) { c.addEventListener('change', upd); }); upd();
+  });
+
+  /* accordions (plan blocks, answer bank): one open at a time, so the screen stays short */
+  document.querySelectorAll('[data-accordion]').forEach(function (group) {
+    var items = Array.prototype.slice.call(group.querySelectorAll('details'));
+    items.forEach(function (d) {
+      d.addEventListener('toggle', function () {
+        if (d.open) items.forEach(function (o) { if (o !== d && o.open) o.open = false; });
+        window.dispatchEvent(new Event('resize'));   /* the layer re-fits the zoom to the new height */
+      });
+    });
+  });
+
+  /* demo turns: copy the request for the current group, ready to paste into the AI tool */
+  document.querySelectorAll('[data-copy]').forEach(function (b) {
+    var lbl = b.querySelector('span'), t = 0;
+    b.addEventListener('click', function () {
+      var codes = Array.prototype.slice.call(b.parentNode.querySelectorAll('code'));
+      var c = codes.filter(function (x) { return x.offsetParent !== null; })[0] || codes[0];
+      var text = c ? c.textContent.trim() : '';
+      function ok() { lbl.textContent = 'Copied'; b.classList.add('is-copied'); clearTimeout(t); t = setTimeout(function () { lbl.textContent = 'Copy'; b.classList.remove('is-copied'); }, 1600); }
+      function fallback() {
+        var ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch (e) {} document.body.removeChild(ta); ok();
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(ok, fallback); } else { fallback(); }
+    });
+  });
+
+  /* light / dark: the interaction kits follow the page theme */
+  function kitTheme() {
+    var t = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    document.querySelectorAll('.saa-kit[data-theme]').forEach(function (k) { k.setAttribute('data-theme', t); });
+  }
+  window.addEventListener('saa:theme', kitTheme);
+  kitTheme();
+  document.addEventListener('DOMContentLoaded', kitTheme);   /* again once the layer has applied a remembered theme */
+
+  /* AI Fluency designer assets (Oct 2026): icons and mocks follow the page theme
+     (ivory icons + dark mocks on the dark frame, navy icons + light mocks on the light one) */
+  function assetTheme() {
+    var light = document.documentElement.getAttribute('data-theme') === 'light';
+    document.querySelectorAll('img[data-aiv-ic]').forEach(function (im) {
+      var want = 'assets/icons/' + (light ? 'navy' : 'ivory') + '/icon-' + im.getAttribute('data-aiv-ic') + '.webp';
+      if (im.getAttribute('src') !== want) im.setAttribute('src', want);
+    });
+    document.querySelectorAll('img[data-aiv-mock]').forEach(function (im) {
+      var want = 'assets/mocks/' + (light ? 'light' : 'dark') + '/' + im.getAttribute('data-aiv-mock') + '.webp';
+      if (im.getAttribute('src') !== want) im.setAttribute('src', want);
+    });
+  }
+  window.addEventListener('saa:theme', assetTheme);
+  assetTheme();
+  document.addEventListener('DOMContentLoaded', assetTheme);
+
+  /* "See example" pop-up (demo turn 1): the example answer for the group picked at the top */
+  document.querySelectorAll('[data-aiv-open]').forEach(function (b) {
+    var dlg = document.getElementById(b.getAttribute('data-aiv-open'));
+    if (!dlg) return;
+    b.addEventListener('click', function () {
+      assetTheme();
+      if (dlg.showModal) { try { dlg.showModal(); } catch (e) { dlg.setAttribute('open', ''); } } else dlg.setAttribute('open', '');
+      var x = dlg.querySelector('[data-aiv-close]'); if (x) x.focus();
+    });
+    function shut() { if (dlg.close) { try { dlg.close(); } catch (e) {} } dlg.removeAttribute('open'); b.focus(); }
+    dlg.querySelectorAll('[data-aiv-close]').forEach(function (x) { x.addEventListener('click', shut); });
+    dlg.addEventListener('click', function (e) { if (e.target === dlg) shut(); });   /* tap outside the picture closes it */
+  });
+
+  /* the "See example" buttons belong under the short text (left column): the layer builds the columns after this script,
+     so they move there once the page has loaded. Buttons are never narrated, so the narration does not change. */
+  function seeToLead() {
+    document.querySelectorAll('.aiv-see[data-aiv-lead]').forEach(function (b) {
+      var lead = b.closest('.screen') && b.closest('.screen').querySelector('.saa-lead');
+      if (lead && b.parentNode !== lead) { lead.appendChild(b); window.dispatchEvent(new Event('resize')); }
+    });
+  }
+  document.addEventListener('DOMContentLoaded', function () { setTimeout(seeToLead, 0); });
+  window.addEventListener('load', seeToLead);
 
   render();
 })();

@@ -1,175 +1,184 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-saa-themes data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portfolio Submission — Swift AI Academy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Portfolio Submission — MC1 — Swift AI Academy</title>
+<!--
+  Segment: AAI-E-MC1-S04-FORM01 · Portfolio Submission · not counted toward hours · all PCs in this micro-credential.
+  Kept here for staff; never shown to learners. A practice version of the real submission form:
+  nothing is uploaded or sent. The learner downloads a text receipt at the end.
+-->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&family=Sora:wght@600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="saa-upgrade.css">
+<link rel="stylesheet" href="saa-kit.css">
 </head>
 <body>
 <div class="app">
 
-  <div class="topbar">
-    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-      <select class="jump-select" id="jumpSelect" onchange="current=parseInt(this.value);render();"></select>
-      <span class="gate-badge">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
-        All gates apply
-      </span>
-    </div>
-  </div>
+  <header class="top">
+    <div class="brand"><img src="assets/logo-mark.webp" alt=""><span>SWIFT&nbsp;AI&nbsp;ACADEMY</span></div>
+    <span class="top-meta" hidden>Swift AI Academy · Portfolio</span>
+  </header>
+
+  <main class="slides">
 
   <!-- PAGE 0: Brief -->
-  <div class="page active" data-page="0">
+  <section class="page active" data-page="0">
     <div class="card">
-      <div class="page-head">
-        <span class="phicon" style="background:var(--indigo);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
-        <div class="phtext"><p class="kicker" style="color:var(--indigo);">Portfolio Submission</p><h2>Your Proof File for Module 1</h2></div>
-      </div>
-      <p>This page brings together everything you have finished in Module 1. Your assessor checks it here.</p>
-
-      <div class="info-grid">
-        <div class="info-row"><span class="info-num" style="background:var(--indigo);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span><div><b>Gather</b><span>Find your Reading, Card, Lab, Bot, Rulebook and Peer Exchange work.</span></div></div>
-        <div class="info-row"><span class="info-num" style="background:var(--amber);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M21.44 11.05l-9.19 9.19a5 5 0 0 1-7.07-7.07l9.19-9.19a3.5 3.5 0 0 1 4.95 4.95l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg></span><div><b>Attach</b><span>Add each piece of work, one by one, on the next page.</span></div></div>
-        <div class="info-row"><span class="info-num" style="background:var(--emerald);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M20 6L9 17l-5-5"/></svg></span><div><b>Declare and submit</b><span>Say these are your own answers. Then submit for review.</span></div></div>
-      </div>
-
-      <div class="caution-line">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.3 3.9L2.5 17a1.8 1.8 0 0 0 1.5 2.7h16a1.8 1.8 0 0 0 1.5-2.7L13.7 3.9a1.6 1.6 0 0 0-2.8 0z"/></svg>
-        <span>Do not write passwords, Aadhaar numbers, phone numbers, addresses, health details or marks anywhere on this page.</span>
+      <p class="kicker">Portfolio · Before you start</p>
+      <h2>Your Proof File shows your finished MC1 work.</h2>
+      <p>Your assessor checks this file. You make it in 3 steps.</p>
+      <p class="pf-diag pf-diag-steps"><img data-mock="diag-proof-file-gather" src="assets/mocks/dark/diag-proof-file-gather.webp" width="960" height="250" alt="Proof File in 3 steps: 1 Gather, 2 Attach, 3 Declare and submit. Then your Proof File goes to your assessor, who checks it."></p>
+      <p class="do"><b>Your task.</b> Tap each card to see what you do.</p>
+      <div class="saa-kit" data-kit="reveal" data-theme="dark" data-required>
+        <div class="saa-cards">
+          <button class="saa-card" type="button"><span class="saa-front"><img class="pf-ic" data-ic="icon-spot-added" src="assets/icons/ivory/icon-spot-added.webp" alt="" aria-hidden="true">Gather</span><span class="saa-back">Find your Reading, Card, Lab, Bot, Rulebook and Peer Exchange work.</span></button>
+          <button class="saa-card" type="button"><span class="saa-front"><img class="pf-ic" data-ic="icon-source" src="assets/icons/ivory/icon-source.webp" alt="" aria-hidden="true">Attach</span><span class="saa-back">Add each piece of work, one by one, on the next screen.</span></button>
+          <button class="saa-card" type="button"><span class="saa-front"><img class="pf-ic" data-ic="icon-sign" src="assets/icons/ivory/icon-sign.webp" alt="" aria-hidden="true">Declare and submit</span><span class="saa-back">Say that these are your own answers. Then submit them for review.</span></button>
+          <button class="saa-card" type="button"><span class="saa-front"><img class="pf-ic" data-ic="icon-rule-private" src="assets/icons/ivory/icon-rule-private.webp" alt="" aria-hidden="true">Keep it private</span><span class="saa-back">Never write passwords, Aadhaar numbers, phone numbers, addresses, health details or marks here.</span></button>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- PAGE 1: Attach artifacts -->
-  <div class="page" data-page="1">
+  <section class="page" data-page="1">
     <div class="card">
-      <div class="page-head">
-        <span class="phicon" style="background:var(--amber);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a5 5 0 0 1-7.07-7.07l9.19-9.19a3.5 3.5 0 0 1 4.95 4.95l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg></span>
-        <div class="phtext"><p class="kicker" style="color:var(--amber);">Step 1</p><h2>Attach your artifacts</h2></div>
+      <p class="kicker">Step 1 · Attach</p>
+      <h2>Attach your 6 pieces of work.</h2>
+      <p>This is a practice form, so you type a file name. Each piece of work shows the types of file you can use.</p>
+      <p class="pf-diag pf-diag-fname"><img data-mock="diag-file-name" src="assets/mocks/dark/diag-file-name.webp" width="480" height="240" alt="A file name has 2 parts joined by a dot: the name, like my-notes, and the type, like pdf. Types of file: .pdf, .docx, .jpg and .png."></p>
+      <p class="do"><b>Your task.</b> Type a file name for each piece of work and tap Attach.</p>
+      <div class="pf-attach">
+        <p class="pf-count saa-vo-skip" id="attachCount" aria-live="polite">0 of 6 attached</p>
+        <div class="pf-tabs" id="artifactTabs" role="tablist" aria-label="Your 6 pieces of work"></div>
+        <div class="pf-list" id="artifactList"></div>
+        <p class="pf-msg saa-k-why" id="msg-1" aria-live="polite"></p>
       </div>
-      <p>Type a file name to attach it. This is a working demo of the real form. Look under each item to see which file types are allowed.</p>
-      <div id="artifactList"></div>
     </div>
-  </div>
+  </section>
 
   <!-- PAGE 2: Progress & connectivity -->
-  <div class="page" data-page="2">
+  <section class="page" data-page="2">
     <div class="card">
-      <div class="page-head">
-        <span class="phicon" style="background:var(--emerald);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
-        <div class="phtext"><p class="kicker" style="color:var(--emerald);">Step 2</p><h2>Your progress</h2></div>
-      </div>
-      <div class="gauge-wrap">
-        <div class="gauge" id="gaugeRing">
-          <div class="gauge-inner"><span class="gauge-pct" id="gaugePct">0%</span><span class="gauge-label">COMPLETE</span></div>
+      <p class="kicker">Step 2 · Progress</p>
+      <h2>Your work is safe if the internet stops.</h2>
+      <p>In the real form, your work saves as you go. Nothing is lost if the internet stops.</p>
+      <p class="do"><b>Your task.</b> Stop the internet, then start it again.</p>
+      <div class="pf-progress">
+        <div class="gauge-wrap saa-vo-skip">
+          <div class="gauge" id="gaugeRing">
+            <div class="gauge-inner"><span class="gauge-pct" id="gaugePct">0%</span><span class="gauge-label">DONE</span></div>
+          </div>
+          <div class="gauge-text"><b id="gaugeCount">0 of 6 pieces of work attached</b></div>
         </div>
-        <div class="gauge-text">
-          <b id="gaugeCount">0 of 6 artifacts attached</b>
-          <span>You can leave and return any time — nothing is lost if your connection drops.</span>
+        <div class="connect-row">
+          <div class="connect-status saa-vo-skip"><img class="connect-ic" id="connectIc" data-ic="icon-online" src="assets/icons/ivory/icon-online.webp" alt="" aria-hidden="true"><span class="connect-dot" id="connectDot"></span><span id="connectLabel">Online. Your work saves by itself.</span></div>
+          <button class="connect-btn" type="button" onclick="toggleConnection()" id="connectBtn">Stop the internet</button>
         </div>
+        <p class="pf-msg saa-k-why" id="msg-2" aria-live="polite"></p>
       </div>
-
-      <div class="connect-row">
-        <div class="connect-status"><span class="connect-dot" id="connectDot"></span><span id="connectLabel">Connected — progress saves automatically</span></div>
-        <button class="connect-btn" onclick="toggleConnection()" id="connectBtn">Simulate connection loss</button>
-      </div>
-      <div class="offline-note" id="offlineNote">You are offline now. Nothing is lost — your files stay right here. Reconnect when ready, then submit.</div>
     </div>
-  </div>
+  </section>
 
   <!-- PAGE 3: Review -->
-  <div class="page" data-page="3">
+  <section class="page" data-page="3">
     <div class="card">
-      <div class="page-head">
-        <span class="phicon" style="background:var(--navy);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
-        <div class="phtext"><p class="kicker" style="color:var(--navy);">Step 3</p><h2>Review before you submit</h2></div>
-      </div>
-
-      <div class="info-row" style="margin-bottom:14px;">
-        <span class="info-num" style="background:var(--navy);">i</span>
-        <div>
-          <b>Submission type</b>
-          <select class="jump-select" id="submissionType" style="margin-top:4px;background-color:var(--indigo-tint);">
+      <p class="kicker">Step 3 · Review</p>
+      <h2>Check your Proof File before you submit.</h2>
+      <p>Look at each file name. Tap Change if a file is wrong.</p>
+      <p class="do"><b>Your task.</b> Choose the type of submission and tick the declaration.</p>
+      <div class="pf-review">
+        <label class="pf-field" for="submissionType"><span>Type of submission</span>
+          <select class="pf-select" id="submissionType" onchange="refreshLocks()">
+            <option value="">Choose one</option>
             <option value="First submission">First submission</option>
             <option value="Resubmission after assessor feedback">Resubmission after assessor feedback</option>
           </select>
-        </div>
-      </div>
-
-      <div id="reviewList"></div>
-
-      <div class="declaration-box">
-        <input type="checkbox" id="declareBox" onchange="updateSubmitState()">
-        <div><b>My declaration</b><span>These are my own finished files. I am submitting them myself.</span></div>
+        </label>
+        <div class="pf-rlist saa-vo-skip" id="reviewList"></div>
+        <label class="declaration-box" for="declareBox">
+          <input type="checkbox" id="declareBox" onchange="refreshLocks()">
+          <img class="decl-ic" data-ic="icon-sign" src="assets/icons/ivory/icon-sign.webp" alt="" aria-hidden="true">
+          <span><b>My declaration</b><span>These are my own finished files. I am submitting them myself.</span></span>
+        </label>
+        <p class="pf-msg saa-k-why" id="msg-3" aria-live="polite"></p>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- PAGE 4: Submit -->
-  <div class="page" data-page="4">
+  <section class="page" data-page="4">
     <div class="card">
-      <div class="page-head">
-        <span class="phicon" style="background:var(--indigo);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        <div class="phtext"><p class="kicker" style="color:var(--indigo);">Step 4</p><h2>Submit for assessor review</h2></div>
+      <p class="kicker">Step 4 · Submit</p>
+      <h2>Submit your Proof File for review.</h2>
+      <p>Your assessor checks your files. You get a receipt after you submit.</p>
+      <p class="pf-diag pf-diag-submit"><img data-mock="diag-proof-file-submit" src="assets/mocks/dark/diag-proof-file-submit.webp" width="720" height="250" alt="After you submit: you submit, your assessor reviews your files, then you get a receipt."></p>
+      <p class="do"><b>Your task.</b> Tap Submit my Proof File.</p>
+      <div class="pf-submit">
+        <ul class="pf-ready saa-vo-skip" id="readyList"></ul>
+        <button class="submit-btn" type="button" id="submitBtn" onclick="doSubmit()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          Submit my Proof File
+        </button>
+        <p class="pf-msg saa-k-why" id="msg-4" aria-live="polite"></p>
       </div>
-      <p id="submitHelp">Attach every required file and tick the declaration on the earlier pages. Then this button will unlock.</p>
-      <button class="submit-btn" id="submitBtn" disabled onclick="doSubmit()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        Submit my Proof File
-      </button>
     </div>
-  </div>
+  </section>
 
   <!-- PAGE 5: Receipt -->
-  <div class="page" data-page="5">
-    <div class="receipt">
-      <div class="receipt-head">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-        <b>Submission received</b>
-        <span id="receiptId">ID: —</span>
-      </div>
-      <div class="receipt-body">
-        <div class="receipt-row"><span class="rk">Course</span><span class="rv">Applied AI, Module 1</span></div>
-        <div class="receipt-row"><span class="rk">Submission type</span><span class="rv" id="receiptType">—</span></div>
-        <div class="receipt-row"><span class="rk">Artifacts attached</span><span class="rv" id="receiptCount">—</span></div>
-        <div class="receipt-row"><span class="rk">Submitted</span><span class="rv" id="receiptTime">—</span></div>
-        <div class="receipt-row"><span class="rk">Status</span><span class="rv" style="color:var(--amber);">Awaiting assessor review</span></div>
-        <div class="qr-deco"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="6" height="6"/><rect x="15" y="3" width="6" height="6"/><rect x="3" y="15" width="6" height="6"/><rect x="11" y="3" width="2" height="2"/><rect x="11" y="7" width="2" height="2"/><rect x="15" y="11" width="2" height="2"/><rect x="19" y="11" width="2" height="2"/><rect x="11" y="15" width="2" height="2"/><rect x="11" y="19" width="2" height="2"/><rect x="15" y="15" width="6" height="6"/></svg></div>
-        <p style="font-size:12.5px;color:var(--muted);text-align:center;margin:0;">A resubmission keeps this version in the audit trail — it does not overwrite it.</p>
+  <section class="page" data-page="5">
+    <div class="card">
+      <p class="kicker">Done · Your receipt</p>
+      <h2>Your Proof File is submitted.</h2>
+      <p>Your assessor will now review it. Keep your receipt as proof.</p>
+      <p class="do"><b>Your task.</b> Tap Download my receipt to keep a copy.</p>
+      <div class="pf-done">
+        <div class="receipt saa-vo-skip">
+          <div class="receipt-head">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            <div><b>Submission received</b><span id="receiptId">ID: —</span></div>
+          </div>
+          <div class="receipt-body">
+            <div class="receipt-row"><span class="rk">Course</span><span class="rv">MC1</span></div>
+            <div class="receipt-row"><span class="rk">Type of submission</span><span class="rv" id="receiptType">—</span></div>
+            <div class="receipt-row"><span class="rk">Files attached</span><span class="rv" id="receiptCount">—</span></div>
+            <div class="receipt-row"><span class="rk">Submitted</span><span class="rv" id="receiptTime">—</span></div>
+            <div class="receipt-row"><span class="rk">Status</span><span class="rv rv-wait">Waiting for assessor review</span></div>
+            <p class="receipt-note">If you submit again later, this version is kept. It is not replaced.</p>
+          </div>
+        </div>
+        <button class="dl-btn" type="button" id="downloadBtn" onclick="downloadReceipt()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+          Download my receipt
+        </button>
+        <p class="pf-msg saa-k-why" id="msg-5" aria-live="polite"></p>
       </div>
     </div>
+  </section>
 
-    <div class="recap-grid">
-      <div class="recap-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Gathered</span></div>
-      <div class="recap-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Attached</span></div>
-      <div class="recap-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8M8 13h5M8 17h3"/></svg><span>Declared</span></div>
-      <div class="recap-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span>Submitted</span></div>
-    </div>
-  </div>
+  </main>
 
   <div class="nav-row">
-    <button class="nav-btn" id="backBtn" onclick="changePage(-1)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    <button class="nav-btn" type="button" id="backBtn" onclick="changePage(-1)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
       Back
     </button>
-    <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8892C2;" id="pageCount">1 / 6</span>
-    <button class="nav-btn primary" id="nextBtn" onclick="changePage(1)">
+    <span class="page-count" id="pageCount">1 / 6</span>
+    <button class="nav-btn primary" type="button" id="nextBtn" onclick="changePage(1)">
       Next
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
     </button>
   </div>
-
-  <footer>
-    <span>Swift AI Academy</span>
-    <span>English · All PCs in this micro-credential</span>
-  </footer>
 </div>
 
 <script src="script.js"></script>
+<script src="saa-upgrade.js"></script>
+<script src="saa-kit.js"></script>
 <script src="../../shared/course.js"></script>
 </body>
 </html>

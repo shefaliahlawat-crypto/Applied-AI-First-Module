@@ -106,8 +106,8 @@
 
   /* outline drawer */
   var drawer = document.querySelector('.drawer');
-  function openOutline() { body.classList.add('drawer-open'); drawer.setAttribute('aria-hidden', 'false'); var c = drawer.querySelector('[data-close-outline]'); if (c) c.focus(); }
-  function closeOutline() { body.classList.remove('drawer-open'); drawer.setAttribute('aria-hidden', 'true'); }
+  function openOutline() { if (!drawer) return; body.classList.add('drawer-open'); drawer.setAttribute('aria-hidden', 'false'); var c = drawer.querySelector('[data-close-outline]'); if (c) c.focus(); }
+  function closeOutline() { if (!drawer) return; body.classList.remove('drawer-open'); drawer.setAttribute('aria-hidden', 'true'); }
   document.querySelectorAll('[data-open-outline]').forEach(function (b) { b.addEventListener('click', openOutline); });
   document.querySelectorAll('[data-close-outline]').forEach(function (b) { b.addEventListener('click', closeOutline); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeOutline(); });
@@ -213,6 +213,67 @@
     });
     var first = group.querySelector('button'); if (first) first.click();
   });
+
+  /* ESL upgrade: light / dark theme. Kits and icons follow the theme the learner picks
+     (ivory icons on the dark card, navy icons on the light card). */
+  function paintTheme() {
+    var light = document.documentElement.getAttribute('data-theme') === 'light';
+    document.querySelectorAll('.saa-kit[data-theme]').forEach(function (k) { k.setAttribute('data-theme', light ? 'light' : 'dark'); });
+    document.querySelectorAll('img[data-ic]').forEach(function (im) {
+      var src = 'assets/icons/' + (light ? 'navy' : 'ivory') + '/' + im.getAttribute('data-ic') + '.webp';
+      if (im.getAttribute('src') !== src) im.setAttribute('src', src);
+    });
+    /* AI Fluency designer assets (Oct 2026): mocks and diagrams swap to the light or dark version too */
+    document.querySelectorAll('img[data-mock]').forEach(function (im) {
+      var src = 'assets/mocks/' + (light ? 'light' : 'dark') + '/' + im.getAttribute('data-mock') + '.webp';
+      if (im.getAttribute('src') !== src) im.setAttribute('src', src);
+    });
+  }
+  window.addEventListener('saa:theme', paintTheme);
+  paintTheme();
+  document.addEventListener('DOMContentLoaded', paintTheme);   /* the layer applies a saved theme after this file runs */
+
+  /* AI Fluency designer assets (Oct 2026): "See example" opens the picture larger in a pop-up.
+     Screen 3 has a button; on screens 4 and 5 the picture sits under the lead text and becomes a button
+     only after the layer has split the screen (a control in the lead text would move it to the right). */
+  var pop = document.getElementById('cb-pop'), popImg = document.getElementById('cb-pop-img'), popFrom = null;
+  function openPop(from, img, title, alt) {
+    popFrom = from;
+    popImg.setAttribute('data-mock', img.getAttribute('data-mock'));
+    popImg.src = img.getAttribute('src'); popImg.alt = alt || img.alt;
+    document.getElementById('cb-pop-h').textContent = title || 'Example';
+    /* the 4-step SIFT strip is very wide: on a phone the pop-up shows its 4 tiles as a 2 x 2 grid (CSS) */
+    var grid = document.getElementById('cb-pop-grid'), sift = img.getAttribute('data-mock') === 'info-sift-4';
+    pop.classList.toggle('is-sift', sift); grid.hidden = !sift;
+    if (sift) { grid.setAttribute('aria-label', alt || img.alt); Array.prototype.forEach.call(grid.children, function (t) { t.style.backgroundImage = 'url("' + img.getAttribute('src') + '")'; }); }
+    pop.hidden = false; body.classList.add('cb-pop-open');
+    pop.querySelector('.cb-pop-x').focus();
+  }
+  function closePop() { if (pop.hidden) return; pop.hidden = true; body.classList.remove('cb-pop-open'); if (popFrom) { try { popFrom.focus(); } catch (e) {} } }
+  if (pop) {
+    document.querySelectorAll('[data-cb-pop]').forEach(function (b) {
+      b.addEventListener('click', function () { openPop(b, b.querySelector('img[data-mock]'), b.getAttribute('data-cb-title'), b.getAttribute('data-cb-alt')); });
+    });
+    pop.querySelectorAll('[data-cb-close]').forEach(function (b) { b.addEventListener('click', closePop); });
+    pop.addEventListener('click', function (e) { if (e.target === pop) closePop(); });
+    pop.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { e.preventDefault(); closePop(); return; }
+      if (e.key !== 'Tab') return;
+      var f = Array.prototype.slice.call(pop.querySelectorAll('button')); e.preventDefault();
+      var i = f.indexOf(document.activeElement); f[(i < 0 ? 0 : i + (e.shiftKey ? f.length - 1 : 1)) % f.length].focus();
+    });
+    document.addEventListener('focusin', function (e) { if (!pop.hidden && !pop.contains(e.target)) pop.querySelector('.cb-pop-x').focus(); });
+    window.addEventListener('load', function () {
+      document.querySelectorAll('[data-cb-zoom]').forEach(function (f) {
+        var img = f.querySelector('img[data-mock]');
+        f.setAttribute('role', 'button'); f.tabIndex = 0;
+        f.setAttribute('aria-label', 'See it larger: ' + (f.getAttribute('data-cb-title') || ''));
+        function go() { openPop(f, img, f.getAttribute('data-cb-title'), img.alt); }
+        f.addEventListener('click', go);
+        f.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+      });
+    });
+  }
 
   render();
 })();

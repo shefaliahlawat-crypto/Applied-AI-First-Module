@@ -165,3 +165,195 @@
     .recap-grid{grid-template-columns:repeat(2,1fr);}
     .gauge-wrap{flex-direction:column;align-items:flex-start;}
   }
+/* ESL upgrade (game-specific) ================================================
+   Dark mode is the default (<html data-saa-themes data-theme="dark">): the layer adds the
+   sun / moon switch and, in dark only, html.saa-skin (Swift AI header, glass card, footer pills).
+   Light mode keeps the game's own colours; the frame (header, one card, 52px Back / Next) is set here. */
+html[data-theme="dark"]{
+  --navy:#F6F4EF; --indigo:#8FA0FF; --indigo-tint:rgba(91,118,255,.16); --gold:#FFC168; --gold-tint:rgba(255,193,104,.10);
+  --amber:#FFC168; --amber-tint:rgba(255,193,104,.12); --emerald:#4FE0A8; --emerald-tint:rgba(79,224,168,.12);
+  --border:rgba(255,255,255,.14); --card:rgba(255,255,255,.035); --muted:#AEB6D4; --red:#FF8F8F; --red-tint:rgba(255,120,120,.12);
+  color-scheme:dark;
+}
+html[data-theme="dark"] body{background:linear-gradient(150deg,#080D24 0%,#0E1A4F 52%,#0B1440 100%) fixed;background-color:#080D24;color:#F6F4EF}
+html[data-theme="dark"] p{color:#DCE1F2}
+.card::before{display:none}
+.top-meta{display:none}
+.kicker{color:var(--indigo)}
+h2{letter-spacing:-.01em}
+
+/* frame: header, one card that fills the screen, Back / progress / Next (both themes) */
+.app{display:flex;flex-direction:column;padding:calc(clamp(8px,1.6vh,16px) / var(--z,1)) calc(clamp(16px,3vw,48px) / var(--z,1));box-sizing:border-box}
+.app > main.slides{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
+.page.active{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;animation:none}
+.page.active > .card{flex:1 1 auto;min-height:0;margin:0;display:flex;flex-direction:column;justify-content:center}
+.nav-row{margin-top:calc(10px / var(--z,1))}
+.nav-row .page-count{display:none}
+header.top{display:flex;align-items:center;gap:12px;min-height:calc(41px / var(--z,1));margin:0 0 calc(10px / var(--z,1))}
+header.top .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:13px;letter-spacing:.12em;color:var(--navy)}
+header.top .brand img{width:30px;height:27px;object-fit:contain}
+header.top .saa-vo{margin-left:auto}
+
+/* light mode: same frame sizes as the dark one, game colours kept */
+html[data-theme="light"] .page.active > .card{border-radius:20px;padding:calc(clamp(14px,3vh,32px) / var(--z,1)) calc(clamp(20px,3.5vw,56px) / var(--z,1))}
+html[data-theme="light"] .nav-btn{min-height:calc(52px / var(--z,1));padding:0 calc(28px / var(--z,1));border-radius:999px;font-size:15.5px}
+html[data-theme="light"] .nav-btn svg{display:none}
+html[data-theme="light"] .nav-btn.primary{background:#FFC168;border-color:#F3AB31;color:#241300}
+html[data-theme="light"] .nav-btn.primary.saa-demote{background:var(--indigo);border-color:var(--indigo);color:#fff}
+html[data-theme="light"] .nav-btn.saa-locked{opacity:.45}
+html[data-theme="light"] .saa-prog{display:flex;align-items:center;gap:12px;width:min(380px,40vw)}
+html[data-theme="light"] .saa-prog-bar{flex:1;height:4px;border-radius:4px;background:#D9DEEE;overflow:hidden}
+html[data-theme="light"] .saa-prog-fill{display:block;height:100%;background:#3C59F6}
+html[data-theme="light"] .saa-prog-n{color:#5C6690;font-size:12px}
+html[data-theme="light"] .saa-lead h2{font-size:clamp(22px,4.2vh,34px);line-height:1.15;margin:0 0 12px}
+html[data-theme="light"] .saa-lead p:not(.do):not(.kicker){font-size:clamp(14px,2.3vh,19px);color:#2B3466}
+
+/* the task line in light mode (dark mode gets the layer's blue box) */
+.do{margin:6px 0 0;padding:12px 16px;border-radius:14px;background:rgba(60,89,246,.08);border:1px solid rgba(60,89,246,.35);color:var(--navy);font-size:16px;font-weight:600;line-height:1.45}
+.do b{color:#3C59F6}
+html[data-theme="dark"] .do b{color:#8FA0FF}
+
+/* spoken messages under each activity */
+.pf-msg,.row-msg{margin:8px 0 0;font-size:14.5px;font-weight:600;line-height:1.45;color:var(--navy)}
+.pf-msg:empty,.row-msg:empty{display:none}
+.pf-msg{padding:10px 14px;border-radius:12px;background:var(--amber-tint);border:1px solid rgba(217,119,6,.35)}
+html[data-theme="dark"] .pf-msg{border-color:rgba(255,193,104,.45)}
+.row-msg{font-size:13.5px;margin-top:6px;color:var(--emerald)}
+.artifact-row.is-bad .row-msg{color:var(--red)}
+
+/* screen 1: reveal cards with icons */
+.pf-ic{width:28px;height:28px;display:block;margin:0 auto 6px}
+.saa-kit .saa-card:has(.pf-ic){min-height:max(104px, clamp(84px,14vh,130px))}
+
+/* screen 2: 6 tabs (one per piece of work), the chosen one below */
+.pf-attach{display:flex;flex-direction:column;min-height:0}
+.pf-count{margin:0 0 8px;font-size:13px;font-weight:700;color:var(--indigo)}
+.pf-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:10px}
+.pf-tab{min-height:44px;display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:12px;border:1.5px solid var(--border);background:#fff;color:var(--navy);font:600 13.5px 'Rubik',sans-serif;text-align:left;cursor:pointer;line-height:1.2}
+.pf-tab-n{flex:0 0 auto;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;background:var(--indigo-tint);color:var(--indigo)}
+.pf-tab[aria-selected="true"]{border-color:#3C59F6;box-shadow:0 0 0 2px rgba(60,89,246,.25)}
+.pf-tab.is-done .pf-tab-n{background:var(--emerald);color:#fff;font-size:0}
+.pf-tab.is-done .pf-tab-n::after{content:"";width:9px;height:5px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:translateY(-1px) rotate(-45deg)}
+.pf-tab.is-missing{border-color:var(--amber)}
+.pf-tab:focus-visible{outline:3px solid #3C59F6;outline-offset:2px}
+html[data-theme="dark"] .pf-tab{background:rgba(255,255,255,.05);color:#F6F4EF}
+html[data-theme="dark"] .pf-tab[aria-selected="true"]{border-color:#8FA0FF;background:rgba(91,118,255,.18);box-shadow:none}
+html[data-theme="dark"] .pf-tab.is-done .pf-tab-n{background:#2BB884}
+html[data-theme="dark"] .pf-tab.is-missing{border-color:#FFC168}
+.artifact-row{padding:12px 16px;margin:0;border-radius:14px}
+.artifact-row.is-done{border-color:rgba(14,159,110,.5)}
+.artifact-top{gap:10px;flex-wrap:nowrap}
+.art-ic{width:24px;height:24px;flex:0 0 auto}
+.artifact-title{font-size:15.5px;flex:1 1 auto;min-width:0}
+.artifact-help{margin:4px 0 2px;font-size:14px;line-height:1.45;color:var(--muted)}
+.file-types{margin:0 0 8px;font-size:12.5px;color:var(--muted)}
+.attach-row{flex-wrap:nowrap}
+.attach-input{min-height:44px;font-size:15px;min-width:0}
+.attach-btn{min-height:44px;justify-content:center;font-size:14px;flex:0 0 auto}
+.file-chip{margin-top:8px}
+.file-chip .fname{word-break:break-all}
+.file-chip .fremove{min-width:36px;min-height:36px;border:0;background:none;font-size:20px;line-height:1;border-radius:8px}
+.file-chip .fremove:hover{background:var(--red-tint)}
+html[data-theme="dark"] .artifact-row{background:rgba(255,255,255,.04)}
+html[data-theme="dark"] .attach-input{background:rgba(255,255,255,.06);color:#F6F4EF;border-color:rgba(255,255,255,.22)}
+html[data-theme="dark"] .attach-input::placeholder{color:#8E97BC}
+html[data-theme="dark"] .attach-input:focus{border-color:#8FA0FF}
+html[data-theme="dark"] .attach-btn{background:rgba(255,255,255,.06);border-color:rgba(143,160,255,.6);color:#F6F4EF}
+html[data-theme="dark"] .file-chip{background:rgba(79,224,168,.10);border-color:rgba(79,224,168,.4)}
+html[data-theme="dark"] .file-chip .fname{color:#F6F4EF}
+html[data-theme="dark"] .file-types{color:#AEB6D4}
+
+/* screen 3: progress and the internet switch */
+.gauge{background:conic-gradient(var(--emerald) var(--pct,0deg), #E7ECF7 var(--pct,0deg))}
+html[data-theme="dark"] .gauge{background:conic-gradient(var(--emerald) var(--pct,0deg), rgba(255,255,255,.12) var(--pct,0deg))}
+html[data-theme="dark"] .gauge-inner{background:#101B4D}
+.gauge-text b{font-size:16px}
+.connect-row{margin-top:16px}
+.connect-status{font-size:14.5px}
+.connect-btn{min-height:44px;font-size:14px;padding:8px 16px}
+.offline-note{display:none}
+html[data-theme="dark"] .connect-btn{background:rgba(255,255,255,.06);color:#F6F4EF;border-color:rgba(143,160,255,.6)}
+
+/* screen 4: review */
+.pf-field{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:700;color:var(--muted);margin-bottom:8px}
+.pf-select{min-height:44px;font:600 15px 'Rubik',sans-serif;color:var(--navy);background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:8px 12px;max-width:100%}
+html[data-theme="dark"] .pf-select{background:#14215A;color:#F6F4EF;border-color:rgba(255,255,255,.22)}
+.pf-rlist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.review-tile{position:relative;min-height:52px;display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:7px 78px 7px 12px;border-radius:12px;border:1.5px solid var(--border);background:#fff;color:var(--navy);font-family:'Rubik',sans-serif;text-align:left;cursor:pointer;min-width:0}
+.review-tile.done{border-color:rgba(14,159,110,.45)}
+.rt-k{font-size:12.5px;color:var(--muted);font-weight:600;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rt-v{font-size:14px;font-weight:700;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rt-c{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:12.5px;font-weight:700;color:var(--indigo);border:1px solid var(--indigo);border-radius:999px;padding:3px 9px}
+html[data-theme="dark"] .review-tile{background:rgba(255,255,255,.05)}
+html[data-theme="dark"] .review-tile.done{border-color:rgba(79,224,168,.45)}
+.review-row{padding:6px 0;font-size:13.5px}
+.review-row .rv{display:flex;align-items:center;gap:8px;min-width:0}
+.review-row .rfile{word-break:break-all}
+.review-row .redit{min-height:36px;padding:0 12px;border-radius:999px;border:1px solid var(--indigo);background:none;color:var(--indigo);font:700 12.5px 'Rubik',sans-serif;cursor:pointer;margin:0;flex:0 0 auto}
+.declaration-box{cursor:pointer;margin-top:10px;padding:12px 16px}
+.declaration-box input{width:24px;height:24px}
+html[data-theme="dark"] .declaration-box{border-color:rgba(255,193,104,.6)}
+html[data-theme="dark"] .declaration-box b,html[data-theme="dark"] .declaration-box span{color:#FFE2B3}
+
+/* screen 5: submit (the one amber action in dark mode) */
+.pf-ready{list-style:none;margin:0 0 14px;padding:0;display:flex;flex-direction:column;gap:8px}
+.pf-ready li{padding:10px 14px 10px 38px;border-radius:12px;background:var(--emerald-tint);font-size:14.5px;font-weight:600;color:var(--navy);position:relative}
+.pf-ready li::before{content:"";position:absolute;left:14px;top:50%;width:12px;height:7px;border-left:2.5px solid var(--emerald);border-bottom:2.5px solid var(--emerald);transform:translateY(-70%) rotate(-45deg)}
+.submit-btn{min-height:52px}
+html[data-theme="dark"] .submit-btn{background:#FFC168;color:#241300}
+
+/* screen 6: receipt and download */
+.receipt-head{display:flex;align-items:center;gap:14px;text-align:left;padding:14px 20px}
+.receipt-head svg{width:28px;height:28px;margin:0;flex:0 0 auto}
+.receipt-head span{display:block}
+.receipt-body{padding:10px 20px 12px}
+.receipt-row{font-size:13.5px;gap:12px}
+.receipt-row .rv{text-align:right}
+.rv-wait{color:var(--amber)}
+.receipt-note{font-size:12.5px;color:var(--muted);text-align:center;margin:8px 0 0}
+.dl-btn{margin-top:12px;min-height:52px;width:100%;border-radius:14px;border:none;background:var(--indigo);color:#fff;font:800 15px 'Rubik',sans-serif;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer}
+.dl-btn svg{width:18px;height:18px}
+html[data-theme="dark"] .dl-btn{background:#FFC168;color:#241300}
+html[data-theme="dark"] .receipt{background:rgba(255,255,255,.04);border-color:rgba(143,160,255,.45);box-shadow:none}
+html[data-theme="dark"] .receipt-head{background:linear-gradient(120deg,#3C59F6,#5B76FF)}
+html[data-theme="dark"] .receipt-row{border-color:rgba(255,255,255,.12)}
+
+/* phones: one column, the card scrolls, nothing smaller than 14px */
+@media (max-width:700px){
+  .pf-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .file-types{font-size:13px}
+  .pf-rlist{grid-template-columns:1fr}
+  .review-row .rv{text-align:left}
+  .page.active > .card{justify-content:flex-start}
+}
+
+/* AI Fluency designer assets (Oct 2026) */
+/* screens 1, 2 and 5: diagrams in the left column (light or dark drawing follows the theme) */
+.pf-diag{margin:0;line-height:0}
+.pf-diag img{display:block;width:100%;height:auto;max-width:100%;object-fit:contain;object-position:left center}
+.pf-diag-steps img{max-height:calc(20vh / var(--z,1));max-width:620px}
+.pf-diag-fname img{max-height:calc(22vh / var(--z,1));max-width:380px}
+.pf-diag-submit img{max-height:calc(24vh / var(--z,1));max-width:520px}
+/* screen 3: the status is shown by a line icon (wifi = online, wifi with a slash = offline), not a coloured dot */
+.connect-ic{width:24px;height:24px;flex:0 0 auto}
+.connect-status .connect-dot{display:none}
+/* screen 4: the same piece-of-work icon as on the Attach screen, and a pen on the declaration */
+.review-tile:has(.rt-ic){padding-left:44px}
+.rt-ic{position:absolute;left:12px;top:50%;width:20px;height:20px;transform:translateY(-50%)}
+.decl-ic{width:24px;height:24px;flex:0 0 auto;margin-top:1px}
+/* the page is scaled by --z: vh sizes that were written without it made light mode spill over at 1920x1080 */
+html[data-theme="light"] .saa-lead h2{font-size:clamp(22px,calc(4.2vh / var(--z,1)),34px)}
+html[data-theme="light"] .saa-lead p:not(.do):not(.kicker){font-size:clamp(14px,calc(2.3vh / var(--z,1)),19px)}
+.saa-kit .saa-card:has(.pf-ic){min-height:max(104px, clamp(84px,calc(14vh / var(--z,1)),130px))}
+@media (max-width:700px){
+  .pf-diag-steps img,.pf-diag-submit img{max-height:none;max-width:100%}
+  .pf-diag-fname img{max-height:none;max-width:320px}
+}
+/* AI Fluency designer assets (Oct 2026): remaining assets */
+/* screen 3: each numbered tab shows its artifact icon too */
+.pf-tab-ic{width:18px;height:18px;flex:none;display:block;margin-left:-2px}
+.pf-tab{gap:7px}
+/* a narrow tab (1024px laptops, small phones) has no room for the icon without breaking "Checkpoint 1": all 6 tab icons hide together there (the card below still shows it) */
+.pf-tab{container-type:inline-size}
+@container (max-width:139px){.pf-tab-ic{display:none}}
+@media print{.pf-tab-ic{filter:brightness(.25)}}

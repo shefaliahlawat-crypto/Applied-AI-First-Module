@@ -1,290 +1,382 @@
+/* Resources: First Contact - one idea per screen (ESL upgrade, Oct 2026).
+   - Screens are the <section class="screen"> blocks in index.html. Back and Continue on every screen.
+   - Screen 1 has 3 rules to read first (a required kit: Continue stays locked until all 3 are open).
+   - Screen 2 is the 3-question picker: it picks 2 or 3 resources and can jump to their screens.
+   - Each resource card has Key points (a pop-up with the takeaways, a tip and a note box) and Open (new tab).
+   - Notes go to My AI toolkit (header button and the last screen): download or clear them there.
+   - Nothing is sent anywhere. Notes and opened cards are kept in this browser only (localStorage).
+   - The host platform can listen for postMessage {source:'swift-ai-academy', segment, event:'complete'}. */
 (function () {
   'use strict';
-  /* lane: 'both' | 'iti' | 'he'  ·  min: minutes, used by the time filter and the picker (null = varies)
-     opt: optional extra, listed after the core cards in its section */
-  var SECTIONS = [
-    { id: 's1', short: 'Prompt better', title: 'Prompt better', intro: 'How to ask AI clearly for what you need. Start with the 10-minute guide.' },
-    { id: 's2', short: 'Check before you trust', title: 'Check before you trust', intro: 'In Watch It Get It Wrong you caught an AI making things up. These show what kinds of mistakes to expect and how to check for them.' },
-    { id: 's3', short: 'Keep information safe', title: 'Keep your information safe', intro: 'The course asks you never to type personal or confidential details into an AI tool. These explain why.' },
-    { id: 's4', short: 'How AI works', title: 'How AI works', intro: 'Why AI answers the way it does. Start with the short reads, then pick one course if you want more.' }
-  ];
-
+  /* lane: 'both' | 'iti' | 'he'  ·  min: minutes, used by the picker (null = varies)
+     opt: optional extra  ·  url: unchanged from the original resource list
+     adds / take / tryit / note: rewritten in plain English (facts unchanged) */
   var RES = [
-    /* ---------- Section 1 ---------- */
+    /* ---------- Section 1: Prompt better ---------- */
     { id: 'openai-prompting', sec: 's1', lane: 'both', min: 10,
       title: 'Prompting fundamentals', org: 'OpenAI Academy (OpenAI)', url: 'https://openai.com/academy/prompting/',
       format: 'Short guide', level: 'Beginner', time: 'About 10 min', access: 'Free. No account needed.',
-      adds: 'A simple three-step formula for writing your own prompts, with a practice activity.',
-      take: ['Three steps for a good prompt: describe the task, give the background, and say what the answer should look like (tone, format, length).', 'A practice activity shows the same prompt written three ways: okay, better and best.', 'Ask for options, say what matters most (accuracy, creativity or speed), and keep prompts specific but simple.'],
-      tryit: 'Rewrite your Watch It Get It Wrong prompt using the three steps, then compare the two answers.' },
+      adds: 'It gives you 3 simple steps to write your own prompts. It has a practice activity too.',
+      take: ['A good prompt has 3 steps. Say the task, give the background, and describe the answer you want, such as its tone, format and length.', 'A practice activity shows the same prompt written 3 ways: okay, better and best.', 'Ask for options. Say what matters most: accuracy, creativity or speed. Keep your prompt specific but simple.'],
+      tryit: 'Rewrite your Watch It Get It Wrong prompt with the 3 steps. Then compare the 2 answers.' },
     { id: 'anthropic-prompting', sec: 's1', lane: 'both', min: 10,
       title: 'Best practices for prompt engineering', org: 'Anthropic (Claude blog)', url: 'https://claude.com/blog/best-practices-for-prompt-engineering',
       format: 'Article', level: 'Beginner to intermediate', time: 'About 10 min', access: 'Free. No account needed.',
-      adds: 'Quick fixes for the most common problems with AI answers.',
-      take: ['Tell the AI it may say "I don\'t know". This reduces made-up answers.', 'A troubleshooting table: generic answer, off-topic answer, inconsistent format, made-up facts, and the fix for each.', 'Longer prompts are not always better, and you do not need every technique at once.', 'Start with one example, and add more only if needed.'],
-      note: 'The section on prefilling is for developers. You can skip it.',
-      tryit: 'Add "If you don\'t know, say so" to your next prompt and see what changes.' },
+      adds: 'It gives quick fixes for the most common problems with AI answers.',
+      take: ['Tell the AI tool that it may say “I do not know”. Then it makes up fewer answers.', 'A table gives the fix for each common problem: a general answer, an off-topic answer, a format that keeps changing, and made-up facts.', 'A longer prompt is not always better. You do not need every method at once.', 'Start with 1 example. Add more only if you need them.'],
+      note: 'The part about prefilling is for developers. You can skip it.',
+      tryit: 'Add “If you do not know, say so” to your next prompt. See what changes.' },
     { id: 'openai-college', sec: 's1', lane: 'he', min: 45,
       title: 'AI for College Students', org: 'OpenAI Academy (OpenAI)', url: 'https://academy.openai.com/pages/courses',
       format: 'Course', level: 'Beginner', time: 'About 45 min', access: 'Free. Needs a ChatGPT account.',
-      adds: 'How to use AI for study, group work and career preparation without letting it do your thinking.',
-      take: ['Study planning, group work, writing and career preparation.', 'Deciding what information to share with the AI, and reviewing its answers instead of simply accepting them.', 'Preparing applications and interviews within your institution\'s rules.'],
-      note: 'Find "AI for College Students" in the course list. It needs a ChatGPT account: check that your institute allows it before you sign up, and use only an account you are permitted to use.',
+      adds: 'It shows how to use AI for study, group work and jobs. The AI should not do your thinking for you.',
+      take: ['It covers study plans, group work, writing and getting ready for a job.', 'It shows how to decide what to share with the AI tool. It also shows how to check its answers before you accept them.', 'It shows how to prepare job applications and interviews within your institute’s rules.'],
+      note: 'Find “AI for College Students” in the course list. You need a ChatGPT account. Check that your institute allows it before you sign up. Use only an account you are allowed to use.',
       warn: true,
-      tryit: 'Pick one study task this week and write down what you will check before you use the AI\'s answer.' },
+      tryit: 'Pick 1 study task this week. Write down what you will check before you use the AI answer.' },
     { id: 'openai-reasoning', sec: 's1', lane: 'both', min: 15, opt: true,
       title: 'Reasoning best practices', org: 'OpenAI (developer documentation)', url: 'https://developers.openai.com/api/docs/guides/reasoning-best-practices',
       format: 'Developer documentation', level: 'Advanced', time: 'About 15 min', access: 'Free. No account needed.',
-      adds: 'How newer reasoning models differ, and why some old prompting tricks no longer help.',
-      take: ['Reasoning models work like a senior co-worker: give them the goal, not every step.', 'Asking them to "think step by step" is unnecessary and can sometimes hurt.', 'Try without examples first, and be specific about what a good answer looks like.'],
-      note: 'Written for developers. Read only the section on how to prompt reasoning models; skip the customer quotes and cost tips.',
-      tryit: 'In your next prompt, state the goal and what a good answer looks like, without listing every step.' },
+      adds: 'It explains how newer reasoning models are different. Some old prompt tricks no longer help.',
+      take: ['Treat a reasoning model like a senior co-worker. Give it the goal, not every step.', 'You do not need to ask it to “think step by step”. This can sometimes make the answer worse.', 'Try without examples first. Say clearly what a good answer looks like.'],
+      note: 'It is written for developers. Read only the part on how to prompt reasoning models. Skip the customer quotes and the cost tips.',
+      tryit: 'In your next prompt, give the goal and say what a good answer looks like. Do not list every step.' },
 
-    /* ---------- Section 2 ---------- */
+    /* ---------- Section 2: Check before you trust ---------- */
     { id: 'unt', sec: 's2', lane: 'both', min: 15,
       title: 'Evaluating AI Outputs', org: 'University of North Texas Libraries', url: 'https://guides.library.unt.edu/c.php?g=1536486&p=11517576',
       format: 'Online guide with activities', level: 'Beginner', time: '10 to 15 min', access: 'Free. No account needed.',
-      adds: 'A 15-minute guide that corrects common beliefs about AI answers.',
-      take: ['Polished writing is not proof that an answer is correct.', 'Asking again gives you a different answer, not necessarily a better one.', 'Some AI tools search the web and others do not, so check which one you are using.', 'Six questions to ask: is it accurate, who is the authority, what is the evidence, is it biased, is it relevant, and what is verified versus guessed?'],
-      note: 'Some library links on the site are for UNT students only. The guide itself is open.',
-      tryit: 'Run the six questions on the first AI answer from Watch It Get It Wrong.' },
+      adds: 'This 15-minute guide corrects common wrong beliefs about AI answers.',
+      take: ['Good writing does not prove that an answer is correct.', 'If you ask again, you get a different answer. It is not always a better answer.', 'Some AI tools search the web and some do not. Check which kind you are using.', 'Ask 6 questions. Is it accurate? Who is the authority? What is the proof? Is it biased? Is it relevant? What is checked and what is a guess?'],
+      note: 'Some library links on the site are only for UNT students. The guide itself is open to everyone.',
+      tryit: 'Ask the 6 questions about the first AI answer in Watch It Get It Wrong.' },
     { id: 'umd', sec: 's2', lane: 'both', min: 15,
       title: 'AI and Information Literacy', org: 'University of Maryland Libraries', url: 'https://lib.guides.umd.edu/AI',
       format: 'Online guide with short videos', level: 'Beginner to intermediate', time: 'About 15 min for the fact-checking page', access: 'Free. No account needed. Licensed CC BY-NC 4.0.',
-      adds: 'A step-by-step method, called lateral reading, for checking any AI answer, and how to spot bias.',
-      take: ['Break the answer into separate claims, then check each one in other reliable sources.', 'If the AI names a source, open it and confirm it exists and says what the AI claims.', 'Ask what your question assumed and what the AI assumed.', 'AI can leave out whole viewpoints. Asked for art history, it often gives only European art.'],
+      adds: 'It teaches lateral reading, a step-by-step way to check any AI answer. It also shows how to spot bias.',
+      take: ['Break the answer into separate claims. Check each claim in other trusted sources.', 'If the AI tool names a source, open it. Check that it exists and says what the AI claims.', 'Ask what your question assumed. Ask what the AI tool assumed.', 'AI can leave out whole points of view. When asked about art history, it often gives only European art.'],
       note: 'The full guide takes 1 to 2 hours. The fact-checking page is enough to start.',
-      tryit: 'Pick one claim from an AI answer and find it in two other reliable sources.' },
+      tryit: 'Pick 1 claim from an AI answer. Find it in 2 other trusted sources.' },
     { id: 'usask', sec: 's2', lane: 'he', min: 15,
       title: 'Using AI: the ACCURATE-LE checklist', org: 'University of Saskatchewan Library', url: 'https://libguides.usask.ca/gen_ai/evaluating',
       format: 'Online checklist (web page)', level: 'Intermediate', time: 'About 15 min', access: 'Free. No account needed.',
-      adds: 'A printable before, during and after checklist, including when and how to say you used AI.',
-      take: ['Check that links work and that the page says what the AI claims.', 'Remove names, addresses and birth dates before pasting anything into an AI tool.', 'Say clearly when and how you used AI, and check whether you are allowed to use it for the task.', 'Check the answer against your task requirements so nothing important is missing.'],
-      note: 'Written for university students. Some sections cover research ethics and journal rules. A printable poster version is linked at the bottom of the page.',
-      tryit: 'Print the checklist, or save it on your phone, and use it on your next AI-assisted assignment.' },
+      adds: 'It is a checklist you can print, for before, during and after you use AI. It also shows when and how to say that you used AI.',
+      take: ['Check that links work. Check that the page says what the AI claims.', 'Remove names, addresses and birth dates before you paste anything into an AI tool.', 'Say clearly when and how you used AI. Check that you are allowed to use it for the task.', 'Check the answer against your task, so nothing important is missing.'],
+      note: 'It is written for university students. Some parts cover research ethics and journal rules. A poster version to print is linked at the bottom of the page.',
+      tryit: 'Print the checklist or save it on your phone. Use it on your next assignment where you use AI.' },
     { id: 'openai-responsible', sec: 's2', lane: 'both', min: 10,
       title: 'Responsible and safe use', org: 'OpenAI Academy (OpenAI)', url: 'https://openai.com/academy/responsible-and-safe-use/',
       format: 'Short guide', level: 'Beginner', time: 'About 10 min', access: 'Free. No account needed.',
-      adds: 'Clear rules for using AI responsibly at your institute or workplace.',
-      take: ['Your institute\'s or employer\'s AI rules come first.', 'Double-check important facts, and watch for bias in answers.', 'Ask a qualified expert before acting on health, legal or money advice.', 'If you are asked to show how you used AI, keep the chat link. Get permission before sharing anyone else\'s voice or data.'],
-      tryit: 'Find your institute\'s or workplace\'s AI rules and note one thing they allow and one they don\'t.' },
+      adds: 'It gives clear rules for using AI in a responsible way at your institute or workplace.',
+      take: ['The AI rules of your institute or employer come first.', 'Check important facts again. Watch for bias in answers.', 'Ask a qualified expert before you act on health, legal or money advice.', 'Keep the chat link in case you must show how you used AI. Get permission before you share another person’s voice or data.'],
+      tryit: 'Find the AI rules of your institute or workplace. Note 1 thing they allow and 1 thing they do not allow.' },
 
-    /* ---------- Section 3 ---------- */
+    /* ---------- Section 3: Keep information safe ---------- */
     { id: 'certin', sec: 's3', lane: 'both', min: 5,
       title: 'CERT-In advisory on AI applications', org: 'IndiaAI (Ministry of Electronics and IT, Government of India)', url: 'https://indiaai.gov.in/news/cert-in-issues-advisory-on-security-implications-to-minimize-threats-from-ai-applications',
       format: 'News summary', level: 'Beginner', time: 'About 5 min', access: 'Free. No account needed.',
-      adds: 'An Indian government view: how scammers misuse AI apps, from CERT-In, India\'s national cyber security agency.',
-      take: ['Fake websites and apps can pretend to be popular AI tools, to spread malware.', 'AI tools can be used to collect people\'s personal information from the internet without their permission.', 'Check the website address and the app publisher before you use any AI tool.'],
-      note: 'This advisory dates from 2023. CERT-In has issued newer AI advisories since; ask your facilitator for the latest.',
+      adds: 'CERT-In is India’s national cyber security agency. It explains how scammers misuse AI apps.',
+      take: ['Fake websites and apps can pretend to be popular AI tools. They spread harmful software called malware.', 'AI tools can be used to collect people’s personal details from the internet without permission.', 'Check the website address and the app publisher before you use any AI tool.'],
+      note: 'This advisory is from 2023. CERT-In has given newer AI advice since then. Ask your facilitator for the latest.',
       tryit: 'Before you install any AI app, check that the website address and the publisher are the official ones.' },
     { id: 'csa', sec: 's3', lane: 'both', min: 10,
       title: 'Safe and Secure Use of Generative AI for Individuals', org: 'Cyber Security Agency of Singapore and IMDA (government advisory)', url: 'https://www.imda.gov.sg/assets/ad9b8b71-35d0-4539-b3dd-15e8aa8781b2.pdf',
       format: 'Advisory (2-page PDF)', level: 'Beginner', time: 'About 10 min', access: 'Free. No account needed.',
-      adds: 'Practical steps for what to keep out of AI tools, and how to spot risky AI apps.',
-      take: ['Even casual chats can reveal a lot about you over time. If an AI tool is hacked, that information could be used for scams.', 'Keep out your full name, address, ID numbers, and financial or medical records. Never enter workplace data without permission.', 'Be careful with unofficial AI apps and browser extensions, especially ones that ask for camera or location access they do not need.', 'Use AI to support your thinking, not replace it.'],
-      note: 'Written for Singapore. Where it mentions the NRIC (national ID card), think of your Aadhaar number.',
-      tryit: 'Write down three things you will never type into an AI tool.' },
+      adds: 'It gives practical steps on what to keep out of AI tools. It also shows how to spot risky AI apps.',
+      take: ['Even casual chats can show a lot about you over time. If an AI tool is hacked, this can be used for scams.', 'Keep out your full name, address, ID numbers, and money or medical records. Never enter workplace data without permission.', 'Be careful with unofficial AI apps and browser add-ons, mainly ones that ask for camera or location access they do not need.', 'Use AI to support your thinking, not to replace it.'],
+      note: 'It is written for Singapore. When it talks about the NRIC, the national ID card, think of your Aadhaar number.',
+      tryit: 'Write down 3 things you will never type into an AI tool.' },
     { id: 'stanford', sec: 's3', lane: 'both', min: 8,
       title: 'Be Careful What You Tell Your AI Chatbot', org: 'Stanford Institute for Human-Centered AI (HAI)', url: 'https://hai.stanford.edu/news/be-careful-what-you-tell-your-ai-chatbot',
       format: 'News article', level: 'Beginner to intermediate', time: 'About 8 min', access: 'Free. No account needed.',
-      adds: 'Compares what six major AI companies do with your chats.',
-      take: ['The six companies studied use people\'s chats to train their AI by default.', 'Some keep chats indefinitely, and some let people read them.', 'Files you upload can be collected too.', 'Even a harmless question, like asking for heart-healthy recipes, can reveal something sensitive about you.'],
-      note: 'Published October 2025 and focused on US companies. Company policies may have changed since.',
-      tryit: 'Open your AI tool\'s settings and check whether your chats are used for training.' },
+      adds: 'It compares what 6 big AI companies do with your chats.',
+      take: ['All 6 companies in the study use people’s chats to train their AI, unless people change the setting.', 'Some companies keep chats with no end date. Some let people read them.', 'Files you upload can be collected too.', 'Even a harmless question can show something private about you. An example is asking for heart-healthy recipes.'],
+      note: 'It was published in October 2025 and looks at US companies. Their rules may have changed since then.',
+      tryit: 'Open the settings of your AI tool. Check if your chats are used for training.' },
 
-    /* ---------- Section 4 ---------- */
+    /* ---------- Section 4: How AI works ---------- */
     { id: 'openai-models', sec: 's4', lane: 'both', min: 10,
       title: 'How ChatGPT and our foundation models are developed', org: 'OpenAI Help Center', url: 'https://help.openai.com/en/articles/7842364-how-chatgpt-and-our-foundation-models-are-developed',
       format: 'Help article', level: 'Beginner', time: 'About 10 min', access: 'Free. No account needed.',
-      adds: 'Where an AI model\'s knowledge comes from, and the steps used to build it.',
-      take: ['Models learn from public information on the internet, information from partner organisations, and information from users, trainers and researchers.', 'Building a model has stages: preparing the data, pre-training, post-training, and ongoing checks after release.', 'It explains how to stop your chats from being used to improve the models.'],
-      note: 'Written by OpenAI about its own models.',
+      adds: 'It explains where an AI model gets its knowledge, and the steps to build it.',
+      take: ['Models learn from public information on the internet. They also learn from partner organisations, and from users, trainers and researchers.', 'A model is built in stages: preparing the data, pre-training, post-training, and checks that go on after release.', 'It explains how to stop your chats being used to improve the models.'],
+      note: 'OpenAI wrote this about its own models.',
       tryit: 'Find the setting that stops your chats being used to improve the model.' },
     { id: 'hallucinate', sec: 's4', lane: 'both', min: 10,
       title: 'Why language models hallucinate', org: 'OpenAI', url: 'https://openai.com/index/why-language-models-hallucinate/',
       format: 'Blog article', level: 'Intermediate', time: 'About 10 min', access: 'Free. No account needed.',
-      adds: 'Explains why AI makes things up, using a comparison every student knows. This is the "why" behind Watch It Get It Wrong.',
-      take: ['Like a student guessing on a hard exam question, AI guesses when it is unsure.', 'Training and testing reward a lucky guess more than an honest "I don\'t know".', 'During training the model sees only fluent text, so false statements can sound just as natural as true ones.', 'AI can be built to admit uncertainty, but the problem is not fully solved.'],
-      note: 'Published September 2025. Read the blog article; the research paper linked inside it is highly technical.',
-      tryit: 'Ask an AI something it can\'t know, like your own timetable, and see whether it admits it.' },
+      adds: 'It explains why AI makes things up, with an example every student knows. This is the reason behind Watch It Get It Wrong.',
+      take: ['A student may guess on a hard exam question. In the same way, AI guesses when it is not sure.', 'Training and tests reward a lucky guess more than an honest “I do not know”.', 'In training, the model sees only smooth, natural text. So false sentences can sound as natural as true ones.', 'AI can be built to say when it is not sure. But the problem is not fully solved.'],
+      note: 'It was published in September 2025. Read the blog article. The research paper linked inside it is very technical.',
+      tryit: 'Ask an AI tool something it cannot know, like your own timetable. See if it says that it does not know.' },
     { id: 'yuva', sec: 's4', lane: 'both', min: 270,
       title: 'YUVA AI for ALL', org: 'IndiaAI Mission, Ministry of Electronics and IT, Government of India', url: 'https://youtube.com/playlist?list=PL7GY38cluZJHAhoGmwP3ao3TXIZT5HwkU',
       format: 'Video course, 6 modules', level: 'Beginner', time: 'About 4.5 hours, in parts', access: 'Free. No account needed.',
-      adds: 'A full tour of AI from the Government of India: how it works, its uses in study and work, ethics, and safe use.',
-      take: ['Built for people with no technical background.', 'Covers what AI is, how it works, and how it is changing study and work.', 'Includes a module on using AI tools safely and responsibly, with Indian examples.'],
-      note: 'Watch one module at a time. You don\'t need to finish it in one sitting.',
-      tryit: 'Watch module 1 and note one Indian example of AI at work.' },
+      adds: 'It is a full tour of AI from the Government of India. It covers how AI works, its uses in study and work, ethics and safe use.',
+      take: ['It is made for people with no technical background.', 'It covers what AI is, how it works, and how it is changing study and work.', 'One module is on using AI tools safely and responsibly, with Indian examples.'],
+      note: 'Watch 1 module at a time. You do not need to finish it in one sitting.',
+      tryit: 'Watch module 1. Note 1 Indian example of AI at work.' },
     { id: 'soar', sec: 's4', lane: 'iti', min: null,
       title: 'SOAR: Skilling for AI Readiness', org: 'Skill India Digital Hub (MSDE and NCVET, Government of India)', url: 'https://www.skillindiadigital.gov.in/',
       format: 'Online courses, self-paced', level: 'Beginner', time: 'Varies by course', access: 'Free. Needs a Skill India Digital account.',
-      adds: 'Government AI courses aligned to NSQF, including AI for jobs and workplace productivity. A good next step for ITI learners.',
-      take: ['Self-paced online courses aligned to the NSQF.', 'Covers foundational AI literacy, AI for jobs, workplace productivity and uses in specific sectors.', 'Completed courses can give you a digital certificate on Skill India Digital.'],
-      note: 'Sign in and search for SOAR. Course names and lengths vary, so check them before you start.',
-      tryit: 'Find one SOAR course that matches your trade or field and note how long it takes.' },
+      adds: 'These are government AI courses aligned to the NSQF, with AI for jobs and for work. They are a good next step for ITI learners.',
+      take: ['The online courses are aligned to the NSQF. You learn at your own speed.', 'They cover basic AI skills, AI for jobs, getting more done at work, and uses in different sectors.', 'When you finish a course, you can get a digital certificate on Skill India Digital.'],
+      note: 'Sign in and search for SOAR. Course names and lengths are different, so check them before you start.',
+      tryit: 'Find 1 SOAR course that matches your trade or subject. Note how long it takes.' },
     { id: 'claude-capabilities', sec: 's4', lane: 'both', min: 210,
       title: 'AI capabilities and limitations', org: 'Anthropic Academy (Anthropic)', url: 'https://academy.claude.com/courses/ai-capabilities-and-limitations',
       format: 'Course', level: 'Beginner', time: 'About 3.5 hours', access: 'Free. Sign in only to save your progress.',
-      adds: 'Why AI behaves the way it does, so you can predict where it will go wrong.',
-      take: ['AI writes one word-piece at a time, which is why it can sound right while being wrong.', 'What it knows well, and why it is weaker on rare, recent or local topics.', 'Why a new chat forgets the last one.', 'How to recognise which kind of unexpected answer you got, and respond with a targeted fix.'],
-      tryit: 'After one lesson, predict where an AI answer might go wrong before you read it.' },
+      adds: 'It explains why AI behaves the way it does. Then you can predict where it will go wrong.',
+      take: ['AI writes one small piece of a word at a time. This is why it can sound right and still be wrong.', 'It shows what AI knows well, and why it is weaker on rare, recent or local topics.', 'It explains why a new chat forgets the last chat.', 'It shows how to tell which kind of strange answer you got, and how to fix it.'],
+      tryit: 'After 1 lesson, guess where an AI answer might go wrong before you read it.' },
     { id: 'ai-fluency', sec: 's4', lane: 'both', min: 240, opt: true,
       title: 'AI Fluency: Framework and foundations', org: 'Anthropic Academy (Anthropic)', url: 'https://academy.claude.com/courses/ai-fluency-framework-foundations',
       format: 'Course, 14 lessons', level: 'Beginner to intermediate', time: 'About 4 hours', access: 'Free. Sign in only to save your progress.',
-      adds: 'A framework for deciding what to hand to AI and how to check its work.',
-      take: ['Four habits for working with AI: Delegation, Description, Discernment and Diligence.', 'Deciding which tasks to hand to AI and which to keep.', 'Taking responsibility for AI-assisted work and being open about using it.'],
+      adds: 'It gives you a way to decide which work to give to AI, and how to check that work.',
+      take: ['It teaches 4 habits for working with AI: Delegation, Description, Discernment and Diligence.', 'It shows how to decide which tasks to give to AI and which to keep.', 'It shows how to take responsibility for work you did with AI, and how to be open about using it.'],
       note: 'Take this after the capabilities course if you want the bigger picture.',
-      tryit: 'Pick one task and decide: hand it to AI, do it yourself, or share it?' },
+      tryit: 'Pick 1 task. Decide if you will give it to AI, do it yourself, or share it.' },
     { id: 'tracing', sec: 's4', lane: 'both', min: 15, opt: true,
       title: 'Tracing the thoughts of a large language model', org: 'Anthropic (research)', url: 'https://www.anthropic.com/news/tracing-thoughts-language-model',
       format: 'Research article with video', level: 'Advanced', time: 'About 15 min', access: 'Free. No account needed.',
-      adds: 'What researchers see when they look inside an AI model while it works.',
-      take: ['Although it writes one word at a time, the AI can plan ahead, for example choosing a rhyming word before writing a line of a poem.', 'When given a wrong hint, it sometimes builds a convincing argument to agree with the user.', 'The explanation an AI gives for its answer may not match how it actually reached that answer.'],
-      note: 'The simple picture still holds: AI predicts likely text. This shows the inside is more complex, and researchers can explain only a small part of it.',
-      tryit: 'Ask an AI how it got an answer, and remember its explanation may not match what happened inside.' }
+      adds: 'It shows what researchers see when they look inside an AI model while it works.',
+      take: ['AI writes one word at a time, but it can plan ahead. For example, it picks a rhyming word before it writes a line of a poem.', 'When it gets a wrong hint, it sometimes builds a strong argument to agree with the user.', 'The reason an AI gives for its answer may not match how it really got the answer.'],
+      note: 'The simple idea is still true: AI predicts likely text. This shows that the inside is more complex. Researchers can explain only a small part of it.',
+      tryit: 'Ask an AI tool how it got an answer. Remember that its reason may not match what happened inside.' }
   ];
 
-  var LANE_LABEL = { both: 'ITI and higher education', iti: 'Good for ITI', he: 'Good for higher education' };
-  var printing = false;
-  var STORE = 'fc-res-explored', NOTES = 'fc-res-notes', SOUND = 'fc-res-sound';
+  var LANE_LABEL = { iti: 'Good for ITI', he: 'Good for college' };
+  var STORE = 'fc-res-explored', NOTES = 'fc-res-notes';
+  var SEGMENT = document.body.getAttribute('data-segment') || '';
   function load(k, f) { try { var v = localStorage.getItem(k); return v === null ? f : JSON.parse(v); } catch (e) { return f; } }
   function save(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
   function $(id) { return document.getElementById(id); }
+  function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
   function el(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
   function icon(id, cls) { var s = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); s.setAttribute('class', cls || 'ic'); s.setAttribute('aria-hidden', 'true'); var u = document.createElementNS('http://www.w3.org/2000/svg', 'use'); u.setAttribute('href', '#' + id); s.appendChild(u); return s; }
-  function shortTime(r) { if (r.min == null) return 'Varies'; if (r.min < 60) return r.min + ' min'; var h = r.min / 60; return (Math.round(h * 2) / 2) + ' hr'; }
-
-  /* ---------- sound (off unless turned on) ---------- */
-  var soundOn = load(SOUND, false), ctx = null;
-  function tone(f, s, d, g, f2) {
-    try {
-      if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
-      if (ctx.state === 'suspended') ctx.resume();
-      var t = ctx.currentTime + s, o = ctx.createOscillator(), a = ctx.createGain();
-      o.frequency.setValueAtTime(f, t); if (f2) o.frequency.exponentialRampToValueAtTime(f2, t + d * .75);
-      a.gain.setValueAtTime(.0001, t); a.gain.exponentialRampToValueAtTime(g, t + .008); a.gain.exponentialRampToValueAtTime(.0001, t + d);
-      o.connect(a); a.connect(ctx.destination); o.start(t); o.stop(t + d + .02);
-    } catch (e) {}
+  function shortTime(r) { if (r.min == null) return 'Time varies'; if (r.min < 60) return r.min + ' min'; var h = r.min / 60; return (Math.round(h * 2) / 2) + ' hours'; }
+  function shortAccess(r) { if (/Needs a ChatGPT account/.test(r.access)) return 'Free, needs a ChatGPT account'; if (/Needs a/.test(r.access)) return 'Free, needs an account'; if (/Sign in only/.test(r.access)) return 'Free, sign-in optional'; return 'Free, no account'; }
+  /* AI Fluency designer assets (Oct 2026): a small ivory icon on the card's fact chips (decorative: the chip text says it) */
+  function chipIcon(k) { var i = el('img', 'chip-ic'); i.src = 'assets/icons/ivory/icon-' + k + '.webp'; i.alt = ''; i.setAttribute('aria-hidden', 'true'); return i; }
+  /* the format chip, from RES.format: [icon, short label] */
+  function formatOf(r) {
+    var f = r.format;
+    if (/PDF/.test(f)) return ['pdf', 'PDF'];
+    if (/^Video/.test(f)) return ['video', 'Video'];
+    if (/developer/i.test(f)) return ['devdoc', 'Developer docs'];
+    if (/course/i.test(f)) return ['course', 'Course'];
+    if (/guide|checklist/i.test(f)) return ['guide', 'Guide'];
+    return ['article', 'Article'];
   }
-  function play(k) { if (!soundOn) return; if (k === 'tap') tone(1250, 0, .06, .05, 620); if (k === 'chime') { tone(880, 0, .35, .1); tone(1318.5, .09, .45, .1); } }
-  var soundBtn = $('sound-toggle');
-  function paintSound() { soundBtn.setAttribute('aria-pressed', String(soundOn)); soundBtn.setAttribute('aria-label', soundOn ? 'Sound on. Turn sound off' : 'Sound off. Turn sound on'); }
-  soundBtn.addEventListener('click', function () { soundOn = !soundOn; save(SOUND, soundOn); paintSound(); play('tap'); });
-  paintSound();
+  function sfx(k) { try { if (window.SAA_SFX && SAA_SFX[k]) SAA_SFX[k](); } catch (e) {} }
+  function byId(id) { return RES.filter(function (r) { return r.id === id; })[0]; }
 
-  /* ---------- render ---------- */
   var explored = load(STORE, []); if (!Array.isArray(explored)) explored = [];
   var notes = load(NOTES, {}); if (!notes || typeof notes !== 'object') notes = {};
-  $('total-n').textContent = RES.length; $('prog-t').textContent = RES.length;
 
-  var tabs = $('tabs');
-  SECTIONS.forEach(function (s, i) {
-    var li = el('li'), a = el('a'); a.href = '#' + s.id; a.dataset.sec = s.id;
-    a.appendChild(el('span', 'n', String(i + 1))); a.appendChild(document.createTextNode(s.short));
-    li.appendChild(a); tabs.appendChild(li);
+  /* ---------- screens ---------- */
+  var screens = $$('.screen');
+  var current = 0;
+  var pos = document.querySelector('[data-pos]'), nextBtn = document.querySelector('[data-next]'), nextLabel = document.querySelector('[data-next-label]'), prevBtn = document.querySelector('[data-prev]');
+  function notify(ev) { try { window.parent.postMessage({ source: 'swift-ai-academy', segment: SEGMENT, event: ev }, '*'); } catch (e) {} }
+  function render() {
+    screens.forEach(function (s, i) { s.hidden = i !== current; });
+    pos.textContent = (current + 1) + ' of ' + screens.length;
+    nextLabel.textContent = current === screens.length - 1 ? (document.body.getAttribute('data-finish-label') || 'Done') : 'Continue';
+    prevBtn.hidden = current === 0;
+  }
+  function go(i) {
+    if (i < 0 || i >= screens.length) return;
+    current = i; render();
+    window.scrollTo(0, 0);
+    var h = screens[i].querySelector('h1');
+    if (h) { h.setAttribute('tabindex', '-1'); try { h.focus({ preventScroll: true }); } catch (e) {} }
+  }
+  /* the layer's kits block this click (capture) while screen 1's rules are not all open */
+  nextBtn.addEventListener('click', function () {
+    if (current === screens.length - 1) { notify('complete'); return; }
+    go(current + 1);
   });
+  prevBtn.addEventListener('click', function () { go(current - 1); });
+  function screenOf(id) { var c = $('res-' + id); return c ? screens.indexOf(c.closest('.screen')) : -1; }
 
+  /* ---------- resource cards (right column) and their Key points pop-ups ---------- */
+  var host = $('details-host'), drawer = $('toolkit');
   function card(r) {
-    var d = el('details', 'res card'); d.id = 'res-' + r.id; d.dataset.lane = r.lane; d.dataset.min = r.min == null ? '' : r.min;
-    var s = el('summary');
-    s.appendChild(el('span', 'org', r.org));
-    s.appendChild(el('h3', '', r.title));
-    var chips = el('span', 'chips');
-    var lv = el('span', 'mini'); lv.appendChild(icon('i-level')); lv.appendChild(document.createTextNode(r.level)); chips.appendChild(lv);
-    var tm = el('span', 'mini'); tm.appendChild(icon('i-clock')); tm.appendChild(document.createTextNode(shortTime(r))); chips.appendChild(tm);
-    if (r.lane !== 'both') chips.appendChild(el('span', 'mini lane', LANE_LABEL[r.lane]));
-    var pk = el('span', 'mini pick', 'Picked for you'); pk.hidden = true; chips.appendChild(pk);
-    var sn = el('span', 'mini seen'); sn.appendChild(icon('i-check')); sn.appendChild(document.createTextNode('Explored')); chips.appendChild(sn);
-    s.appendChild(chips);
-    var tg = el('span', 'toggle'); tg.appendChild(el('span', 't-open', 'Show details')); tg.appendChild(el('span', 't-close', 'Hide details')); tg.appendChild(icon('i-chev')); s.appendChild(tg);
-    d.appendChild(s);
-
-    var b = el('div', 'res-body');
-    var meta = el('ul', 'meta');
+    var a = el('article', 'res'); a.id = 'res-' + r.id; a.setAttribute('data-url', r.url);
+    var main = el('div', 'res-main');
+    var fm = formatOf(r), h2 = el('h2', 'res-h');
+    var fi = el('span', 'res-fmt'); fi.title = fm[1]; fi.appendChild(chipIcon('res-' + fm[0])); fi.appendChild(el('span', 'sr-only', fm[1] + ': ')); h2.appendChild(fi);
+    h2.appendChild(document.createTextNode(r.title)); main.appendChild(h2);
+    main.appendChild(el('span', 'by', r.org));
+    var facts = el('div', 'facts');
+    /* AI Fluency designer assets (Oct 2026): a timer on every time chip, and the account icon on the chips that need or offer an account */
+    var tc = el('span', 'tag-time'); tc.appendChild(chipIcon('timer')); tc.appendChild(document.createTextNode(shortTime(r))); facts.appendChild(tc);
+    var ac = el('span', 'tag-access'), at = shortAccess(r);
+    if (!/no account/.test(at)) ac.appendChild(chipIcon('account-own'));
+    ac.appendChild(document.createTextNode(at)); facts.appendChild(ac);
+    if (r.lane !== 'both') { var lc = el('span', 'tag-lane'); lc.appendChild(chipIcon(r.lane === 'iti' ? 'lane-iti' : 'lane-college-cap')); lc.appendChild(document.createTextNode(LANE_LABEL[r.lane])); facts.appendChild(lc); }
+    if (r.opt) facts.appendChild(el('span', 'tag-opt', 'Optional extra'));
+    var pk = el('span', 'tag-pick', 'Picked for you'); pk.hidden = true; facts.appendChild(pk);
+    var sn = el('span', 'tag-seen'); sn.appendChild(icon('i-check')); sn.appendChild(document.createTextNode('Opened')); facts.appendChild(sn);
+    main.appendChild(facts);
+    main.appendChild(el('p', 'why', r.adds));
+    a.appendChild(main);
+    var btns = el('div', 'res-btns');
+    var kb = el('button', 'kp-btn'); kb.type = 'button'; kb.setAttribute('aria-haspopup', 'dialog');
+    kb.appendChild(icon('i-list')); kb.appendChild(document.createTextNode('Key points'));
+    kb.appendChild(el('span', 'sr-only', ' for ' + r.title));
+    kb.addEventListener('click', function () { openKP(r, kb); });
+    btns.appendChild(kb);
+    btns.appendChild(openLink(r, 'Open'));
+    a.appendChild(btns);
+    return a;
+  }
+  function openLink(r, label) {
+    var l = el('a', 'open-link'); l.href = r.url; l.target = '_blank'; l.rel = 'noopener noreferrer';
+    l.appendChild(document.createTextNode(label)); l.appendChild(icon('i-ext')); l.appendChild(el('span', 'sr-only', ' ' + r.title + ' (opens in a new tab)'));
+    l.addEventListener('click', function () { markExplored(r.id); });
+    return l;
+  }
+  function popup(r) {
+    var d = el('div', 'kp'); d.id = 'kp-' + r.id; d.hidden = true;
+    d.setAttribute('role', 'dialog'); d.setAttribute('aria-modal', 'true'); d.setAttribute('aria-labelledby', 'kp-' + r.id + '-h');
+    d.setAttribute('data-saa-say-open', '');      /* the layer reads the key points aloud when the learner opens them */
+    var p = el('div', 'kp-panel'); p.setAttribute('data-url', r.url);
+    var head = el('div', 'kp-head');
+    var ht = el('div', 'saa-vo-skip');
+    ht.appendChild(el('p', 'kp-eb', 'Key points'));
+    var h = el('h2', '', r.title); h.id = 'kp-' + r.id + '-h'; ht.appendChild(h);
+    ht.appendChild(el('p', 'kp-by', r.org));
+    head.appendChild(ht);
+    var x = el('button', 'icon-btn kp-x'); x.type = 'button'; x.setAttribute('aria-label', 'Close key points'); x.appendChild(icon('i-x'));
+    x.addEventListener('click', closeKP); head.appendChild(x);
+    p.appendChild(head);
+    var meta = el('ul', 'kp-meta saa-vo-skip');
     [['Format', r.format], ['Level', r.level], ['Time', r.time], ['Access', r.access]].forEach(function (m) { var li = el('li'); li.appendChild(el('span', 'k', m[0])); li.appendChild(el('span', '', m[1])); meta.appendChild(li); });
-    b.appendChild(meta);
-    var adds = el('p', 'adds'); adds.appendChild(el('b', '', 'What this adds: ')); adds.appendChild(document.createTextNode(r.adds)); b.appendChild(adds);
-    var cols = el('div', 'res-cols');
-    var take = el('div', 'take'); take.appendChild(el('h4', '', 'Key takeaways')); var ul = el('ul'); r.take.forEach(function (t) { ul.appendChild(el('li', '', t)); }); take.appendChild(ul); cols.appendChild(take);
-    var side = el('div', 'side');
-    var tr = el('div', 'callout task'); tr.appendChild(icon('i-spark')); var trd = el('div'); trd.appendChild(el('b', '', 'Try it now. ')); trd.appendChild(document.createTextNode(r.tryit)); tr.appendChild(trd); side.appendChild(tr);
-    if (r.note) { var nt = el('div', 'callout warn'); nt.appendChild(icon(r.warn ? 'i-alert' : 'i-info')); var ntd = el('div'); ntd.appendChild(el('b', '', 'Good to know. ')); ntd.appendChild(document.createTextNode(r.note)); nt.appendChild(ntd); side.appendChild(nt); }
-    cols.appendChild(side); b.appendChild(cols);
-    var act = el('div', 'res-actions');
-    var nf = el('div', 'note-field'); var lab = el('label'); lab.htmlFor = 'note-' + r.id; lab.appendChild(document.createTextNode('One thing I\'ll try')); lab.appendChild(el('span', '', 'optional, saved to My AI toolkit'));
-    var inp = el('input'); inp.type = 'text'; inp.id = 'note-' + r.id; inp.placeholder = 'For example: ' + r.tryit.charAt(0).toLowerCase() + r.tryit.slice(1, 60) + (r.tryit.length > 60 ? '…' : '');
-    inp.value = notes[r.id] || ''; inp.maxLength = 200;
-    var sv = el('span', 'saved'); sv.setAttribute('aria-live', 'polite');
+    p.appendChild(meta);
+    p.appendChild(el('p', 'kp-h saa-vo-skip', 'What you will learn'));
+    var ul = el('ul', 'kp-take'); r.take.forEach(function (t) { ul.appendChild(el('li', '', t)); }); p.appendChild(ul);
+    var tr = el('div', 'callout task'); tr.appendChild(icon('i-spark')); var trd = el('div'); trd.appendChild(el('b', '', 'Try it now.')); trd.appendChild(document.createTextNode(' ' + r.tryit)); tr.appendChild(trd); p.appendChild(tr);
+    if (r.note) { var nt = el('div', 'callout warn'); nt.appendChild(icon(r.warn ? 'i-alert' : 'i-info')); var ntd = el('div'); ntd.appendChild(el('b', '', 'Good to know.')); ntd.appendChild(document.createTextNode(' ' + r.note)); nt.appendChild(ntd); p.appendChild(nt); }
+    /* the note: 1 thing I will try (optional, saved to My AI toolkit) */
+    var nf = el('div', 'note-field');
+    var lab = el('label'); lab.htmlFor = 'note-' + r.id; lab.appendChild(document.createTextNode('1 thing I will try')); lab.appendChild(el('span', '', 'optional, saved to My AI toolkit'));
+    var inp = el('input'); inp.type = 'text'; inp.id = 'note-' + r.id; inp.maxLength = 200; inp.autocomplete = 'off';
+    inp.placeholder = 'For example: ' + r.tryit.charAt(0).toLowerCase() + r.tryit.slice(1, 56) + (r.tryit.length > 56 ? '…' : '');
+    inp.value = notes[r.id] || '';
+    var sv = el('span', 'saved'); sv.setAttribute('role', 'status');
     var tmr = 0;
-    inp.addEventListener('input', function () { clearTimeout(tmr); tmr = setTimeout(function () { var v = inp.value.trim(); if (v) notes[r.id] = v; else delete notes[r.id]; save(NOTES, notes); paintToolkit(); sv.textContent = v ? 'Saved to My AI toolkit' : ''; }, 400); });
+    inp.addEventListener('input', function () { clearTimeout(tmr); tmr = setTimeout(function () { saveNote(r, inp, sv); }, 400); });
+    inp.addEventListener('change', function () { clearTimeout(tmr); saveNote(r, inp, sv); });
     nf.appendChild(lab); nf.appendChild(inp); nf.appendChild(sv);
-    var a = el('a', 'open-link'); a.href = r.url; a.target = '_blank'; a.rel = 'noopener noreferrer';
-    a.appendChild(document.createTextNode('Open the resource')); a.appendChild(icon('i-ext')); a.appendChild(el('span', 'sr', '(opens in a new tab)'));
-    a.querySelector('.sr').style.cssText = 'position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)';
-    act.appendChild(nf); act.appendChild(a); b.appendChild(act);
-    d.appendChild(b);
-    d.addEventListener('toggle', function () { if (d.open && !printing) { markExplored(r.id); play('tap'); } });
+    p.appendChild(nf);
+    var act = el('div', 'kp-actions saa-vo-skip');
+    act.appendChild(openLink(r, 'Open the resource'));
+    var c = el('button', 'btn btn-ghost'); c.type = 'button'; c.textContent = 'Close'; c.addEventListener('click', closeKP); act.appendChild(c);
+    p.appendChild(act);
+    d.appendChild(p);
+    d.addEventListener('click', function (e) { if (e.target === d) closeKP(); });
+    d.addEventListener('keydown', function (e) { trap(e, d, closeKP); });
     return d;
   }
+  /* a note is kept only when it has real words: at least 3 letters in any script (Hindi and Gujarati too), not only emoji or symbols */
+  function realWords(v) { var m = v.match(/[\p{L}\p{M}]/gu); return !!m && m.length >= 3; }
+  function saveNote(r, inp, sv) {
+    var v = inp.value.trim();
+    if (!v) { delete notes[r.id]; sv.textContent = ''; sv.className = 'saved'; }
+    else if (!realWords(v)) { delete notes[r.id]; sv.textContent = 'Not saved yet. Write a few words about what you will try.'; sv.className = 'saved no'; }
+    else { notes[r.id] = v; sv.textContent = 'Saved to My AI toolkit.'; sv.className = 'saved'; }
+    save(NOTES, notes); paintToolkit();
+  }
+  var openPop = null, lastFocus = null;
+  function openKP(r, from) {
+    closeKP(true);
+    var d = $('kp-' + r.id); lastFocus = from || document.activeElement;
+    d.hidden = false; openPop = d; document.body.classList.add('kp-open');
+    var x = d.querySelector('.kp-x'); if (x) x.focus();
+    markExplored(r.id);
+  }
+  function closeKP(quiet) {
+    if (!openPop) return;
+    openPop.hidden = true; openPop = null; document.body.classList.remove('kp-open');
+    if (quiet !== true && lastFocus) { try { lastFocus.focus(); } catch (e) {} }
+  }
+  function trap(e, box, close) {
+    if (e.key === 'Escape') { e.preventDefault(); close(); return; }
+    if (e.key !== 'Tab') return;
+    var f = $$('button:not([disabled]), a[href], input', box).filter(function (x) { return x.offsetParent !== null; });
+    if (!f.length) return;
+    /* move focus ourselves, in the same order in every browser, and wrap at the ends */
+    e.preventDefault();
+    var i = f.indexOf(document.activeElement);
+    f[(i < 0 ? 0 : i + (e.shiftKey ? f.length - 1 : 1)) % f.length].focus();
+  }
 
-  var host = $('sections');
-  SECTIONS.forEach(function (s, i) {
-    var sec = el('section', 'sec'); sec.id = s.id; sec.setAttribute('aria-labelledby', s.id + '-h');
-    var head = el('div', 'sec-head'); head.appendChild(el('span', 'num', String(i + 1)));
-    var ht = el('div'); ht.appendChild(el('div', 'eyebrow', 'Section ' + (i + 1))); var h2 = el('h2', '', s.title); h2.id = s.id + '-h'; ht.appendChild(h2); ht.appendChild(el('p', 'sub', s.intro)); head.appendChild(ht);
-    sec.appendChild(head);
-    var list = el('div', 'res-list');
-    var core = RES.filter(function (r) { return r.sec === s.id && !r.opt; }), opt = RES.filter(function (r) { return r.sec === s.id && r.opt; });
-    core.forEach(function (r) { list.appendChild(card(r)); });
-    if (opt.length) { list.appendChild(el('div', 'sub-label', 'Optional, if you want to go deeper')); opt.forEach(function (r) { list.appendChild(card(r)); }); }
-    var empty = el('p', 'empty-sec', 'No resources in this section match the filter. Choose All to see them.'); empty.hidden = true; list.appendChild(empty);
-    sec.appendChild(list); host.appendChild(sec);
+  /* focus never leaves an open pop-up or the toolkit drawer (Safari skips buttons on Tab, so the Tab trap alone is not enough) */
+  document.addEventListener('focusin', function (e) {
+    var box = openPop || (!drawer.hidden ? drawer : null);
+    if (!box || box.contains(e.target)) return;
+    var f = $$('button:not([disabled]), a[href], input', box).filter(function (x) { return x.offsetParent !== null; })[0];
+    if (f) f.focus();
   });
-  var cards = Array.prototype.slice.call(document.querySelectorAll('details.res'));
 
-  /* ---------- progress: cards opened (R1) ---------- */
-  function paintProgress() {
+  $$('.res-list[data-res]').forEach(function (list) {
+    list.getAttribute('data-res').split(/\s+/).forEach(function (id) { var r = byId(id); if (!r) return; list.appendChild(card(r)); host.appendChild(popup(r)); });
+  });
+
+  /* ---------- screen 8: the "See example" pop-up (same pattern as Key points) ---------- */
+  $$('[data-fc-example]').forEach(function (b) {
+    var d = $(b.getAttribute('data-fc-example')); if (!d) return;
+    b.addEventListener('click', function () {
+      closeKP(true); lastFocus = b;
+      d.hidden = false; openPop = d; document.body.classList.add('kp-open');
+      var x = d.querySelector('.kp-x'); if (x) x.focus();
+    });
+  });
+  $$('.fc-ex').forEach(function (d) {
+    $$('[data-fc-close]', d).forEach(function (c) { c.addEventListener('click', closeKP); });
+    d.addEventListener('click', function (e) { if (e.target === d) closeKP(); });
+    d.addEventListener('keydown', function (e) { trap(e, d, closeKP); });
+  });
+
+  /* the diagrams under the lead text open larger in a pop-up. They become buttons only after the layer has split
+     the screen (a control inside the lead text would move it to the right-hand side). */
+  window.addEventListener('load', function () {
+    var d = $('ex-fig'), big = $('ex-fig-img'); if (!d || !big) return;
+    $$('.fc-fig img').forEach(function (im) {
+      im.setAttribute('role', 'button'); im.tabIndex = 0; im.title = 'Tap to see it larger';
+      function show() { closeKP(true); lastFocus = im; big.src = im.src; big.alt = im.alt; d.hidden = false; openPop = d; document.body.classList.add('kp-open'); var x = d.querySelector('.kp-x'); if (x) x.focus(); }
+      im.addEventListener('click', show);
+      im.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(); } });
+    });
+  });
+
+  /* AI Fluency designer assets (Oct 2026): screen 7's "See example" moves under the private-details box (left column)
+     once the layer has split the screen, so the two advisory cards still fit on a 1024x600 laptop. Not read aloud. */
+  window.addEventListener('load', function () {
+    var b = $('see-lookalike'), k = document.querySelector('.fc-keep');
+    if (b && k && k.parentNode) k.parentNode.insertBefore(b, k.nextSibling);
+  });
+
+  /* ---------- opened cards ---------- */
+  function paintExplored() {
+    RES.forEach(function (r) { var c = $('res-' + r.id); if (c) c.classList.toggle('is-seen', explored.indexOf(r.id) > -1); });
     var n = RES.filter(function (r) { return explored.indexOf(r.id) > -1; }).length;
-    cards.forEach(function (c) { c.classList.toggle('is-seen', explored.indexOf(c.id.slice(4)) > -1); });
-    $('prog-fill').style.width = (n / RES.length * 100) + '%'; $('prog-n').textContent = n;
-    $('prog').classList.toggle('done', n === RES.length);
-    if (n === RES.length) { if(window.SAA_DONE)window.SAA_DONE(); }
+    $('tk-count').textContent = 'You opened ' + n + ' of ' + RES.length + ' links.';
     return n;
   }
-  function markExplored(id) { if (explored.indexOf(id) > -1) return; explored.push(id); save(STORE, explored); if (paintProgress() === RES.length) play('chime'); }
-  paintProgress();
+  function markExplored(id) { if (explored.indexOf(id) > -1) return; explored.push(id); save(STORE, explored); if (paintExplored() === RES.length) { sfx('correct'); if(window.SAA_DONE)window.SAA_DONE(); } }
+  paintExplored();
 
-  /* ---------- filters (E-R2) ---------- */
-  var filter = 'all';
-  function matches(c, f) {
-    if (f === 'all') return true;
-    if (f === 'quick') return c.dataset.min !== '' && Number(c.dataset.min) <= 15;
-    return c.dataset.lane === 'both' || c.dataset.lane === f;
-  }
-  function applyFilter() {
-    cards.forEach(function (c) { c.hidden = !matches(c, filter); });
-    document.querySelectorAll('.sec').forEach(function (sec) {
-      var vis = sec.querySelectorAll('details.res:not([hidden])').length;
-      sec.querySelector('.empty-sec').hidden = vis > 0;
-      var lbl = sec.querySelector('.sub-label');
-      if (lbl) lbl.hidden = !Array.prototype.some.call(sec.querySelectorAll('details.res'), function (c) { var r = RES.filter(function (x) { return 'res-' + x.id === c.id; })[0]; return r.opt && !c.hidden; });
-    });
-  }
-  Array.prototype.forEach.call(document.querySelectorAll('#filters .chip'), function (b, _, all) {
-    b.addEventListener('click', function () {
-      filter = b.dataset.f;
-      Array.prototype.forEach.call(document.querySelectorAll('#filters .chip'), function (x) { x.setAttribute('aria-checked', String(x === b)); });
-      applyFilter(); play('tap');
-    });
-  });
-
-  /* ---------- start-here picker (E-R1) ---------- */
+  /* ---------- start-here picker ---------- */
   var answers = {};
-  Array.prototype.forEach.call(document.querySelectorAll('#router [data-q]'), function (group) {
-    Array.prototype.forEach.call(group.querySelectorAll('.chip'), function (b) {
+  $$('#router [data-q]').forEach(function (group) {
+    $$('.chip', group).forEach(function (b) {
       b.addEventListener('click', function () {
         answers[group.dataset.q] = b.dataset.v;
-        Array.prototype.forEach.call(group.querySelectorAll('.chip'), function (x) { x.setAttribute('aria-checked', String(x === b)); });
-        $('router-status').textContent = ''; play('tap');
+        $$('.chip', group).forEach(function (x) { x.setAttribute('aria-checked', String(x === b)); });
+        $('router-status').textContent = '';
       });
     });
   });
@@ -301,71 +393,65 @@
   }
   $('show-picks').addEventListener('click', function () {
     var miss = ['goal', 'time', 'lane'].filter(function (k) { return !answers[k]; });
-    if (miss.length) { $('router-status').textContent = 'Answer all three questions first.'; return; }
+    if (miss.length) { $('router-status').textContent = 'Answer all 3 questions first.'; sfx('wrong'); return; }
     var picks = pick();
-    cards.forEach(function (c) { c.classList.remove('picked'); c.querySelector('.mini.pick').hidden = true; });
+    $$('.res').forEach(function (c) { c.classList.remove('picked'); c.querySelector('.tag-pick').hidden = true; });
     var box = $('picks'); box.innerHTML = '';
-    box.appendChild(el('span', 'ph', 'Picked for you: start with ' + (picks.length > 1 ? 'these' : 'this')));
+    box.appendChild(el('p', 'ph', 'Picked for you. Start with ' + (picks.length > 1 ? 'these ' + picks.length + ' links.' : 'this link.')));
     picks.forEach(function (r, i) {
-      var c = $('res-' + r.id); c.classList.add('picked'); c.querySelector('.mini.pick').hidden = false;
-      var a = el('a'); a.href = '#res-' + r.id; a.appendChild(el('span', 'num', String(i + 1))); a.appendChild(document.createTextNode(r.title)); a.appendChild(el('span', '', shortTime(r) + ' · ' + r.org.split(' (')[0].split(',')[0]));
-      a.addEventListener('click', function (e) { e.preventDefault(); if (filter !== 'all') document.querySelector('#filters [data-f="all"]').click(); c.open = true; c.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); c.querySelector('summary').focus({ preventScroll: true }); });
-      box.appendChild(a);
+      var c = $('res-' + r.id); c.classList.add('picked'); c.querySelector('.tag-pick').hidden = false;
+      var b = el('button', 'pick-go'); b.type = 'button';
+      b.appendChild(el('span', 'num', String(i + 1)));
+      var t = el('span', 'pt'); t.appendChild(el('b', '', r.title)); t.appendChild(el('small', '', shortTime(r) + ' · ' + r.org.split(' (')[0].split(',')[0])); b.appendChild(t);
+      var g = el('span', 'go'); g.appendChild(document.createTextNode('Go to it')); g.appendChild(icon('i-arrow')); b.appendChild(g);
+      b.addEventListener('click', function () { go(screenOf(r.id)); var k = c.querySelector('.kp-btn'); if (k) try { k.focus({ preventScroll: true }); } catch (e) {} });
+      box.appendChild(b);
     });
-    box.hidden = false; play('chime');
+    var again = el('button', 'btn btn-ghost pick-again'); again.type = 'button'; again.textContent = 'Change my answers';
+    again.addEventListener('click', function () { $('router').classList.remove('showing'); box.hidden = true; var f = document.querySelector('#router [data-q] .chip[aria-checked="true"]') || document.querySelector('#router .chip'); if (f) f.focus(); });
+    box.appendChild(again);
+    /* the picks take the place of the questions, so the screen still fits */
+    $('router').classList.add('showing');
+    box.hidden = false; sfx('correct');
+    var fp = box.querySelector('.pick-go'); if (fp) try { fp.focus({ preventScroll: true }); } catch (e) {}
   });
 
-  /* ---------- tabs: current section, sticky state ---------- */
-  var toolbar = $('toolbar');
-  var links = Array.prototype.slice.call(document.querySelectorAll('.tabs a'));
-  var secEls = links.map(function (a) { return $(a.dataset.sec); });
-  function onScroll() {
-    var line = toolbar.getBoundingClientRect().bottom + innerHeight * 0.25, cur = null;
-    secEls.forEach(function (s) { if (s.getBoundingClientRect().top <= line) cur = s.id; });
-    if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4) cur = secEls[secEls.length - 1].id;
-    links.forEach(function (a) { if (a.dataset.sec === cur) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
-    toolbar.classList.toggle('stuck', toolbar.getBoundingClientRect().top <= 0 && scrollY > 0);
-  }
-  var ticking = false;
-  addEventListener('scroll', function () { if (ticking) return; ticking = true; requestAnimationFrame(function () { ticking = false; onScroll(); }); }, { passive: true });
-  onScroll();
-  links.forEach(function (a) { a.addEventListener('click', function () { play('tap'); var s = $(a.dataset.sec); s.classList.remove('flash'); void s.offsetWidth; s.classList.add('flash'); }); });
-
-  /* ---------- toolkit (E-R4) ---------- */
-  var drawer = $('toolkit');
+  /* ---------- My AI toolkit: the header drawer and the last screen ---------- */
   function paintToolkit() {
-    var list = $('toolkit-list'); list.innerHTML = '';
     var ids = RES.filter(function (r) { return notes[r.id]; });
-    ids.forEach(function (r) { var li = el('li'); li.appendChild(el('small', '', r.title)); li.appendChild(document.createTextNode(notes[r.id])); list.appendChild(li); });
-    $('toolkit-empty').hidden = ids.length > 0; $('toolkit-n').textContent = ids.length;
-    $('toolkit-download').disabled = !ids.length; $('toolkit-clear').disabled = !ids.length;
+    $$('[data-toolkit-list]').forEach(function (list) {
+      list.innerHTML = '';
+      ids.forEach(function (r) { var li = el('li'); li.appendChild(el('small', '', r.title)); li.appendChild(document.createTextNode(notes[r.id])); list.appendChild(li); });
+    });
+    $$('[data-toolkit-empty]').forEach(function (e) { e.hidden = ids.length > 0; });
+    $$('[data-toolkit-download], [data-toolkit-clear]').forEach(function (b) { b.disabled = !ids.length; });
+    $('toolkit-n').textContent = ids.length;
   }
   paintToolkit();
-  var lastFocus = null;
-  function openDrawer() { lastFocus = document.activeElement; drawer.hidden = false; $('toolkit-close').focus(); }
-  function closeDrawer() { drawer.hidden = true; if (lastFocus) lastFocus.focus(); }
+  var drawerFrom = null;
+  function openDrawer() { closeKP(true); drawerFrom = document.activeElement; drawer.hidden = false; $('toolkit-close').focus(); }
+  function closeDrawer() { drawer.hidden = true; if (drawerFrom) try { drawerFrom.focus(); } catch (e) {} }
   $('toolkit-open').addEventListener('click', openDrawer);
   $('toolkit-close').addEventListener('click', closeDrawer);
   drawer.addEventListener('click', function (e) { if (e.target === drawer) closeDrawer(); });
-  drawer.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') closeDrawer();
-    if (e.key !== 'Tab') return;
-    var f = drawer.querySelectorAll('button:not([disabled])'), first = f[0], last = f[f.length - 1];
-    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); } else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  drawer.addEventListener('keydown', function (e) { trap(e, drawer, closeDrawer); });
+  $$('[data-toolkit-download]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var lines = ['My AI toolkit', 'Resources: First Contact', ''];
+      RES.forEach(function (r) { if (notes[r.id]) { lines.push('- ' + r.title + ': ' + notes[r.id]); lines.push('  ' + r.url); } });
+      var url = URL.createObjectURL(new Blob([lines.join('\r\n')], { type: 'text/plain' }));
+      var a = document.createElement('a'); a.href = url; a.download = 'my-ai-toolkit.txt'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(url); }, 8000);
+    });
   });
-  $('toolkit-download').addEventListener('click', function () {
-    var lines = ['My AI toolkit', 'Resources: First Contact', ''];
-    RES.forEach(function (r) { if (notes[r.id]) lines.push('- ' + r.title + ': ' + notes[r.id]); });
-    var url = URL.createObjectURL(new Blob([lines.join('\r\n')], { type: 'text/plain' }));
-    var a = document.createElement('a'); a.href = url; a.download = 'my-ai-toolkit.txt'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(url); }, 8000);
-  });
-  $('toolkit-clear').addEventListener('click', function () {
-    notes = {}; save(NOTES, notes);
-    Array.prototype.forEach.call(document.querySelectorAll('.note-field input'), function (i) { i.value = ''; });
-    Array.prototype.forEach.call(document.querySelectorAll('.saved'), function (s) { s.textContent = ''; });
-    paintToolkit(); $('toolkit-close').focus();
+  $$('[data-toolkit-clear]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      notes = {}; save(NOTES, notes);
+      $$('.note-field input').forEach(function (i) { i.value = ''; });
+      $$('.saved').forEach(function (s) { s.textContent = ''; s.className = 'saved'; });
+      paintToolkit();
+      if (!drawer.hidden) $('toolkit-close').focus();
+    });
   });
 
-  addEventListener('beforeprint', function () { printing = true; cards.forEach(function (c) { c.open = true; }); });
-  addEventListener('afterprint', function () { setTimeout(function () { printing = false; }, 0); });
+  render();
 })();

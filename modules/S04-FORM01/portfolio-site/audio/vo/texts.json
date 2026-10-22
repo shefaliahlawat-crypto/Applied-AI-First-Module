@@ -1,0 +1,205 @@
+{
+ "v42851f3b": {
+  "text": "Your Proof File shows your finished MC1 work. Your assessor checks this file. You make it in 3 steps. Your task. Tap each card to see what you do.",
+  "kind": "screen",
+  "screens": [
+   1
+  ]
+ },
+ "vf5c1f0ac": {
+  "text": "Attach your 6 pieces of work. This is a practice form, so you type a file name. Each piece of work shows the types of file you can use. Your task. Type a file name for each piece of work and tap Attach.",
+  "kind": "screen",
+  "screens": [
+   2
+  ]
+ },
+ "vba63d2c2": {
+  "text": "Your work is safe if the internet stops. In the real form, your work saves as you go. Nothing is lost if the internet stops. Your task. Stop the internet, then start it again.",
+  "kind": "screen",
+  "screens": [
+   3
+  ]
+ },
+ "v1252e0c8": {
+  "text": "Check your Proof File before you submit. Look at each file name. Tap Change if a file is wrong. Your task. Choose the type of submission and tick the declaration.",
+  "kind": "screen",
+  "screens": [
+   4
+  ]
+ },
+ "va2d28fd4": {
+  "text": "Submit your Proof File for review. Your assessor checks your files. You get a receipt after you submit. Your task. Tap Submit my Proof File.",
+  "kind": "screen",
+  "screens": [
+   5
+  ]
+ },
+ "v65dc3a69": {
+  "text": "Your Proof File is submitted. Your assessor will now review it. Keep your receipt as proof. Your task. Tap Download my receipt to keep a copy.",
+  "kind": "screen",
+  "screens": [
+   6
+  ]
+ },
+ "vd6aef1b5": {
+  "text": "Find your Reading, Card, Lab, Bot, Rulebook and Peer Exchange work.",
+  "kind": "feedback",
+  "screens": []
+ },
+ "v04de02bd": {
+  "text": "Add each piece of work, one by one, on the next screen.",
+  "kind": "feedback",
+  "screens": []
+ },
+ "v16a92332": {
+  "text": "Say that these are your own answers. Then submit them for review.",
+  "kind": "feedback",
+  "screens": []
+ },
+ "v59db2349": {
+  "text": "Never write passwords, Aadhaar numbers, phone numbers, addresses, health details or marks here.",
+  "kind": "feedback",
+  "screens": []
+ },
+ "vb0edbb0d": {
+  "text": "Yes, that is right.",
+  "kind": "feedback",
+  "screens": []
+ },
+ "v5f4ff743": {
+  "text": "Not quite. Try again.",
+  "kind": "feedback",
+  "screens": []
+ },
+ "v4a004b3d": {
+  "text": "All sorted. Well done.",
+  "kind": "feedback",
+  "screens": []
+ },
+ "v912cd8bc": {
+  "text": "Not that one. Read it again and try the other box.",
+  "kind": "feedback",
+  "screens": []
+ },
+ "ve5c0f2ee": {
+  "text": "Yes. That is the right order.",
+  "kind": "feedback",
+  "screens": []
+ },
+ "v12d1dc0b": {
+  "text": "Not yet. The red steps are in the wrong place.",
+  "kind": "feedback",
+  "screens": []
+ },
+ "v2ca8188e": {
+  "text": "All stamped. Well done.",
+  "kind": "feedback",
+  "screens": []
+ },
+ "v35550fdb": {
+  "text": "Not quite. Read it again.",
+  "kind": "feedback",
+  "screens": []
+ },
+ "ve981313a": {
+  "text": "Yes.",
+  "kind": "feedback",
+  "screens": []
+ },
+ "v008df2ea": {
+  "text": "Not quite. Please type a file name first.",
+  "kind": "screen",
+  "screens": [],
+  "from": "playthrough"
+ },
+ "v68acd3ef": {
+  "text": "Not quite. A file name needs a name and a type, like notes.pdf.",
+  "kind": "screen",
+  "screens": [],
+  "from": "playthrough"
+ },
+ "v58cf5f2c": {
+  "text": "Not quite. Type the name of your own file, not the example.",
+  "kind": "screen",
+  "screens": [],
+  "from": "playthrough"
+ },
+ "v568b1a9d": {
+  "text": "Not quite. This type of file is not allowed here. Use a type from the list.",
+  "kind": "screen",
+  "screens": [],
+  "from": "playthrough"
+ },
+ "v9035bdc5": {
+  "text": "Yes. Your file is attached.",
+  "kind": "screen",
+  "screens": [],
+  "from": "playthrough"
+ },
+ "vfee31134": {
+  "text": "Yes. The new file is attached. Your old file is kept in your record.",
+  "kind": "screen",
+  "screens": [],
+  "from": "playthrough"
+ },
+ "v35550f59": {
+  "text": "Not yet. Please attach all 6 pieces of work.",
+  "kind": "screen",
+  "screens": [],
+  "from": "playthrough"
+ },
+ "v763f280c": {
+  "text": "Not yet. Tap Stop the internet to see what happens.",
+  "kind": "screen",
+  "screens": [],
+  "from": "playthrough"
+ },
+ "v902d2df7": {
+  "text": "Not yet. Tap Start the internet again first.",
+  "kind": "screen",
+  "screens": [],
+  "from": "playthrough"
+ },
+ "vd802d96c": {
+  "text": "You are offline now. Your files are still here, so nothing is lost.",
+  "kind": "screen",
+  "screens": [],
+  "from": "playthrough"
+ },
+ "vc08cecbc": {
+  "text": "Yes. You are online again. Now you can go on.",
+  "kind": "screen",
+  "screens": [],
+  "from": "playthrough"
+ },
+ "v7396ff59": {
+  "text": "Not yet. Please choose the type of submission.",
+  "kind": "screen",
+  "screens": [],
+  "from": "playthrough"
+ },
+ "vaab967a6": {
+  "text": "Not yet. Please tick the declaration to say this is your own work.",
+  "kind": "screen",
+  "screens": [],
+  "from": "playthrough"
+ },
+ "v2a240750": {
+  "text": "Not yet. Please choose the type of submission and tick the declaration.",
+  "kind": "screen",
+  "screens": [],
+  "from": "playthrough"
+ },
+ "v01cbbb9d": {
+  "text": "Not yet. Tap Submit my Proof File first.",
+  "kind": "screen",
+  "screens": [],
+  "from": "playthrough"
+ },
+ "v1c8312e1": {
+  "text": "Yes. Your receipt is downloaded. Keep it safe.",
+  "kind": "screen",
+  "screens": [],
+  "from": "playthrough"
+ }
+}

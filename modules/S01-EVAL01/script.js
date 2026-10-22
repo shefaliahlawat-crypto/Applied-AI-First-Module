@@ -22,10 +22,10 @@ const GLOSS = {
 };
 
 const CONCEPTS = {
-  tool:   {name:'Use the right tool and account', review:'Set-up lab (LAB01)'},
-  task:   {name:'Start with a small task', review:'First Contact video (VID02)'},
-  privacy:{name:'Keep private details out', review:'Set-up lab (LAB01), privacy step'},
-  check:  {name:'Check before you use it', review:'First Contact video (VID02), checking part'}
+  tool:   {name:'Use the right tool and account', review:'Set-up lab (LAB01)', look:'Look again at the set-up lab.'},
+  task:   {name:'Start with a small task', review:'First Contact video (VID02)', look:'Look again at the First Contact video.'},
+  privacy:{name:'Keep private details out', review:'Set-up lab (LAB01), privacy step', look:'Look again at the privacy step of the set-up lab.'},
+  check:  {name:'Check before you use it', review:'First Contact video (VID02), checking part', look:'Look again at the checking part of the First Contact video.'}
 };
 
 /* type: mcq | spot | order. diff: E/M/H. recall: direct-recall item flag. */
@@ -175,7 +175,7 @@ const ITEMS = [
  // Slot 8  ordering the safe workflow  (ordering, medium)
  {slot:8,form:'A',lane:'ITI',type:'order',diff:'M',recall:false,concept:'check',
   stem:'Harpreet wants AI help to make a tool issue list for the instructor.',
-  ask:'Tap the steps in the right order.',
+  ask:'In what order should Harpreet do these steps?',
   steps:['Open the approved AI tool with the institute account.',
          'Ask for a neat list. Give only the tool names and problems.',
          'Read the list and compare it with the workshop notes.',
@@ -183,7 +183,7 @@ const ITEMS = [
   explain:'Use the approved tool, ask with only the details needed, check, and only then use it.'},
  {slot:8,form:'B',lane:'HE',type:'order',diff:'M',recall:false,concept:'check',
   stem:'Sneha wants AI help to write an email to her class group about a college event.',
-  ask:'Tap the steps in the right order.',
+  ask:'In what order should Sneha do these steps?',
   steps:['Open the approved AI tool with the college account.',
          'Ask for a short email. Give only the event details.',
          'Check the date, time and place against the notice.',
@@ -230,36 +230,67 @@ const ITEMS = [
 ];
 ITEMS.forEach(it=>{ it.id = SCHEMA+'-Q'+String(it.slot).padStart(2,'0')+it.form; it.pc = PC; it.lang='EN'; });
 
-/* ---------- helpers ---------- */
+/* ====================================================================
+   Learner app (Swift AI Academy frame, Oct 2026 upgrade)
+   Screens: cover, how it works, the 10 questions, result.
+   The footer owns Back, the "n / N" count and the one amber button.
+   Scoring, pass mark, forms, item order and feedback content are unchanged.
+   ==================================================================== */
 const $ = s=>document.querySelector(s);
-const screen = $('#screen'), sheet=$('#sheet'), sheetCard=$('#sheetCard'), pop=$('#pop'), live=$('#live'), dotsEl=$('#dots'), speakBtn=$('#speak');
+const pop=$('#pop'), live=$('#live');
 const esc = s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const plain = s=>String(s||'').replace(/[{}]/g,'');
+/* dotted glossary words: a span (not a button) so the narrator reads them as part of the sentence */
 const rich = s=>esc(s||'').replace(/\{([^}]+)\}/g,(m,w)=>{
   const key = Object.keys(GLOSS).find(k=>k.toLowerCase()===w.toLowerCase());
-  return key ? `<button type="button" class="term" data-term="${esc(key)}" aria-label="${esc(w)}, show meaning">${esc(w)}</button>` : esc(w);
+  return key ? `<span class="term" role="button" tabindex="0" data-term="${esc(key)}" aria-label="${esc(w)}, show meaning">${esc(w)}</span>` : esc(w);
 });
 const shuffle = a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
 const ICON = {
-  check:'<svg class="i" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
-  checkDraw:'<svg class="i draw" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
-  x:'<svg class="i" viewBox="0 0 24 24"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg>',
-  info:'<svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 8h.01"/></svg>',
-  list:'<svg class="i" viewBox="0 0 24 24"><path d="M9 7h10M9 12h10M9 17h10M5 7h.01M5 12h.01M5 17h.01"/></svg>',
-  target:'<svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg>',
-  repeat:'<svg class="i" viewBox="0 0 24 24"><path d="M4.5 12a7.5 7.5 0 0 1 13-5l2 2M19.5 12a7.5 7.5 0 0 1-13 5l-2-2"/><path d="M19.5 5v4h-4M4.5 19v-4h4"/></svg>',
-  book:'<svg class="i" viewBox="0 0 24 24"><path d="M4.5 5.5c2.5-1 5-1 7.5.5v13c-2.5-1.5-5-1.5-7.5-.5zM19.5 5.5c-2.5-1-5-1-7.5.5v13c2.5-1.5 5-1.5 7.5-.5z"/></svg>',
-  undo:'<svg class="i" viewBox="0 0 24 24" style="width:18px;height:18px"><path d="M9 7L5 11l4 4"/><path d="M5 11h9a5 5 0 0 1 0 10h-2"/></svg>',
-  speaker:'<svg class="i" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6"/></svg>'
+  check:'<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  x:'<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg>',
+  info:'<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 8h.01"/></svg>',
+  book:'<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 5.5c2.5-1 5-1 7.5.5v13c-2.5-1.5-5-1.5-7.5-.5zM19.5 5.5c-2.5-1-5-1-7.5.5v13c2.5-1.5 5-1.5 7.5-.5z"/></svg>',
+  undo:'<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7L5 11l4 4"/><path d="M5 11h9a5 5 0 0 1 0 10h-2"/></svg>'
 };
 const store = {
   get(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v);}catch(e){return d;}},
   set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
 };
 const KEY = 'aaie-mc1-s01-eval01';
+const sfx = ok=>{ try{ if(window.SAA_SFX){ ok?SAA_SFX.correct():SAA_SFX.wrong(); } }catch(e){} };
+
+/* ---------- light / dark: icons and kits follow the page theme ---------- */
+const isLight = ()=>document.documentElement.getAttribute('data-theme')==='light';
+function paintTheme(){
+  const t = isLight()?'light':'dark';
+  document.querySelectorAll('img[src^="assets/icons/"]').forEach(im=>{
+    const want = im.getAttribute('src').replace(/assets\/icons\/(dark|light)\//,'assets/icons/'+t+'/');
+    if(want!==im.getAttribute('src')) im.setAttribute('src',want);
+  });
+  document.querySelectorAll('.saa-kit').forEach(k=>{ if(t==='light') k.setAttribute('data-theme','light'); else k.removeAttribute('data-theme'); });
+}
+window.addEventListener('saa:theme',paintTheme);
+
+/* ---------- AI Fluency designer assets (Oct 2026) ---------- */
+/* a library line icon in the current theme's tone (ivory on dark, navy on light); paintTheme swaps it later */
+const aic = (name,px)=>`<img class="aic aiv-ic" src="assets/icons/${isLight()?'light':'dark'}/icon-${name}.webp" alt="" aria-hidden="true" width="${px||24}" height="${px||24}">`;
+/* order items: one icon per step, by the step's place in the right order, so it travels with its step when shuffled */
+const STEP_IC = ['get-openapp','send','verify','rewrite'];
+/* result rows: one topic icon per concept */
+const CONCEPT_IC = {tool:'rule-approved', task:'task', privacy:'rule-private', check:'verify'};
+/* scenario items: the established character for the item's lane, next to the scene sentence (recall items have no scene, so no avatar) */
+const AVATAR = {
+  ITI:{src:'assets/illustrations/char-iti-trainee-avatar.webp', alt:'An ITI trainee in a blue uniform and safety glasses.'},
+  HE:{src:'assets/illustrations/char-college-student-avatar.webp', alt:'A college student in a blue kurta.'}
+};
+const SEND_SVG = '<svg class="aiv-send" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4.5 20 12 6 19.5Z"/></svg>';
 
 /* ---------- state ---------- */
-let S = {attempts:store.get(KEY+':attempts',0), passedEver:store.get(KEY+':passed',false), queue:[], i:0, results:[], form:'A'};
+let S = {attempts:store.get(KEY+':attempts',0), passedEver:store.get(KEY+':passed',false), queue:[], i:0, results:[], form:'A', page:'intro'};
+let snaps = [];          /* each checked question as it looked after Check (Back shows it again, read-only) */
+let Q = null;            /* the question on screen: {it, picked, order, checked} */
+let dirty = false;       /* an attempt has answers that are not finished */
 
 function buildQueue(form){
   const pick = slot=>ITEMS.find(x=>x.slot===slot && x.form===form);
@@ -268,32 +299,7 @@ function buildQueue(form){
   return order.map(pick);
 }
 
-/* ---------- speech (read aloud) ---------- */
-const canSpeak = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
-let speaking=false;
-function speak(text){
-  if(!canSpeak) return;
-  window.speechSynthesis.cancel();
-  if(speaking){speaking=false;speakBtn.setAttribute('aria-pressed','false');return;}
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang='en-IN'; u.rate=0.9;
-  const v = window.speechSynthesis.getVoices().find(v=>/en[-_]IN/i.test(v.lang));
-  if(v) u.voice=v;
-  u.onend=u.onerror=()=>{speaking=false;speakBtn.setAttribute('aria-pressed','false');};
-  speaking=true; speakBtn.setAttribute('aria-pressed','true');
-  window.speechSynthesis.speak(u);
-}
-function stopSpeak(){ if(canSpeak){window.speechSynthesis.cancel();} speaking=false; speakBtn.setAttribute('aria-pressed','false'); }
-let speakText='';
-speakBtn.addEventListener('click',()=>speak(speakText));
-
 /* ---------- glossary popover ---------- */
-document.addEventListener('click',e=>{
-  const t = e.target.closest('.term');
-  if(t){ e.preventDefault(); e.stopPropagation(); showPop(t); return; }
-  if(!e.target.closest('#pop')) pop.hidden=true;
-},true);
-document.addEventListener('keydown',e=>{ if(e.key==='Escape') pop.hidden=true; });
 function showPop(t){
   const k=t.dataset.term; pop.innerHTML=`<b>${esc(k)}</b>${esc(GLOSS[k])}`; pop.hidden=false;
   const r=t.getBoundingClientRect(), pw=pop.offsetWidth, ph=pop.offsetHeight;
@@ -302,201 +308,240 @@ function showPop(t){
   pop.style.left=x+'px'; pop.style.top=y+'px';
   live.textContent = k+': '+GLOSS[k];
 }
+document.addEventListener('click',e=>{
+  const t = e.target.closest && e.target.closest('.term');
+  if(t){ e.preventDefault(); e.stopPropagation(); showPop(t); return; }
+  if(!e.target.closest || !e.target.closest('#pop')) pop.hidden=true;
+},true);
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') pop.hidden=true;
+  const t = e.target.closest && e.target.closest('.term');
+  if(t && (e.key==='Enter'||e.key===' ')){ e.preventDefault(); e.stopPropagation(); showPop(t); }
+},true);
+window.addEventListener('resize',()=>{pop.hidden=true;});
 
-/* ---------- progress dots ---------- */
-function dots(){
-  $('#ttl').innerHTML = (S.inQ && S.queue.length) ? `Question ${S.i+1} <span class="of">of ${TOTAL}</span>` : 'Section check: First Contact';
-  if(!S.inQ || !S.queue.length){dotsEl.classList.remove('on');return;}
-  dotsEl.classList.add('on'); $('#fill').style.width = ((S.i+1)/TOTAL*100)+'%';
+/* ---------- frame: pages, footer ---------- */
+const PAGES = ['intro','how','quiz','result'];
+const back=$('#back'), primary=$('#primary'), counter=$('#counter');
+let onPrimary = null, onBack = null;
+function go(name){
+  S.page=name; pop.hidden=true;
+  PAGES.forEach(p=>{ const el=$('#p-'+p); const on=p===name; el.classList.toggle('active',on); el.hidden=!on; });
+  if(name==='intro') enterIntro(); else if(name==='how') enterHow(); else if(name==='quiz') enterQuiz(); else enterResult();
+  const h=$('#p-'+name+' h1, #p-'+name+' h2');
+  if(h){ try{h.focus({preventScroll:true});}catch(e){} }
+  const st=$('#stage'); if(st) st.scrollTop=0;
+}
+function lockPrimary(on){
+  primary.classList.toggle('is-locked',!!on);
+  if(on) primary.setAttribute('aria-disabled','true'); else if(!primary.classList.contains('saa-locked')) primary.removeAttribute('aria-disabled');
+}
+function setPrimary(label, fn, locked){
+  primary.textContent=label; onPrimary=fn; lockPrimary(locked);
+}
+function setBack(fn){ onBack=fn; back.hidden=!fn; }
+function setCount(n,tot){ counter.textContent=n+' / '+tot; }
+primary.addEventListener('click',()=>{ if(onPrimary) onPrimary(); });
+back.addEventListener('click',()=>{ if(onBack) onBack(); });
+
+/* ---------- 1. cover ---------- */
+function enterIntro(){
+  setCount(1,4); setBack(null);
+  setPrimary('Next',()=>go('how'));
 }
 
-/* ---------- screens ---------- */
-function intro(){
-  S.inQ=false; S.queue=[]; dots(); hideSheet();
-  const n = S.attempts+1;
-  speakBtn.hidden=!canSpeak;
-  speakText = 'Section check. First Contact. Ten questions about using an AI tool safely. Get seven right to pass. You can try as many times as you need. There is no time limit.';
-  screen.innerHTML = `
-  <section class="screen intro" aria-labelledby="h">
-    <h1 id="h" tabindex="-1">Check what you learned in First Contact</h1>
-    <p class="lead">Ten short questions about using an AI tool safely for everyday tasks.</p>
-    <ul class="facts">
-      <li>${ICON.list}<span>10 questions, one at a time</span></li>
-      <li>${ICON.target}<span>Get 7 right to pass</span></li>
-      <li>${ICON.repeat}<span>Try as many times as you need</span></li>
-    </ul>
-    <div class="help">${ICON.info}<span>Tap a <button type="button" class="term" data-term="AI tool" aria-label="dotted word example, show meaning">dotted word</button> to see its meaning. ${canSpeak?'Tap the speaker at the top to hear the question.':''}</span></div>
-    ${S.attempts>0?`<p class="again">This is try ${n}. You will see new examples this time.</p>`:''}
-    <div class="actions"><button class="btn btn-gold" id="go" type="button">${S.attempts>0?'Start again':'Start the check'}</button></div>
-  </section>`;
-  $('#go').onclick=start;
-  $('#h').focus({preventScroll:true});
+/* ---------- 2. how it works ---------- */
+function enterHow(){
+  setCount(2,4); setBack(()=>go('intro'));
+  const inAttempt = S.queue.length && S.results.length < TOTAL && S.inQ;
+  const ag=$('#again');
+  if(S.attempts>0 && !inAttempt){ ag.hidden=false; ag.textContent='This is try '+(S.attempts+1)+'. You will see new examples this time.'; } else ag.hidden=true;
+  setPrimary(inAttempt?'Back to the check':'Start the check',()=>{ if(inAttempt) go('quiz'); else start(); });
 }
 
 function start(){
   S.attempts++; store.set(KEY+':attempts',S.attempts);
   S.form = (S.attempts % 2 === 1) ? 'A' : 'B';
-  S.queue = buildQueue(S.form); S.i=0; S.results=[]; S.inQ=true;
-  question();
+  S.queue = buildQueue(S.form); S.i=0; S.results=[]; S.inQ=true; snaps=[];
+  go('quiz');
 }
 
+/* ---------- 3. questions ---------- */
+const qcard=$('#qcard');
+const TASK = {mcq:'Choose one answer, then press Check answer.', spot:'Tap the line with the mistake, then press Check answer.', order:'Tap the steps in the right order, then press Check answer.'};
+const EYEBROW = {mcq:'Quick check', spot:'Find the mistake', order:'Put in order'};
+const NEED = {mcq:'Choose one answer first.', spot:'Tap one line of the AI answer first.', order:'Tap all 4 steps first.'};
+/* the spoken feedback line (one clip per text; narrate.js reads .saa-k-why) */
+function fbText(it, ok, k){
+  if(ok) return 'Yes. '+plain(it.explain);
+  if(it.type==='order') return 'Not quite. '+plain(it.explain);
+  return 'Not quite. '+plain(it.options[k].why);
+}
+
+function enterQuiz(){
+  if(!S.queue.length){ start(); return; }
+  if(snaps[S.i]) showSnap(S.i); else question();
+}
+function chrome(){
+  setCount(S.i+1,TOTAL);
+  setBack(()=>{ if(S.i>0 && snaps[S.i-1]){ S.i--; showSnap(S.i); } else go('how'); });
+}
 function question(){
-  hideSheet(); stopSpeak(); dots();
   const it = S.queue[S.i];
-  let body='';
+  Q = {it, picked:-1, order:[], checked:false};
+  let work='';
   if(it.type==='mcq' || it.type==='spot'){
     const opts = it.type==='spot' ? it.options.map((o,k)=>({...o,k})) : shuffle(it.options.map((o,k)=>({...o,k})));
-    it._shown = opts;
-    body = `
-      ${it.type==='spot'?`<div class="notes"><span class="tag">Notes (fictional example)</span>${esc(it.notes)}</div>`:''}
-      <fieldset class="opts" id="opts">
-        <legend class="sr">${it.type==='spot'?'AI answer, choose the line with a mistake':'Choose one answer'}</legend>
-        ${it.type==='spot'?'<span class="tag" aria-hidden="true">AI answer (fictional example)</span>':''}
+    work = `
+      ${it.type==='spot'?'<div class="aiv-chat"><span class="tag aiv-chat-head" aria-hidden="true">AI tool</span>':''}
+      <fieldset class="opts${it.type==='spot'?' ai-lines':''}" id="opts">
+        <legend class="sr">${it.type==='spot'?'AI answer. Choose the line with a mistake.':'Choose one answer.'}</legend>
         ${opts.map((o,n)=>`<label class="opt" data-k="${o.k}">
             <input type="radio" name="a" value="${o.k}">
-            ${it.type==='spot'?`<span class="ln">${n+1}</span>`:''}
-            <span class="mark" aria-hidden="true"></span><span>${rich(o.t)}</span></label>`).join('')}
-      </fieldset>`;
+            ${it.type==='spot'?`<span class="ln" aria-hidden="true">${n+1}</span>`:''}
+            <span class="mark" aria-hidden="true"></span><span class="ot">${rich(o.t)}</span></label>`).join('')}
+      </fieldset>${it.type==='spot'?'</div>':''}`;
   } else {
     let sh; do { sh = shuffle(it.steps.map((t,k)=>({t,k}))); } while(sh.every((s,n)=>s.k===n));
-    it._shown = sh;
-    body = `
+    work = `
       <div class="opts" id="opts" role="group" aria-label="Steps. Tap them in order.">
-        ${sh.map(s=>`<button type="button" class="opt step" data-k="${s.k}" aria-label="${esc(s.t)}. Not placed."><span class="num" aria-hidden="true"></span><span>${esc(s.t)}</span></button>`).join('')}
+        ${sh.map(s=>`<button type="button" class="opt ostep" data-k="${s.k}" aria-label="${esc(s.t)}. Not placed."><span class="num" aria-hidden="true"></span>${aic(STEP_IC[s.k])}<span class="ot">${esc(s.t)}</span></button>`).join('')}
       </div>
       <div><button type="button" class="reset" id="reset" disabled>${ICON.undo}Start over</button></div>`;
   }
-  speakText = [plain(it.stem), it.quote?('The request says: '+it.quote.replace(/_+/g,'blank')):'', it.notes?('Notes: '+it.notes):'', plain(it.ask),
-    ...(it.type==='order'? it.steps.map(s=>s): it._shown.map((o,n)=>'Option '+(n+1)+'. '+plain(o.t)))].filter(Boolean).join(' ');
-
-  screen.innerHTML = `
-  <section class="screen q" aria-labelledby="stem">
-    <div class="q-grid"><div class="q-left">
-      <h2 class="stem" id="stem" tabindex="-1">${it.stem?rich(it.stem)+' ':''}<span class="ask">${rich(it.ask)}</span></h2>
-      ${it.quote?`<div class="quote"><span class="tag">Request (fictional example)</span>${esc(it.quote)}</div>`:''}
-      <div class="actions" id="actA"></div>
-    </div><div class="q-right">${body}</div></div>
-    <div class="actions" id="actB"><button class="btn btn-gold" id="checkBtn" type="button" disabled>Check answer</button></div>
-  </section>`;
-  // in landscape two-column mode, move the button to the left column
-  placeCheck();
-  const btn = $('#checkBtn');
+  qcard.innerHTML = `
+    <div class="saa-lead q-left" data-saa-lead>
+      <p class="eyebrow">${EYEBROW[it.type]}</p>
+      ${it.stem?(AVATAR[it.lane]?`<div class="aiv-scene-row"><span class="aiv-av"><img src="${AVATAR[it.lane].src}" width="160" height="160" alt="${AVATAR[it.lane].alt}"></span><p class="q-scene">${rich(it.stem)}</p></div>`:`<p class="q-scene">${rich(it.stem)}</p>`):''}
+      <h2 class="q-ask" id="qask" tabindex="-1">${rich(it.ask)}</h2>
+      ${it.quote?`<div class="aiv-composer"><span class="tag aiv-composer-head">AI tool</span><div class="aiv-composer-box"><p>${esc(it.quote)}</p>${SEND_SVG}</div></div>`:''}
+      ${it.notes?`<div class="aiv-notes"><span class="tag">My notes</span><p>${esc(it.notes)}</p></div>`:''}
+      <p class="do saa-do"><b class="saa-do-label">Your task.</b> ${TASK[it.type]}</p>
+    </div>
+    <div class="saa-work q-right">
+      ${work}
+      <div class="q-fb" id="qfb"><p class="saa-k-why q-why" id="qwhy" aria-live="polite"></p><div class="q-more" id="qmore"><p class="q-hint">${ICON.info}<span>You see the reason here after you press Check answer.</span></p></div></div>
+    </div>`;
+  qcard.setAttribute('data-saa-locked','');
+  chrome();
   if(it.type==='order'){
-    let picked=[];
-    const steps=[...screen.querySelectorAll('.step')];
+    const steps=[...qcard.querySelectorAll('.ostep')];
     const sync=()=>{
-      steps.forEach(b=>{const p=picked.indexOf(+b.dataset.k);b.classList.toggle('placed',p>-1);b.querySelector('.num').textContent=p>-1?p+1:'';
-        b.setAttribute('aria-label',b.textContent.trim().replace(/^\d+/,'')+(p>-1?'. Placed as step '+(p+1)+'.':'. Not placed.'));});
-      $('#reset').disabled=!picked.length; btn.disabled=picked.length!==it.steps.length;
+      steps.forEach(b=>{const p=Q.order.indexOf(+b.dataset.k);b.classList.toggle('placed',p>-1);b.querySelector('.num').textContent=p>-1?p+1:'';
+        b.setAttribute('aria-label',b.querySelector('.ot').textContent+(p>-1?'. Placed as step '+(p+1)+'.':'. Not placed.'));});
+      $('#reset').disabled=!Q.order.length; ready(Q.order.length===it.steps.length);
     };
-    steps.forEach(b=>b.onclick=()=>{ if(b.classList.contains('locked'))return; const k=+b.dataset.k,p=picked.indexOf(k);
-      if(p>-1) picked.splice(p,1); else picked.push(k); sync(); live.textContent=p>-1?'Removed.':'Step '+picked.length+' placed.'; });
-    $('#reset').onclick=()=>{picked=[];sync();};
-    btn.onclick=()=>grade(it,picked);
+    steps.forEach(b=>b.onclick=()=>{ if(Q.checked)return; const k=+b.dataset.k,p=Q.order.indexOf(k);
+      if(p>-1) Q.order.splice(p,1); else Q.order.push(k); sync(); live.textContent=p>-1?'Removed.':'Step '+Q.order.length+' placed.'; });
+    $('#reset').onclick=()=>{Q.order=[];sync();};
   } else {
-    screen.querySelectorAll('input[name=a]').forEach(r=>r.onchange=()=>{
-      screen.querySelectorAll('.opt').forEach(l=>l.classList.toggle('sel',l.contains(r)&&r.checked));
-      btn.disabled=false;
+    qcard.querySelectorAll('input[name=a]').forEach(r=>r.onchange=()=>{
+      if(Q.checked) return;
+      qcard.querySelectorAll('.opt').forEach(l=>l.classList.toggle('sel',l.contains(r)&&r.checked));
+      Q.picked=+r.value; ready(true);
     });
-    btn.onclick=()=>{const v=screen.querySelector('input[name=a]:checked'); if(v) grade(it,+v.value);};
   }
-  $('#stem').focus({preventScroll:true});
+  ready(false);
+  setPrimary('Check answer',check,true);
+  const h=$('#qask'); if(h){ try{h.focus({preventScroll:true});}catch(e){} }
 }
-
-const wide = matchMedia('(min-width:700px) and (min-height:780px)');
-const twoCol = matchMedia('(orientation:landscape) and (max-height:520px)');
-function placeCheck(){
-  const b=$('#checkBtn'); if(!b) return;
-  (twoCol.matches? $('#actA') : $('#actB')).appendChild(b);
-  $('#actB').style.display = twoCol.matches?'none':'';
+/* Check answer stays pressable while locked (dimmed, aria-disabled): pressing it says what is missing */
+function ready(on){
+  if(on) qcard.removeAttribute('data-saa-locked'); else qcard.setAttribute('data-saa-locked','');
+  primary.classList.remove('saa-locked'); lockPrimary(!on);
+  if(on){ const w=$('#qwhy'); if(w && w.dataset.need){ w.textContent=''; delete w.dataset.need; } }
 }
-twoCol.addEventListener && twoCol.addEventListener('change',placeCheck);
-
-function grade(it,ans){
-  stopSpeak();
-  let ok, why='', rightText='';
-  const opts=[...screen.querySelectorAll('.opt')];
+function check(){
+  const it=Q.it;
+  if(Q.checked) return;
+  const done = it.type==='order' ? Q.order.length===it.steps.length : Q.picked>-1;
+  if(!done){
+    const w=$('#qwhy'); w.className='saa-k-why q-why need'; w.dataset.need='1'; w.textContent=NEED[it.type];
+    const o=$('#opts'); o.classList.remove('saa-shake'); void o.offsetWidth; o.classList.add('saa-shake');
+    return;
+  }
+  grade();
+}
+function grade(){
+  const it=Q.it; Q.checked=true;
+  let ok;
   if(it.type==='order'){
-    ok = ans.every((k,n)=>k===n);
-    opts.forEach(b=>{b.classList.add('locked');b.disabled=true;const k=+b.dataset.k,p=ans.indexOf(k);
-      b.classList.remove('placed'); b.classList.add(p===k?'right':'wrong');
-      b.querySelector('.num').innerHTML = p===k?ICON.check:(p+1);
-      b.querySelector('.num').style.cssText = p===k?'border:0;color:var(--ok)':'border-color:var(--no);color:var(--no)';});
-    $('#reset').hidden=true;
-    rightText = it.steps.map((s,n)=>(n+1)+'. '+s).join('<br>');
+    ok = Q.order.every((k,n)=>k===n);
+    /* show the right order: the list is redrawn 1 to 4; green = you put it in the right place, red = you did not */
+    const box=$('#opts');
+    box.innerHTML = it.steps.map((t,k)=>{ const right=Q.order[k]===k;
+      return `<div class="opt ostep locked ${right?'right':'wrong'}"><span class="num" aria-hidden="true">${k+1}</span>${aic(STEP_IC[k])}<span class="ot">${esc(t)}</span><span class="mark" aria-hidden="true">${right?ICON.check:ICON.x}</span></div>`; }).join('');
+    box.setAttribute('aria-label','The right order.');
+    $('#reset').parentNode.remove();
   } else {
-    const chosen = it.options[ans], correct = it.options.find(o=>o.ok);
-    ok = !!chosen.ok; why = chosen.why||'';
-    rightText = esc(plain(correct.t));
-    opts.forEach(l=>{
+    ok = !!it.options[Q.picked].ok;
+    qcard.querySelectorAll('.opt').forEach(l=>{
       const k=+l.dataset.k; l.classList.add('locked'); l.querySelector('input').disabled=true; l.classList.remove('sel');
       const m=l.querySelector('.mark');
       if(it.options[k].ok){l.classList.add('right');m.innerHTML=ICON.check;}
-      else if(k===ans){l.classList.add('wrong');m.innerHTML=ICON.x;}
+      else if(k===Q.picked){l.classList.add('wrong');m.innerHTML=ICON.x;}
       else l.classList.add('dim');
     });
   }
   S.results.push({slot:it.slot,id:it.id,concept:it.concept,ok});
-  $('#checkBtn').remove();
+  qcard.removeAttribute('data-saa-locked'); primary.classList.remove('saa-locked'); lockPrimary(false);
+  const w=$('#qwhy'); delete w.dataset.need;
+  w.className='saa-k-why q-why '+(ok?'ok':'bad');
+  const more=$('#qmore');
+  if(ok) more.innerHTML='';
+  else if(it.type==='order') more.innerHTML=`<p class="q-right-ans">The list now shows the right order.</p>`;
+  else more.innerHTML=`<p class="q-right-ans"><b>Right answer:</b> ${rich(it.options.find(o=>o.ok).t)}</p><p class="q-explain">${rich(it.explain)}</p>`;
+  w.innerHTML = '<b>'+(ok?'Yes.':'Not quite.')+'</b> '+rich(fbText(it,ok,Q.picked).replace(/^(Yes|Not quite)\.\s*/,''));
+  /* the spoken text must be exactly fbText(): rich() keeps the words, only {braces} become dotted words */
+  sfx(ok);
+  $('#qfb').classList.add('on');
   const last = S.i===TOTAL-1;
-  const c = CONCEPTS[it.concept];
-  sheetCard.innerHTML = ok ? `
-    <p class="fb-h ok" id="fbh" tabindex="-1">${ICON.checkDraw}Correct.</p>
-    <p class="fb-p">${rich(it.explain)}</p>
-    <div class="actions"><button class="btn btn-gold" id="next" type="button">${last?'See my result':'Next question'}</button></div>`
-  : `
-    <p class="fb-h no" id="fbh" tabindex="-1">${ICON.x}Not the best answer.</p>
-    ${why?`<p class="fb-p"><strong>Why not:</strong> ${rich(why)}</p>`:''}
-    <p class="fb-p"><strong>${it.type==='order'?'The right order:':'Better answer:'}</strong>${it.type==='order'?'<br>':' '}${rightText}</p>
-    <p class="fb-p">${rich(it.explain)}</p>
-    <p class="fb-review">${ICON.book}<span>Look again: ${esc(c.review)}</span></p>
-    <div class="actions"><button class="btn btn-gold" id="next" type="button">${last?'See my result':'Next question'}</button></div>`;
-  if(wide.matches){
-    const d=document.createElement('div'); d.className='fb-inline'; d.setAttribute('role','region'); d.setAttribute('aria-label','Feedback');
-    d.innerHTML=sheetCard.innerHTML; sheetCard.innerHTML=''; $('#actB').replaceWith(d);
-  } else sheet.hidden=false;
-  speakText = (ok?'Correct. ':'Not the best answer. '+(why?'Why not: '+plain(why)+' ':'')+(it.type==='order'?'The right order: '+it.steps.join(' '):'Better answer: '+plain(it.options.find(o=>o.ok).t))+' ')+plain(it.explain);
-  $('#next').onclick=()=>{S.i++; if(S.i<TOTAL) question(); else result();};
-  $('#fbh').focus({preventScroll:true});
+  setPrimary(last?'See my result':'Next question',next);
+  snaps[S.i]=qcard.innerHTML;
+  if(innerWidth<=700){ const f=$('#qfb'); setTimeout(()=>{ try{f.scrollIntoView({block:'nearest',behavior:'smooth'});}catch(e){} },60); }
+}
+function next(){
+  S.i++;
+  if(S.i<TOTAL){ if(snaps[S.i]) showSnap(S.i); else question(); }
+  else { S.inQ=false; go('result'); }
+}
+function showSnap(i){
+  S.i=i; Q={it:S.queue[i],checked:true};
+  qcard.innerHTML=snaps[i]; qcard.removeAttribute('data-saa-locked'); primary.classList.remove('saa-locked'); lockPrimary(false);
+  chrome();
+  setPrimary(i===TOTAL-1?(S.results.length===TOTAL?'See my result':'See my result'):'Next question',next);
+  paintTheme();
+  const h=$('#qask'); if(h){ try{h.focus({preventScroll:true});}catch(e){} }
 }
 
-function hideSheet(){ sheet.hidden=true; sheetCard.innerHTML=''; }
-
-function result(){
-  hideSheet(); stopSpeak(); S.inQ=false; dots();
+/* ---------- 4. result ---------- */
+function enterResult(){
+  setCount(4,4); setBack(null);
+  if(S.results.length<TOTAL){ go(S.queue.length?'quiz':'how'); return; }
   const score = S.results.filter(r=>r.ok).length, passed = score>=PASS;
   if(passed){ S.passedEver=true; store.set(KEY+':passed',true); if(window.SAA_DONE)window.SAA_DONE(); }
-  const rows = Object.entries(CONCEPTS).map(([k,c])=>{
+  $('#rh').textContent = passed?'You passed the First Contact check.':'You have not passed yet.';
+  $('#rmsg').textContent = passed?'Well done. You can now go to the next part of the course.':'Look at the topics with a book sign. Then try again with new examples.';
+  $('#rscore').innerHTML = `You got <b>${score} of ${TOTAL}</b> right. You need ${PASS} to pass.`;
+  $('#concepts').innerHTML = Object.entries(CONCEPTS).map(([k,c])=>{
     const rs=S.results.filter(r=>r.concept===k), good=rs.filter(r=>r.ok).length, all=good===rs.length;
-    return `<li>${all?`<span style="color:var(--ok)">${ICON.check}</span>`:`<span style="color:var(--no)">${ICON.book}</span>`}
-      <span>${esc(c.name)}${all?'':`<small>Look again: ${esc(c.review)}</small>`}</span>
-      <span class="st ${all?'ok':'no'}">${good} of ${rs.length}</span></li>`;
+    return `<li class="${all?'ok':'no'}"><span class="ci" aria-hidden="true">${all?ICON.check:ICON.book}</span>
+      ${aic(CONCEPT_IC[k])}<span class="cn">${esc(c.name)}${all?'':`<small>${esc(c.look)}</small>`}</span>
+      <span class="st">${good} of ${rs.length}</span></li>`;
   }).join('');
-  speakText = passed ? `You passed. You got ${score} out of ${TOTAL}.` : `You got ${score} out of ${TOTAL}. You need ${PASS} to pass. Try again with new examples.`;
-  screen.innerHTML = `
-  <section class="screen result" aria-labelledby="rh">
-    <div class="badge ${passed?'pass':'retry'}" aria-hidden="true">${passed?ICON.checkDraw:ICON.repeat}</div>
-    <div style="display:grid;gap:6px">
-      <h1 id="rh" tabindex="-1">${passed?'You passed the First Contact check':'Almost there. Try once more.'}</h1>
-      <p class="score">You got <b>${score} of ${TOTAL}</b> correct. ${passed?'':`You need ${PASS} to pass.`}</p>
-    </div>
-    <ul class="concepts">${rows}</ul>
-    <p class="saved" id="saved" hidden></p>
-    <div class="actions">
-      ${passed
-        ? `<button class="btn btn-navy" id="cont" type="button">Continue</button><button class="btn btn-quiet" id="retake" type="button">Practise again</button>`
-        : `<button class="btn btn-gold" id="retake" type="button">Try again with new examples</button>`}
-    </div>
-  </section>`;
+  $('#saved').hidden=true;
   const payload = {source:SCHEMA, attempt:S.attempts, form:S.form, score, total:TOTAL, passMark:PASS, passed, items:S.results.map(r=>({id:r.id,correct:r.ok}))};
-  try{ window.parent && window.parent!==window && window.parent.postMessage(payload,'*'); }catch(e){}
-  $('#retake').onclick=intro;
-  if($('#cont')) $('#cont').onclick=()=>{ const s=$('#saved'); s.hidden=false; s.textContent='Your result is saved. You can go to the next part of the course.'; try{window.parent!==window && window.parent.postMessage({...payload,action:'continue'},'*');}catch(e){} };
-  $('#rh').focus({preventScroll:true});
-  live.textContent = speakText;
+  if(!S.posted){ S.posted=true; try{ window.parent && window.parent!==window && window.parent.postMessage(payload,'*'); }catch(e){} }
+  const rt=$('#retake');
+  rt.hidden=!passed; rt.onclick=again;
+  if(passed) setPrimary('Continue',()=>{ const s=$('#saved'); s.hidden=false; s.textContent='Your result is saved. You can go to the next part of the course.'; try{window.parent!==window && window.parent.postMessage({...payload,action:'continue'},'*');}catch(e){} });
+  else setPrimary('Try again',again);
+  live.textContent = 'You got '+score+' of '+TOTAL+'. '+(passed?'You passed.':'You need '+PASS+' to pass.');
 }
+/* a new try: the old attempt is finished, so it is cleared; the next form is used */
+function again(){ S.queue=[]; S.results=[]; S.i=0; S.inQ=false; S.posted=false; snaps=[]; go('how'); }
 
-/* ---------- reviewer view: open with #review ---------- */
+/* ---------- reviewer view: open with #review (staff only, never linked from the learner view) ---------- */
 function review(){
   document.body.classList.add('scroll');
   $('#app').style.display='none';
@@ -504,21 +549,21 @@ function review(){
   const a=counts('A'), b=counts('B');
   const fmt={mcq:'Scenario / next-best-action MCQ',spot:'Error spotting',order:'Ordering'};
   const answer = it=> it.type==='order' ? it.steps.map((s,n)=>(n+1)+'. '+s).join('<br>') : esc(plain(it.options.find(o=>o.ok).t));
-  const distr = it=> it.type==='order' ? 'Any other order (all-or-nothing scoring). Steps shuffled; never shown already in order.' : it.options.filter(o=>!o.ok).map(o=>'\u2022 '+esc(plain(o.t))+' <em>'+esc(plain(o.why))+'</em>').join('<br>');
-  const wrap = document.createElement('div'); wrap.className='rv';
+  const distr = it=> it.type==='order' ? 'Any other order (all-or-nothing scoring). Steps shuffled; never shown already in order.' : it.options.filter(o=>!o.ok).map(o=>'• '+esc(plain(o.t))+' <em>'+esc(plain(o.why))+'</em>').join('<br>');
+  const wrap = document.createElement('div'); wrap.className='rv'; wrap.setAttribute('data-saa-keep','');
   wrap.innerHTML = `
-   <p class="mono">${SCHEMA} | Reviewer copy | v0.1 draft</p>
+   <p class="mono">${SCHEMA} | Reviewer copy | v0.2</p>
    <h1>Section Check: First Contact. Item bank and blueprint</h1>
    <p><a href="#" id="toLearner">Open learner view</a></p>
    <h2>Blueprint</h2>
    <ul>
     <li>Bank: 20 items = 10 concept slots x 2 parallel forms (A, B). Each attempt shows 10 items from one form. Odd attempts use Form A, even attempts Form B, so every retry shows different examples.</li>
     <li>Order: clusters fixed (start, task, privacy and setup, checking, closing recall); items shuffled inside each cluster; MCQ options shuffled each attempt.</li>
-    <li>Pass mark: ${PASS} of ${TOTAL} (70 percent). Unlimited attempts. Feedback after every answer; wrong answers show why-not, the better answer, a short explanation and the asset to revisit.</li>
+    <li>Pass mark: ${PASS} of ${TOTAL} (70 percent). Unlimited attempts. Feedback after every answer; wrong answers show why-not, the right answer and a short explanation; the result screen names the asset to revisit per concept.</li>
     <li>Mapped performance criteria on every item: <b>${PC}</b> (workbook text). No item-level PC split is claimed.</li>
     <li>Non-compensatory status: not flagged in workbook. No must-pass items are enforced.</li>
     <li>Form A: ${a.E} easy, ${a.M} medium, ${a.H} hard; ${a.R} recall (${a.R*10}%); ${a.ITI} ITI, ${a.HE} HE, ${10-a.ITI-a.HE} both. Form B: ${b.E} easy, ${b.M} medium, ${b.H} hard; ${b.R} recall (${b.R*10}%); ${b.ITI} ITI, ${b.HE} HE, ${10-b.ITI-b.HE} both.</li>
-    <li>Language: English (ESL-adapted, short sentences, glossary tap-words, read-aloud in en-IN). Gujarati versions not yet produced.</li>
+    <li>Language: English (ESL-adapted, short sentences, glossary tap-words, Narakeet narration in Indian English). Gujarati versions not yet produced.</li>
     <li>LMS result: on finish the page posts {source, attempt, form, score, total, passMark, passed, items[]} to the parent window.</li>
    </ul>
    <h2>Items</h2>
@@ -530,9 +575,14 @@ function review(){
       <td>${answer(it)}</td><td>${esc(plain(it.explain))}</td><td>${distr(it)}</td><td>EN (GU pending)</td></tr>`).join('')}</tbody>
    </table></div>
    <h2>Change log</h2>
-   <ul><li>v0.1 (07 Oct 2026): first English learner build and reviewer copy. Gujarati, LMS package format and post-pilot item analysis pending.</li></ul>`;
+   <ul><li>v0.1 (07 Oct 2026): first English learner build and reviewer copy. Gujarati, LMS package format and post-pilot item analysis pending.</li>
+   <li>v0.2 (09 Oct 2026): Swift AI Academy frame (dark and light), narration, ESL screen standard. Items, answers, scoring and pass mark unchanged.</li></ul>`;
   document.body.appendChild(wrap);
   wrap.querySelector('#toLearner').onclick=e=>{e.preventDefault();location.hash='';location.reload();};
+  /* the layer's start screen is for learners: not over the reviewer copy */
+  const off=()=>{ const s=document.getElementById('saa-start'); if(s) s.remove(); };
+  document.addEventListener('DOMContentLoaded',()=>setTimeout(off,0)); setTimeout(off,300);
 }
 
-if(location.hash==='#review') review(); else intro();
+if(location.hash==='#review') review();
+else { paintTheme(); go('intro'); document.addEventListener('DOMContentLoaded',paintTheme); }
