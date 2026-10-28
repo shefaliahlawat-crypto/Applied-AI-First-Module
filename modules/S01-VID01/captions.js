@@ -19,6 +19,11 @@
   });
   /* the track loads after the page; set its mode again once it is ready */
   vid.addEventListener('loadedmetadata', apply);
-  var tr = vid.querySelector('track'); if (tr) { tr.addEventListener('load', apply); }
+  var tr = vid.querySelector('track');
+  if (tr) {
+    tr.addEventListener('load', apply);
+    /* no captions.vtt for this video yet: hide the button rather than show one that does nothing */
+    tr.addEventListener('error', function () { btn.hidden = true; });
+  }
   apply();
 })();
